@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui" template="/template/base.xhtml">
+	<ui:define name="content">
+		<h:form>
+			
+			<p:menubar>
+				<p:submenu label="New sensor" icon="ui-icon-plus">
+					<p:menuitem value="Temperature" onclick="PF('dlg_temp').show();"
+						icon="fa fa-temperature" update="sensorDT"/>
+					<p:menuitem value="Light" onclick="PF('dlg_light').show();"
+						icon="fa fa-sun-o" update="sensorDT"/>
+				</p:submenu>
+				<p:menuitem value="Delete" actionListener="#{setupManager.delete}"
+					icon="fa fa-eraser" update="sensorDT">
+					<p:confirm header="Confirmation" message="Are you sure?"
+						icon="ui-icon-alert" />
+				</p:menuitem>
+			</p:menubar>
+			
+			<p:dataTable id="sensorDT" var="sensor" value="#{setupManager.sensors}"  editable="true" selection="#{setupManager.selected_sensors}" rowKey="#{sensor.id}" >
+		        <f:facet name="header">
+		            Sensors
+		        </f:facet>
+		        
+		        <p:ajax event="rowEdit" listener="#{setupManager.onRowEdit}" />
+       			<p:ajax event="rowEditCancel" listener="#{setupManager.onRowCancel}" />
+		        
+		        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+		        <p:column headerText="ID">
+		        	<h:outputText value="#{sensor.id}" />
+		        </p:column>
+		        <p:column headerText="Name">
+		            <p:cellEditor>
+		               <f:facet name="output"><h:outputText value="#{sensor.name}" /></f:facet>
+		               <f:facet name="input"><p:inputText id="modelInput" value="#{sensor.name}" style="width:100%"/></f:facet>
+		           </p:cellEditor>
+		        </p:column>
+		        <p:column headerText="Type">
+		            <p:cellEditor>
+		               	<f:facet name="output"><h:outputText value="#{sensor.type}" /></f:facet>
+		               	<f:facet name="input">
+							<h:selectOneMenu value="#{sensor.type}" style="width:100%">
+		                    	<f:selectItems value="#{setupManager.sensor_types}" var="man" itemLabel="#{man}" itemValue="#{man}" />
+		                   	</h:selectOneMenu>
+						</f:facet>
+		           </p:cellEditor>
+		        </p:column>
+		        <p:column style="width:32px">
+			    	<p:rowEditor />
+			    </p:column>
+		    </p:dataTable>
+	
+			<p:dialog header="New temperature sensor" widgetVar="dlg_temp"
+				modal="true" height="150"> 
+				<h:outputText value="Name: " />
+				<p:inputText value="#{setupManager.temp_name}" id="temp_name" />
+				
+				<h:outputText value="Min: " />
+				<p:inputText value="#{setupManager.min_temp}" id="min_temp" />
+	
+				<h:outputText value="Max: " />
+				<p:inputText value="#{setupManager.max_temp}" id="max_temp"/>
+	
+				<p:commandButton value="Create"
+					actionListener="#{setupManager.newTemperature}" update="sensorDT"/>
+			</p:dialog>
+	
+			<p:dialog header="New light sensor" widgetVar="dlg_light" modal="true"
+				height="150" >
+				<h:outputText value="Name: " />
+				<p:inputText value="#{setupManager.light_name}" id="light_name" />
+	
+				<h:outputText value="Min: " />
+				<p:inputText value="#{setupManager.min_light}" id="min_light" />
+	
+				<h:outputText value="Max: " />
+				<p:inputText value="#{setupManager.max_light}" id="max_light"/>
+	
+				<p:commandButton value="Create"
+					actionListener="#{setupManager.newLight}" update="sensorDT"/>
+			</p:dialog>
+	
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

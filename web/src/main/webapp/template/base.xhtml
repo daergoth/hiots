@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+	<h:head>
+		<title>Home IoT System</title>
+		<!-- 		<h:outputStylesheet name="css/reset.css" /> -->
+		<!-- 		<h:outputStylesheet name="css/layout.css" /> -->
+		<h:outputStylesheet name="style/style.css" />
+		<!-- 		<h:outputScript name="js/jquery-1.4.2.min.js" /> -->
+		<!-- 		<h:outputScript name="js/cufon-yui.js" /> -->
+		<!-- 		<h:outputScript name="js/cufon-replace.js" /> -->
+		<!-- 		<h:outputScript name="js/OrigGarmnd_BT_400.font.js" /> -->
+		<!-- 		<h:outputScript name="js/script.js" /> -->
+		<!-- 		<h:outputScript name="js/html5.js" /> -->
+		<!-- 		<h:outputStylesheet library="bootstrap" name="css/bootstrap.min.css" /> -->
+
+	</h:head>
+	<h:body>
+		<header>
+			<div class="logo">HIoTS</div>
+			<p:tabMenu activeIndex="#{param.i}">
+				<p:menuitem value="Overview" outcome="index.xhtml"
+					icon="fa fa-home">
+					<f:param name="i" value="0" />
+				</p:menuitem>
+				<p:menuitem value="Live Data" outcome="live.xhtml"
+					icon="fa fa-tachometer">
+					<f:param name="i" value="1" />
+				</p:menuitem>
+				<p:menuitem value="Statistics" outcome="stat.xhtml"
+					icon="fa fa-bar-chart-o">
+					<f:param name="i" value="2" />
+				</p:menuitem>
+				<p:menuitem value="Setup" outcome="setup.xhtml"
+					icon="fa fa-wrench">
+					<f:param name="i" value="3" />
+				</p:menuitem>
+				<p:menuitem value="About" outcome="about.xhtml"
+					icon="fa fa-user">
+					<f:param name="i" value="4" />
+				</p:menuitem>
+			</p:tabMenu>
+		</header>
+		
+
+		<!-- content -->
+		<section id="content"> <ui:insert name="content" /> </section>
+		
+		<footer>
+		
+		</footer>
+	</h:body>
+</f:view>
+</html>

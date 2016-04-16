@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="ear-1.0">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
+        <dependent-module archiveName="service-1.0.jar" deploy-path="/" handle="module:/resource/service/service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="web-1.0.war" deploy-path="/" handle="module:/resource/web/web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="core-1.0.jar" deploy-path="/" handle="module:/resource/core/core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="service-api-1.0.jar" deploy-path="/lib" handle="module:/resource/service-api/service-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="core-api-1.0.jar" deploy-path="/lib" handle="module:/resource/core-api/core-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hibernate-core-5.1.0.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-core/5.1.0.Final/hibernate-core-5.1.0.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jboss-logging-3.3.0.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/jboss/logging/jboss-logging/3.3.0.Final/jboss-logging-3.3.0.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hibernate-jpa-2.1-api-1.0.0.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/javax/persistence/hibernate-jpa-2.1-api/1.0.0.Final/hibernate-jpa-2.1-api-1.0.0.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javassist-3.20.0-GA.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/javassist/javassist/3.20.0-GA/javassist-3.20.0-GA.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="antlr-2.7.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/antlr/antlr/2.7.7/antlr-2.7.7.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="geronimo-jta_1.1_spec-1.1.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jandex-2.0.0.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/jboss/jandex/2.0.0.Final/jandex-2.0.0.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="classmate-1.3.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/com/fasterxml/classmate/1.3.0/classmate-1.3.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dom4j-1.6.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="xml-apis-1.0.b2.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hibernate-commons-annotations-5.0.1.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/common/hibernate-commons-annotations/5.0.1.Final/hibernate-commons-annotations-5.0.1.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hibernate-validator-5.2.4.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-validator/5.2.4.Final/hibernate-validator-5.2.4.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="validation-api-1.1.0.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/validation/validation-api/1.1.0.Final/validation-api-1.1.0.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hibernate-entitymanager-5.1.0.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-entitymanager/5.1.0.Final/hibernate-entitymanager-5.1.0.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="primefaces-5.3.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/primefaces/5.3/primefaces-5.3.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="all-themes-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/extensions/all-themes/1.0.8/all-themes-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="afterdark-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/afterdark/1.0.8/afterdark-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="afternoon-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/afternoon/1.0.8/afternoon-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="afterwork-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/afterwork/1.0.8/afterwork-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="black-tie-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/black-tie/1.0.8/black-tie-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="blitzer-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/blitzer/1.0.8/blitzer-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="bluesky-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/bluesky/1.0.8/bluesky-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="bootstrap-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/bootstrap/1.0.8/bootstrap-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="casablanca-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/casablanca/1.0.8/casablanca-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="cruze-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/cruze/1.0.8/cruze-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="cupertino-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/cupertino/1.0.8/cupertino-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dark-hive-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/dark-hive/1.0.8/dark-hive-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dot-luv-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/dot-luv/1.0.8/dot-luv-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="eggplant-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/eggplant/1.0.8/eggplant-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="excite-bike-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/excite-bike/1.0.8/excite-bike-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="flick-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/flick/1.0.8/flick-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="glass-x-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/glass-x/1.0.8/glass-x-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hot-sneaks-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/hot-sneaks/1.0.8/hot-sneaks-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="humanity-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/humanity/1.0.8/humanity-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="le-frog-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/le-frog/1.0.8/le-frog-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="midnight-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/midnight/1.0.8/midnight-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="mint-choc-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/mint-choc/1.0.8/mint-choc-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="overcast-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/overcast/1.0.8/overcast-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="pepper-grinder-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/pepper-grinder/1.0.8/pepper-grinder-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="redmond-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/redmond/1.0.8/redmond-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rocket-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/rocket/1.0.8/rocket-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sam-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/sam/1.0.8/sam-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="smoothness-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/smoothness/1.0.8/smoothness-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="south-street-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/south-street/1.0.8/south-street-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="start-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/start/1.0.8/start-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sunny-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/sunny/1.0.8/sunny-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="swanky-purse-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/swanky-purse/1.0.8/swanky-purse-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="trontastic-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/trontastic/1.0.8/trontastic-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ui-darkness-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/ui-darkness/1.0.8/ui-darkness-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ui-lightness-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/ui-lightness/1.0.8/ui-lightness-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="vader-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/vader/1.0.8/vader-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="home-1.0.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/themes/home/1.0.8/home-1.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="primefaces-extensions-4.0.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/extensions/primefaces-extensions/4.0.0/primefaces-extensions-4.0.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gson-2.2.4.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-lang3-3.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="ear"/>
+        <property name="java-output-path" value="/ear/target/classes"/>
+    </wb-module>
+</project-modules>

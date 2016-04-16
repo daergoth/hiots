@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui" template="/template/base.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<p:dataTable var="sensor" value="#{liveManager.sensors}" id="sensor_table">
+				<p:column headerText="Name">
+					<h:outputText value="#{sensor.name}" />
+				</p:column>
+				<p:column headerText="Type">
+					<h:outputText value="#{sensor.type}" />
+				</p:column>
+				<p:column headerText="Data">
+					<h:outputText value="#{sensor.data}" />
+				</p:column>
+			</p:dataTable>
+			
+			<p:poll interval="2" listener="#{liveManager.refresh}" update="sensor_table" />
+		</h:form>
+	</ui:define>
+</ui:composition>
