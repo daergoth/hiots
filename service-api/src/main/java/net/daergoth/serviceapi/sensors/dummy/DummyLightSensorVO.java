@@ -1,10 +1,10 @@
-package net.daergoth.serviceapi.dummy;
+package net.daergoth.serviceapi.sensors.dummy;
 
 import java.util.Random;
 
 import net.daergoth.serviceapi.InvalidSensorDataTypeException;
-import net.daergoth.serviceapi.LightData;
-import net.daergoth.serviceapi.SensorData;
+import net.daergoth.serviceapi.datatypes.LightData;
+import net.daergoth.serviceapi.datatypes.SensorData;
 
 public class DummyLightSensorVO extends DummySensorVO {
 
@@ -38,8 +38,10 @@ public class DummyLightSensorVO extends DummySensorVO {
 
 	@Override
 	public void setData(SensorData d) throws InvalidSensorDataTypeException {
-		if (d.getClass().equals(LightData.class))
+		if (d.getClass().equals(LightData.class)) {
 			data = d;
+			System.out.println("Set data to " + d + "  @" + getName());
+		}
 		else
 			throw new InvalidSensorDataTypeException("LightData expected!");
 	}	

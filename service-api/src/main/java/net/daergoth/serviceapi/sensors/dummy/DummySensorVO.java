@@ -1,6 +1,6 @@
-package net.daergoth.serviceapi.dummy;
+package net.daergoth.serviceapi.sensors.dummy;
 
-import net.daergoth.serviceapi.SensorVO;
+import net.daergoth.serviceapi.sensors.SensorVO;
 
 public abstract class DummySensorVO extends SensorVO {
 

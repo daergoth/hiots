@@ -1,6 +1,9 @@
-package net.daergoth.serviceapi;
+package net.daergoth.serviceapi.sensors;
 
 import java.io.Serializable;
+
+import net.daergoth.serviceapi.InvalidSensorDataTypeException;
+import net.daergoth.serviceapi.datatypes.SensorData;
 
 public class  SensorVO implements Serializable{
 	

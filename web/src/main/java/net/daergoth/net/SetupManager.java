@@ -14,9 +14,9 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
 import net.daergoth.serviceapi.SensorContainerLocal;
-import net.daergoth.serviceapi.SensorVO;
-import net.daergoth.serviceapi.dummy.DummyLightSensorVO;
-import net.daergoth.serviceapi.dummy.DummyTemperatureSensorVO;
+import net.daergoth.serviceapi.sensors.SensorVO;
+import net.daergoth.serviceapi.sensors.dummy.DummyLightSensorVO;
+import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
 
 
 

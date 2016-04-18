@@ -1,8 +1,6 @@
-package net.daergoth.serviceapi;
+package net.daergoth.serviceapi.datatypes;
 
 import java.text.DecimalFormat;
-
-import net.daergoth.serviceapi.SensorData;
 
 public class TemperatureData implements SensorData {
 	

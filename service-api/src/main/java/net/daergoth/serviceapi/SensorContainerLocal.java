@@ -2,9 +2,14 @@ package net.daergoth.serviceapi;
 
 import java.util.List;
 
+import net.daergoth.serviceapi.sensors.SensorVO;
+import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
+
 public interface SensorContainerLocal {
 	
 	public List<SensorVO> getSensors();
+	
+	public List<DummySensorVO> getDummySensors();
 	
 	public void addSensor(SensorVO s);
 	

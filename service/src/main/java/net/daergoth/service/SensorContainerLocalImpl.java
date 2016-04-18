@@ -11,13 +11,13 @@ import javax.ejb.Stateless;
 import net.daergoth.coreapi.DummySensorDTO;
 import net.daergoth.coreapi.SensorDTO;
 import net.daergoth.coreapi.SensorDaoLocal;
-import net.daergoth.serviceapi.LightSensorVO;
 import net.daergoth.serviceapi.SensorContainerLocal;
-import net.daergoth.serviceapi.SensorVO;
-import net.daergoth.serviceapi.TemperatureSensorVO;
-import net.daergoth.serviceapi.dummy.DummyLightSensorVO;
-import net.daergoth.serviceapi.dummy.DummySensorVO;
-import net.daergoth.serviceapi.dummy.DummyTemperatureSensorVO;
+import net.daergoth.serviceapi.sensors.LightSensorVO;
+import net.daergoth.serviceapi.sensors.SensorVO;
+import net.daergoth.serviceapi.sensors.TemperatureSensorVO;
+import net.daergoth.serviceapi.sensors.dummy.DummyLightSensorVO;
+import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
+import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
 
 @Stateless
 @Local(SensorContainerLocal.class)
@@ -25,51 +25,77 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 	
 	@EJB
 	SensorDaoLocal sensorDao;
+	
+	List<SensorVO> sensors = new ArrayList<>();
+	
+	private boolean changed = true;
 
 	@Override
 	public List<SensorVO> getSensors() {
-		List<SensorDTO> dto_list = sensorDao.getSensors();
-		List<SensorVO> vo_list = new ArrayList<>();
-		
-		for (SensorDTO sensorDTO : dto_list) {
-			switch (sensorDTO.getType()) {
-			case "Temperature":
-				if (sensorDTO.getClass().equals(DummySensorDTO.class)) {
-					DummySensorDTO dummyDTO = (DummySensorDTO) sensorDTO;
-					DummyTemperatureSensorVO dummyVo = new DummyTemperatureSensorVO(dummyDTO.getId(), 
-							dummyDTO.getName(), 
-							dummyDTO.getMin(), 
-							dummyDTO.getMax(), 
-							dummyDTO.getInterval());
-					vo_list.add(dummyVo);
-				} else {
-					TemperatureSensorVO sensorVO = new TemperatureSensorVO(sensorDTO.getId(), sensorDTO.getName());
-					vo_list.add(sensorVO);
+		if (changed) {
+			List<SensorDTO> dto_list = sensorDao.getSensors();
+			List<SensorVO> vo_list = new ArrayList<>();
+			
+			for (SensorDTO sensorDTO : dto_list) {
+				switch (sensorDTO.getType()) {
+				case "Temperature":
+					if (sensorDTO.getClass().equals(DummySensorDTO.class)) {
+						DummySensorDTO dummyDTO = (DummySensorDTO) sensorDTO;
+						DummyTemperatureSensorVO dummyVo = new DummyTemperatureSensorVO(dummyDTO.getId(), 
+								dummyDTO.getName(), 
+								dummyDTO.getMin(), 
+								dummyDTO.getMax(), 
+								dummyDTO.getInterval());
+						vo_list.add(dummyVo);
+					} else {
+						TemperatureSensorVO sensorVO = new TemperatureSensorVO(sensorDTO.getId(), sensorDTO.getName());
+						vo_list.add(sensorVO);
+					}
+					
+					break;
+				case "Light":
+					if (sensorDTO.getClass().equals(DummySensorDTO.class)) {
+						DummySensorDTO dummyDTO = (DummySensorDTO) sensorDTO;
+						DummyLightSensorVO dummyVo = new DummyLightSensorVO(dummyDTO.getId(), 
+								dummyDTO.getName(), 
+								dummyDTO.getMin(), 
+								dummyDTO.getMax(), 
+								dummyDTO.getInterval());
+						vo_list.add(dummyVo);
+					} else {
+						LightSensorVO sensorVO = new LightSensorVO(sensorDTO.getId(), sensorDTO.getName());
+						vo_list.add(sensorVO);
+					}
+					break;
 				}
-				
-				break;
-			case "Light":
-				if (sensorDTO.getClass().equals(DummySensorDTO.class)) {
-					DummySensorDTO dummyDTO = (DummySensorDTO) sensorDTO;
-					DummyLightSensorVO dummyVo = new DummyLightSensorVO(dummyDTO.getId(), 
-							dummyDTO.getName(), 
-							dummyDTO.getMin(), 
-							dummyDTO.getMax(), 
-							dummyDTO.getInterval());
-					vo_list.add(dummyVo);
-				} else {
-					LightSensorVO sensorVO = new LightSensorVO(sensorDTO.getId(), sensorDTO.getName());
-					vo_list.add(sensorVO);
-				}
-				break;
 			}
+			
+			sensors = vo_list;
+			
+			changed = false;
 		}
 		
-		return vo_list;
+		return sensors;
 	}
 
 	@Override
+	public List<DummySensorVO> getDummySensors() {
+		List<DummySensorVO> dummyList = new ArrayList<>();
+		
+		for (SensorVO sensor : getSensors()) {
+			if (sensor.getClass().getSuperclass().equals(DummySensorVO.class)) {
+				dummyList.add((DummySensorVO) sensor);
+			}
+		}
+		
+		return dummyList;
+	}
+
+
+
+	@Override
 	public void addSensor(SensorVO s) {
+		changed = true;
 		
 		if (s.getClass().getSuperclass().equals(DummySensorVO.class)) {
 			DummySensorVO ds = (DummySensorVO) s;
@@ -89,17 +115,19 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 			newSensDTO.setType(s.getType());
 			sensorDao.addSensor(newSensDTO);
 		}
-		
-		
 	}
 
 	@Override
 	public void deleteSensor(long id) {
+		changed = true;
+		
 		sensorDao.deleteSensor(id);
 	}
 
 	@Override
 	public void deleteSensors(List<Long> ids) {
+		changed = true;
+		
 		sensorDao.deleteSensors(ids);
 	}
 
