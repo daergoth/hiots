@@ -5,7 +5,7 @@ import java.io.Serializable;
 import net.daergoth.serviceapi.InvalidSensorDataTypeException;
 import net.daergoth.serviceapi.datatypes.SensorData;
 
-public class  SensorVO implements Serializable{
+public abstract class  SensorVO implements Serializable{
 	
 	/**
 	 * 
@@ -29,9 +29,7 @@ public class  SensorVO implements Serializable{
 		return data;
 	}
 
-	public void setData(SensorData d) throws InvalidSensorDataTypeException {
-		
-	}
+	public abstract void setData(SensorData d) throws InvalidSensorDataTypeException;
 
 	public long getId() {
 		return Id;

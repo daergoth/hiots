@@ -7,7 +7,6 @@
 		transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>HiotsRes</jta-data-source>
-		<class>net.daergoth.core.Car</class>
 		<class>net.daergoth.core.Sensor</class>
 		<class>net.daergoth.core.DummySensorInformation</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>

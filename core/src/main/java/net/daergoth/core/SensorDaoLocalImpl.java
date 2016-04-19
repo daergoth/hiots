@@ -7,7 +7,7 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import net.daergoth.coreapi.DummySensorDTO;
 import net.daergoth.coreapi.SensorDTO;
@@ -21,30 +21,28 @@ public class SensorDaoLocalImpl implements SensorDaoLocal {
 	EntityManager em;
 
 	public List<SensorDTO> getSensors() {
-		Query q = em.createNativeQuery("SELECT * FROM sensor", Sensor.class);
+		TypedQuery<Sensor> q = em.createNamedQuery("Sensor.findAll", Sensor.class);
 		List<Sensor> list = q.getResultList();
 		
 		List<SensorDTO> newlist = new ArrayList<SensorDTO>();
 		
 		for (Sensor sensor : list) {
-			Query q2 = em.createNativeQuery("SELECT * FROM dummysensorinformation WHERE sensor_id = " + sensor.getId(), DummySensorInformation.class);
-			List<DummySensorInformation> dummylist = q2.getResultList();
 			
-			if (dummylist.isEmpty()) {
+			if (sensor.getDummyInfo() == null) {
 				SensorDTO newSens = new SensorDTO();
 				newSens.setId(sensor.getId());
 				newSens.setName(sensor.getName());
 				newSens.setType(sensor.getType());
 				newlist.add(newSens);
 			} else {
-				DummySensorInformation dummyInfo = dummylist.get(0);
+				DummySensorInformation dummyInfo = sensor.getDummyInfo();
 				DummySensorDTO newDummy = new DummySensorDTO();
 				newDummy.setId(sensor.getId());
 				newDummy.setName(sensor.getName());
 				newDummy.setType(sensor.getType());
-				newDummy.setMin(dummyInfo.getMin_data());
-				newDummy.setMax(dummyInfo.getMax_data());
-				newDummy.setInterval(dummyInfo.getRefresh_interval());
+				newDummy.setMin(dummyInfo.getMinData());
+				newDummy.setMax(dummyInfo.getMaxData());
+				newDummy.setInterval(dummyInfo.getRefreshInterval());
 				newlist.add(newDummy);
 			}
 			
@@ -55,6 +53,7 @@ public class SensorDaoLocalImpl implements SensorDaoLocal {
 	}
 
 	public void addSensor(SensorDTO s) {
+		/*
 		Query q = em.createNativeQuery("INSERT INTO sensor(id, name, type) values(" + s.getId() + ", \"" + s.getName() +"\", \"" + s.getType() + "\")");
 		q.executeUpdate();
 		
@@ -64,16 +63,24 @@ public class SensorDaoLocalImpl implements SensorDaoLocal {
 					+ "values(" + ds.getId() + ", \"" + ds.getMin() +"\", \"" + ds.getMax() + "\", " + ds.getInterval() + ")");
 			q2.executeUpdate();
 		}
+		*/
+		
+		em.merge(SensorConverter.toEntity(s));
 	}
 
 	public void deleteSensor(long id) {
+		/*
 		Query q1 = em.createNativeQuery("DELETE FROM dummysensorinformation WHERE sensor_id = " + id);
 		q1.executeUpdate();
 		Query q2 = em.createNativeQuery("DELETE FROM sensor WHERE id = " + id);
 		q2.executeUpdate();
+		*/
+		
+		em.remove(em.find(Sensor.class, id));
 	}
 	
 	public void deleteSensors(List<Long> ids) {
+		/*
 		StringBuilder stringBuilder = new StringBuilder();
 		for (Long long1 : ids) {
 			stringBuilder.append(long1);
@@ -85,11 +92,20 @@ public class SensorDaoLocalImpl implements SensorDaoLocal {
 		q1.executeUpdate();
 		Query q2 = em.createNativeQuery("DELETE FROM sensor WHERE id IN (" + stringBuilder.toString() + ")");
 		q2.executeUpdate();
+		*/
+		
+		for (Long id : ids) {
+			deleteSensor(id);
+		}
 	}
 
 	public void updateSensor(SensorDTO s) {
+		/*
 		Query q = em.createNativeQuery("UPDATE sensor SET name = \"" + s.getName() + "\", type = \"" + s.getType() +"\" WHERE id = " + s.getId());
 		q.executeUpdate();
+		*/
+		
+		em.merge(SensorConverter.toEntity(s));
 	}
 
 }

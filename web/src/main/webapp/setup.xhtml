@@ -15,6 +15,11 @@
 					<p:menuitem value="Light" onclick="PF('dlg_light').show();"
 						icon="fa fa-sun-o" update="sensorDT"/>
 				</p:submenu>
+				
+				<p:submenu label="New actor" icon="ui-icon-plus">
+					<p:menuitem value="TODO"/>
+				</p:submenu>
+				
 				<p:menuitem value="Delete" actionListener="#{setupManager.delete}"
 					icon="fa fa-eraser" update="sensorDT">
 					<p:confirm header="Confirmation" message="Are you sure?"

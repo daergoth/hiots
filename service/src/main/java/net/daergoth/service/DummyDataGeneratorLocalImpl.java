@@ -1,7 +1,5 @@
 package net.daergoth.service;
 
-import java.security.AllPermission;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -29,8 +27,6 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	
 	List<DummySensorVO> dummiesList;
 	
-	List<Long> ellapsed = new ArrayList<>();
-	
 	@Resource
 	private SessionContext context;
 	
@@ -50,10 +46,6 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	public void init() {
 		setDummiesList(sensorContainer.getDummySensors());
 		
-		for (int i = 0; i < dummiesList.size(); ++i) {
-			ellapsed.add(0l);
-		}
-		
 		createTimer(MIN_UPDATE_INTERVAL);
 	}
 	
@@ -61,16 +53,7 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	public void generateDummyData(Timer timer) {
 		setDummiesList(sensorContainer.getDummySensors());
 
-		for (int i = 0; i < dummiesList.size(); ++i) {
-			if (ellapsed.get(i) >= dummiesList.get(i).getInterval()) {
-				dummiesList.get(i).generateRandomData();
-				ellapsed.set(i, 0l);
-			} else {
-				ellapsed.set(i, ellapsed.get(i) + MIN_UPDATE_INTERVAL);
-			}
-		}
-		
-		System.out.println("GENERATED!");
+		generateAllDummies();
 	}
 	
 	
@@ -83,24 +66,19 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	@Override
 	public void setDummiesList(List<DummySensorVO> dl) {
 		this.dummiesList = dl;
-		
-		ellapsed.clear();
-		
-		for (int i = 0; i < dummiesList.size(); ++i) {
-			ellapsed.add(0l);
-		}
+
 	}
 
 	@Override
 	public void addDummy(DummySensorVO d) {
 		dummiesList.add(d);
-		ellapsed.add(0l);
+
 
 	}
 
 	@Override
 	public void deleteDummy(DummySensorVO d) {
-		ellapsed.remove(dummiesList.indexOf(d));
+
 		dummiesList.remove(d);
 	}
 	

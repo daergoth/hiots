@@ -31,8 +31,6 @@ public class DummyTemperatureSensorVO extends DummySensorVO {
 	public void setData(SensorData d) throws InvalidSensorDataTypeException {
 		if (d.getClass().equals(TemperatureData.class)) {
 			data = d;
-			System.out.println("Setting data to " + d + "  @" + getName());
-			System.out.println("Setted data to " + getData() + "  @" + getName());
 		}
 		else
 			throw new InvalidSensorDataTypeException("TemperatureData expected!");

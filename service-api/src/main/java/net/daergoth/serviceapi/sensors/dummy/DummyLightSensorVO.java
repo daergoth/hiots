@@ -40,7 +40,6 @@ public class DummyLightSensorVO extends DummySensorVO {
 	public void setData(SensorData d) throws InvalidSensorDataTypeException {
 		if (d.getClass().equals(LightData.class)) {
 			data = d;
-			System.out.println("Set data to " + d + "  @" + getName());
 		}
 		else
 			throw new InvalidSensorDataTypeException("LightData expected!");
