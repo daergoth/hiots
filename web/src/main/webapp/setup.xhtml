@@ -7,27 +7,10 @@
 	xmlns:p="http://primefaces.org/ui" template="/template/base.xhtml">
 	<ui:define name="content">
 		<h:form>
+		
+			<p:menubar model="#{setupManager.menuBar}" />
 			
-			<p:menubar>
-				<p:submenu label="New sensor" icon="ui-icon-plus">
-					<p:menuitem value="Temperature" onclick="PF('dlg_temp').show();"
-						icon="fa fa-temperature" update="sensorDT"/>
-					<p:menuitem value="Light" onclick="PF('dlg_light').show();"
-						icon="fa fa-sun-o" update="sensorDT"/>
-				</p:submenu>
-				
-				<p:submenu label="New actor" icon="ui-icon-plus">
-					<p:menuitem value="TODO"/>
-				</p:submenu>
-				
-				<p:menuitem value="Delete" actionListener="#{setupManager.delete}"
-					icon="fa fa-eraser" update="sensorDT">
-					<p:confirm header="Confirmation" message="Are you sure?"
-						icon="ui-icon-alert" />
-				</p:menuitem>
-			</p:menubar>
-			
-			<p:dataTable id="sensorDT" var="sensor" value="#{setupManager.sensors}"  editable="true" selection="#{setupManager.selected_sensors}" rowKey="#{sensor.id}" >
+			<p:dataTable id="sensorDT" var="sensor" value="#{setupManager.sensors}"  editable="true" selection="#{setupManager.selectedSensors}" rowKey="#{sensor.id}" >
 		        <f:facet name="header">
 		            Sensors
 		        </f:facet>
@@ -59,35 +42,27 @@
 			    	<p:rowEditor />
 			    </p:column>
 		    </p:dataTable>
-	
-			<p:dialog header="New temperature sensor" widgetVar="dlg_temp"
-				modal="true" height="150"> 
+			
+			<p:dialog header="#{setupManager.dlgHeader}" widgetVar="dlg" modal="true"
+				height="300" width="220" resizable="false">
 				<h:outputText value="Name: " />
-				<p:inputText value="#{setupManager.temp_name}" id="temp_name" />
+				<p:inputText value="#{setupManager.name}"/>
+				<br/>
 				
 				<h:outputText value="Min: " />
-				<p:inputText value="#{setupManager.min_temp}" id="min_temp" />
+				<p:inputText value="#{setupManager.minValue}"/>
+				<br/>
 	
 				<h:outputText value="Max: " />
-				<p:inputText value="#{setupManager.max_temp}" id="max_temp"/>
+				<p:inputText value="#{setupManager.maxValue}"/>
+				<br/>
+				
+				<h:outputText value="Interval:  " />
+				<p:inputText value="#{setupManager.interval}"/>
+				<br/>
 	
 				<p:commandButton value="Create"
-					actionListener="#{setupManager.newTemperature}" update="sensorDT"/>
-			</p:dialog>
-	
-			<p:dialog header="New light sensor" widgetVar="dlg_light" modal="true"
-				height="150" >
-				<h:outputText value="Name: " />
-				<p:inputText value="#{setupManager.light_name}" id="light_name" />
-	
-				<h:outputText value="Min: " />
-				<p:inputText value="#{setupManager.min_light}" id="min_light" />
-	
-				<h:outputText value="Max: " />
-				<p:inputText value="#{setupManager.max_light}" id="max_light"/>
-	
-				<p:commandButton value="Create"
-					actionListener="#{setupManager.newLight}" update="sensorDT"/>
+					actionListener="#{setupManager.createSensor}" update="sensorDT"/>
 			</p:dialog>
 	
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

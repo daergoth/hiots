@@ -3,6 +3,9 @@ body {
 	margin: auto;
 	
 	background-color: #eee;
+	
+	font-family: sans-serif;
+	color: #333;
 }
 
 header div.logo {
