@@ -74,7 +74,7 @@ public class SetupManager {
 	}
 	
 	public void onRowEdit(RowEditEvent event) {
-        
+		sensorContainer.updateSensor((SensorVO) event.getObject());
     }
      
     public void onRowCancel(RowEditEvent event) {

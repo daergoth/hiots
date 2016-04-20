@@ -26,7 +26,6 @@ public class Sensor implements Serializable {
 	private static final long serialVersionUID = -1683731640470306082L;
 
 	@Id
-	@GeneratedValue
 	long id;
 	
 	@Column

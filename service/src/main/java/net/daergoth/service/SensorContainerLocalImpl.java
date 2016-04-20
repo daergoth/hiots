@@ -118,6 +118,30 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 	}
 
 	@Override
+	public void updateSensor(SensorVO s) {
+		changed = true;
+		
+		if (s.getClass().getSuperclass().equals(DummySensorVO.class)) {
+			DummySensorVO ds = (DummySensorVO) s;
+			
+			DummySensorDTO newDummyDTO = new DummySensorDTO();
+			newDummyDTO.setId(ds.getId());
+			newDummyDTO.setName(ds.getName());
+			newDummyDTO.setType(ds.getType());
+			newDummyDTO.setMax(ds.getMaxData());
+			newDummyDTO.setMin(ds.getMinData());
+			newDummyDTO.setInterval(ds.getInterval());
+			sensorDao.updateSensor(newDummyDTO);
+		} else {
+			SensorDTO newSensDTO = new SensorDTO();
+			newSensDTO.setId(s.getId());
+			newSensDTO.setName(s.getName());
+			newSensDTO.setType(s.getType());
+			sensorDao.updateSensor(newSensDTO);
+		}
+	}
+
+	@Override
 	public void deleteSensor(long id) {
 		changed = true;
 		

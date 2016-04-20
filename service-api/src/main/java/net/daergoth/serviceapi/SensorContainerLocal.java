@@ -13,6 +13,8 @@ public interface SensorContainerLocal {
 	
 	public void addSensor(SensorVO s);
 	
+	public void updateSensor(SensorVO s);
+	
 	public void deleteSensor(long id);
 	
 	public void deleteSensors(List<Long> ids);
