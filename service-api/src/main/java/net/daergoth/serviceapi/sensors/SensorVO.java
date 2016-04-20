@@ -10,8 +10,8 @@ public abstract class  SensorVO implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -1655147522520293280L;
+	
 	protected long Id;
 	
 	protected String Name;
