@@ -2,9 +2,10 @@ package net.daergoth.serviceapi.sensors.dummy;
 
 import java.util.Random;
 
-import net.daergoth.serviceapi.InvalidSensorDataTypeException;
-import net.daergoth.serviceapi.datatypes.SensorData;
-import net.daergoth.serviceapi.datatypes.TemperatureData;
+import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
+import net.daergoth.serviceapi.sensors.SensorType;
+import net.daergoth.serviceapi.sensors.datatypes.SensorData;
+import net.daergoth.serviceapi.sensors.datatypes.TemperatureData;
 
 public class DummyTemperatureSensorVO extends DummySensorVO {
 	
@@ -15,11 +16,9 @@ public class DummyTemperatureSensorVO extends DummySensorVO {
 
 	private Random rand = new Random();
 	
-	private boolean status = true;
-	
 	public DummyTemperatureSensorVO(long id, String name, double minData, double maxData, long interval) {
 		super(id, name, minData, maxData, interval);
-		this.Type = "Temperature";
+		this.Type = SensorType.Temperature;
 	}
 
 	@Override
@@ -43,14 +42,6 @@ public class DummyTemperatureSensorVO extends DummySensorVO {
 		} catch (InvalidSensorDataTypeException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public boolean isWorking() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
 	}
 	
 }

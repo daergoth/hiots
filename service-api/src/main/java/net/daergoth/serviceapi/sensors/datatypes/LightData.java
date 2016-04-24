@@ -1,8 +1,8 @@
-package net.daergoth.serviceapi.datatypes;
+package net.daergoth.serviceapi.sensors.datatypes;
 
 import java.text.DecimalFormat;
 
-import net.daergoth.serviceapi.InvalidSensorDataTypeException;
+import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 
 public class LightData implements SensorData {
 	

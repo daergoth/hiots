@@ -2,8 +2,7 @@ package net.daergoth.serviceapi.sensors;
 
 import java.io.Serializable;
 
-import net.daergoth.serviceapi.InvalidSensorDataTypeException;
-import net.daergoth.serviceapi.datatypes.SensorData;
+import net.daergoth.serviceapi.sensors.datatypes.SensorData;
 
 public abstract class  SensorVO implements Serializable{
 	
@@ -18,7 +17,7 @@ public abstract class  SensorVO implements Serializable{
 	
 	protected SensorData data;
 	
-	protected String Type;
+	protected SensorType Type;
 	
 	public SensorVO(long id, String name) {
 		Id = id;
@@ -47,15 +46,18 @@ public abstract class  SensorVO implements Serializable{
 		Name = name;
 	}
 
-	public String getType() {
+	public SensorType getType() {
 		return Type;
 	}
 
-	public void setType(String type) {
+	public void setType(SensorType type) {
 		this.Type = type;
 	}
 	
-	
+	public void setType(String type) {
+		SensorType sType = SensorType.valueOf(type);
+		this.Type = sType;
+	}
 	 
 	
 }

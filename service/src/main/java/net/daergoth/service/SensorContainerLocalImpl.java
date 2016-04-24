@@ -103,7 +103,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 			DummySensorDTO newDummyDTO = new DummySensorDTO();
 			newDummyDTO.setId(ds.getId());
 			newDummyDTO.setName(ds.getName());
-			newDummyDTO.setType(ds.getType());
+			newDummyDTO.setType(ds.getType().toString());
 			newDummyDTO.setMax(ds.getMaxData());
 			newDummyDTO.setMin(ds.getMinData());
 			newDummyDTO.setInterval(ds.getInterval());
@@ -112,7 +112,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 			SensorDTO newSensDTO = new SensorDTO();
 			newSensDTO.setId(s.getId());
 			newSensDTO.setName(s.getName());
-			newSensDTO.setType(s.getType());
+			newSensDTO.setType(s.getType().toString());
 			sensorDao.addSensor(newSensDTO);
 		}
 	}
@@ -127,7 +127,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 			DummySensorDTO newDummyDTO = new DummySensorDTO();
 			newDummyDTO.setId(ds.getId());
 			newDummyDTO.setName(ds.getName());
-			newDummyDTO.setType(ds.getType());
+			newDummyDTO.setType(ds.getType().toString());
 			newDummyDTO.setMax(ds.getMaxData());
 			newDummyDTO.setMin(ds.getMinData());
 			newDummyDTO.setInterval(ds.getInterval());
@@ -136,7 +136,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 			SensorDTO newSensDTO = new SensorDTO();
 			newSensDTO.setId(s.getId());
 			newSensDTO.setName(s.getName());
-			newSensDTO.setType(s.getType());
+			newSensDTO.setType(s.getType().toString());
 			sensorDao.updateSensor(newSensDTO);
 		}
 	}

@@ -16,9 +16,9 @@ import javax.ejb.TimerConfig;
 
 import net.daergoth.serviceapi.DataChangeHandler;
 import net.daergoth.serviceapi.DataChangeListenerLocal;
-import net.daergoth.serviceapi.InvalidSensorDataTypeException;
-import net.daergoth.serviceapi.datatypes.SensorData;
+import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 import net.daergoth.serviceapi.sensors.SensorVO;
+import net.daergoth.serviceapi.sensors.datatypes.SensorData;
 
 @Singleton
 @Startup

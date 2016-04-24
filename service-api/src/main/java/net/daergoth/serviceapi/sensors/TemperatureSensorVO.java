@@ -1,7 +1,7 @@
 package net.daergoth.serviceapi.sensors;
 
-import net.daergoth.serviceapi.InvalidSensorDataTypeException;
-import net.daergoth.serviceapi.datatypes.SensorData;
+import net.daergoth.serviceapi.sensors.datatypes.SensorData;
+import net.daergoth.serviceapi.sensors.datatypes.TemperatureData;
 
 public class TemperatureSensorVO extends SensorVO {
 
@@ -12,12 +12,16 @@ public class TemperatureSensorVO extends SensorVO {
 
 	public TemperatureSensorVO(long id, String name) {
 		super(id, name);
-		this.Type = "Temperature";
+		this.Type = SensorType.Temperature;
 	}
 
 	@Override
 	public void setData(SensorData d) throws InvalidSensorDataTypeException {
-		// TODO
+		if (d.getClass().equals(TemperatureData.class)) {
+			data = d;
+		}
+		else
+			throw new InvalidSensorDataTypeException("TemperatureData expected!");
 	}
 	
 	

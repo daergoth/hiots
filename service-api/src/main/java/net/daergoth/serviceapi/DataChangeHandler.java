@@ -1,6 +1,6 @@
 package net.daergoth.serviceapi;
 
-import net.daergoth.serviceapi.datatypes.SensorData;
+import net.daergoth.serviceapi.sensors.datatypes.SensorData;
 
 public interface DataChangeHandler {
 	

@@ -1,11 +1,11 @@
-package net.daergoth.serviceapi;
+package net.daergoth.serviceapi.sensors;
 
 public class InvalidSensorDataTypeException extends Exception {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5568729182464943791L;
 
 	public InvalidSensorDataTypeException() {
 		super();
@@ -14,7 +14,5 @@ public class InvalidSensorDataTypeException extends Exception {
 	public InvalidSensorDataTypeException(String message) {
 		super(message);
 	}
-	
-	
 
 }

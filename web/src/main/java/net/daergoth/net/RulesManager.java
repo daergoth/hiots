@@ -10,8 +10,8 @@ import javax.faces.bean.ViewScoped;
 import net.daergoth.serviceapi.DataChangeHandler;
 import net.daergoth.serviceapi.DataChangeListenerLocal;
 import net.daergoth.serviceapi.SensorContainerLocal;
-import net.daergoth.serviceapi.datatypes.SensorData;
 import net.daergoth.serviceapi.sensors.SensorVO;
+import net.daergoth.serviceapi.sensors.datatypes.SensorData;
 
 @ManagedBean(name = "rulesManager")
 @ViewScoped
