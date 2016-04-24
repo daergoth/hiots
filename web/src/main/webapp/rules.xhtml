@@ -5,10 +5,23 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui" template="/template/base.xhtml">
-
-
 	<ui:define name="content">
-		<p:outputLabel value="#{indexManager.hello}" />
+	
+		<h:form>
+		
+			<p:outputLabel for="console" value="Basic:" />
+	        <p:selectOneMenu id="console" value="#{rulesManager.selectedSensor}" style="width:125px" var="s">
+	            <f:selectItem itemLabel="Select One" itemValue="" />
+	            <f:selectItems value="#{rulesManager.sensors}" var="sen" itemLabel="#{sen.name}" itemValue="#{sen.name}"/>
+	            
+	            <p:column>
+	                <h:outputText value="#{s.name}" />
+	            </p:column>
+	            
+	        </p:selectOneMenu>
+	        
+	        <p:commandButton value="create" id="ref" actionListener="#{rulesManager.listenerFor}" icon="fa fa-refresh"/>
+		</h:form>
+		
 	</ui:define>
-
 </ui:composition>

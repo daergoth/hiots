@@ -28,7 +28,7 @@ public abstract class  SensorVO implements Serializable{
 	public SensorData getData() {
 		return data;
 	}
-
+	
 	public abstract void setData(SensorData d) throws InvalidSensorDataTypeException;
 
 	public long getId() {

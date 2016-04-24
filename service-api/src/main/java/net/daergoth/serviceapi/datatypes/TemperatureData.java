@@ -2,6 +2,8 @@ package net.daergoth.serviceapi.datatypes;
 
 import java.text.DecimalFormat;
 
+import net.daergoth.serviceapi.InvalidSensorDataTypeException;
+
 public class TemperatureData implements SensorData {
 	
 	private enum TemperatureType {
@@ -56,6 +58,16 @@ public class TemperatureData implements SensorData {
 		}
 		
 		return stringBuilder.toString();
+	}
+
+	@Override
+	public int compareTo(SensorData other) throws InvalidSensorDataTypeException {
+		if (other.getClass().equals(TemperatureData.class)) {
+			TemperatureData o = (TemperatureData) other;
+			return Double.compare(getTemperature(), o.getTemperature());
+		} else {
+			throw new InvalidSensorDataTypeException("TemperatureData expected!");
+		}
 	}
 	
 	

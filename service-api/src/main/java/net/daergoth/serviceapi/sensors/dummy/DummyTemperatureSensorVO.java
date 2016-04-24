@@ -7,12 +7,12 @@ import net.daergoth.serviceapi.datatypes.SensorData;
 import net.daergoth.serviceapi.datatypes.TemperatureData;
 
 public class DummyTemperatureSensorVO extends DummySensorVO {
-
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = -16359446176096506L;
+
 	private Random rand = new Random();
 	
 	private boolean status = true;

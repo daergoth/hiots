@@ -4,6 +4,8 @@ import net.daergoth.serviceapi.sensors.SensorVO;
 
 public interface DataChangeListenerLocal {
 	
+	public static final long UPDATE_INTERVAL = 1300;
+	
 	public void changed(SensorVO sensor);
 	
 	public void subscribeFor(SensorVO sensor, DataChangeHandler handler);
