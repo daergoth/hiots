@@ -15,6 +15,8 @@ import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 
 import net.daergoth.serviceapi.ActorContainerLocal;
+import net.daergoth.serviceapi.DataChangeHandler;
+import net.daergoth.serviceapi.DataChangeListenerLocal;
 import net.daergoth.serviceapi.SensorContainerLocal;
 import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.ActorVO;
@@ -28,6 +30,9 @@ import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
 @ManagedBean(name = "setupManager")
 @ViewScoped
 public class SetupManager {
+	
+	@EJB
+	DataChangeListenerLocal changeListener;
 
 	@EJB
 	SensorContainerLocal sensorContainer;
@@ -94,7 +99,13 @@ public class SetupManager {
 	}
 	
 	public void onRowEditSensor(RowEditEvent event) {
-		sensorContainer.updateSensor((SensorVO) event.getObject());
+		SensorVO s = (SensorVO) event.getObject();
+		List<DataChangeHandler> handlers = changeListener.getHandlersFor(s);
+		changeListener.unsubscribeAllFrom(s);
+		sensorContainer.updateSensor(s);
+		changeListener.subscribeFor(
+				sensorContainer.getSensors().stream().filter(se -> se.getId() == s.getId()).findFirst().get(),
+				handlers);
     }
     
 	public void onRowEditActor(RowEditEvent event) {

@@ -2,6 +2,7 @@ package net.daergoth.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -60,14 +61,20 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 			SensorData current = entry.getKey().getData();
 			SensorData past = pastData.get(entry.getKey().getId());
 			
-			try {
-				if (past.compareTo(current) != 0) {
-					changed(entry.getKey());
+			if (past != null && current != null) {
+				try {
+					if (past.compareTo(current) != 0) {
+						changed(entry.getKey());
+						pastData.put(entry.getKey().getId(), current);
+					}					
+					
+				} catch (InvalidSensorDataTypeException e) {
+					System.err.println("Sensor Type probably changed: " + entry.getKey());
+					System.err.println(e.getMessage());
 					pastData.put(entry.getKey().getId(), current);
 				}
-				
-			} catch (InvalidSensorDataTypeException e) {
-				System.err.println(e.getMessage());
+			} else {
+				pastData.put(entry.getKey().getId(), current);
 			}
 		}
 	}
@@ -91,6 +98,13 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 			subs.put(sensor, list);
 		}
 	}
+	
+	@Override
+	public void subscribeFor(SensorVO sensor, List<DataChangeHandler> handlers) {
+		for (DataChangeHandler handler : handlers) {
+			subscribeFor(sensor, handler);
+		}
+	}
 
 	@Override
 	public void unsubscribeFrom(SensorVO sensor, DataChangeHandler handler) {
@@ -101,6 +115,16 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 				subs.get(sensor).remove(handler);
 			}
 		}
+	}
+	
+	@Override
+	public void unsubscribeAllFrom(SensorVO sensor) {
+		subs.remove(sensor);
+	}
+	
+	@Override
+	public List<DataChangeHandler> getHandlersFor(SensorVO sensor) {
+		return subs.get(sensor);
 	}
 
 }

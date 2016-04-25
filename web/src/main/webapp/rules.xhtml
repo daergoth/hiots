@@ -9,10 +9,9 @@
 	
 		<h:form>
 		
-			<p:outputLabel for="console" value="Basic:" />
-	        <p:selectOneMenu id="console" value="#{rulesManager.selectedSensor}" style="width:125px" var="s">
-	            <f:selectItem itemLabel="Select One" itemValue="" />
-	            <f:selectItems value="#{rulesManager.sensors}" var="sen" itemLabel="#{sen.name}" itemValue="#{sen.name}"/>
+			<p:outputLabel id="label" for="console" value="#{rulesManager.console}" />
+	        <p:selectOneMenu id="console" value="#{rulesManager.selectedSensor}" style="width:125px" var="s" converter="ruleConverter">
+	            <f:selectItems value="#{rulesManager.sensors}" var="selectedSensor" itemLabel="#{selectedSensor.name}" itemValue="#{selectedSensor}"/>
 	            
 	            <p:column>
 	                <h:outputText value="#{s.name}" />
@@ -20,7 +19,7 @@
 	            
 	        </p:selectOneMenu>
 	        
-	        <p:commandButton value="create" id="ref" actionListener="#{rulesManager.listenerFor}" icon="fa fa-refresh"/>
+	        <p:commandButton value="create" id="ref" actionListener="#{rulesManager.listenerFor}" icon="fa fa-refresh" update="label"/>
 		</h:form>
 		
 	</ui:define>

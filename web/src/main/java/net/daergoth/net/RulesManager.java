@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import net.daergoth.serviceapi.DataChangeHandler;
@@ -18,30 +19,35 @@ import net.daergoth.serviceapi.sensors.datatypes.SensorData;
 public class RulesManager {
 	
 	@EJB
-	SensorContainerLocal sensorContainer;
+	@ManagedProperty("#{sensorContainer}")
+	private SensorContainerLocal sensorContainer;
 	
 	@EJB
 	DataChangeListenerLocal changeListener;
 	
+	
+	public int i = 0;
+	
 	private List<SensorVO> sensors;
 	
-	private String selectedSensor;
+	private SensorVO selectedSensor;
 	
-	private String console;
+	private String console = "Basic:";
 	
 	@PostConstruct
 	public void init() {
-		setSensors(sensorContainer.getSensors());
+		setSensors(getSensorContainer().getSensors());
 	}
 	
 	public void listenerFor() {
 		System.out.println("Selected: " + selectedSensor);
-		SensorVO s = sensorContainer.getSensors().stream().filter(se -> se.getName().equals(selectedSensor)).findFirst().get();
+		//SensorVO s = sensorContainer.getSensors().stream().filter(se -> se.getId() == Long.parseLong(selectedSensor)).findFirst().get();
+		SensorVO s = selectedSensor;
 		changeListener.subscribeFor(s, new DataChangeHandler() {
 
 			@Override
 			public void onChange(SensorData newData) {
-				System.out.println("CHENGED LISTENER!");
+				setConsole("change:" + i++);
 			}
 			
 			
@@ -58,12 +64,12 @@ public class RulesManager {
 	}
 
 
-	public String getSelectedSensor() {
+	public SensorVO getSelectedSensor() {
 		return selectedSensor;
 	}
 
 
-	public void setSelectedSensor(String selectedSensor) {
+	public void setSelectedSensor(SensorVO selectedSensor) {
 		this.selectedSensor = selectedSensor;
 	}
 
@@ -73,6 +79,14 @@ public class RulesManager {
 
 	public void setConsole(String console) {
 		this.console = console;
+	}
+
+	public SensorContainerLocal getSensorContainer() {
+		return sensorContainer;
+	}
+
+	public void setSensorContainer(SensorContainerLocal sensorContainer) {
+		this.sensorContainer = sensorContainer;
 	}
 	
 	
