@@ -18,6 +18,15 @@ public abstract class ActorVO implements Serializable{
 	protected ActorState State;
 	
 	protected ActorType Type;
+	
+	public ActorVO() {
+		
+	}
+
+	public ActorVO(long id, String name) {
+		this.Id = id;
+		this.Name = name;
+	}
 
 	public long getId() {
 		return Id;

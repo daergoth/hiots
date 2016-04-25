@@ -17,7 +17,10 @@ public class ThermostatActorVO extends ActorVO {
 		this.Type = ActorType.Thermostat;
 	}
 
-
+	public ThermostatActorVO(long id, String name) {
+		super(id, name);
+		this.Type = ActorType.Thermostat;
+	}
 
 	@Override
 	public void setState(ActorState state) throws InvalidActorStateTypeException {

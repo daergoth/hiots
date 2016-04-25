@@ -17,6 +17,11 @@ public class DummyThermostatActorVO extends DummyActorVO{
 		this.Type = ActorType.Thermostat;
 	}
 
+	public DummyThermostatActorVO(long id, String name) {
+		super(id, name);
+		this.Type = ActorType.Thermostat;
+	}
+
 	@Override
 	public void setState(ActorState state) throws InvalidActorStateTypeException {
 		if (state.getClass().equals(ThermostatActorState.class)) {

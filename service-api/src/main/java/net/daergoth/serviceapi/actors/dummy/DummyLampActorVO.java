@@ -12,14 +12,15 @@ public class DummyLampActorVO extends DummyActorVO {
 	 */
 	private static final long serialVersionUID = -9154048241965322588L;
 	
-	
-
 	public DummyLampActorVO() {
 		super();
 		this.Type = ActorType.Lamp;
 	}
-
-
+	
+	public DummyLampActorVO(long id, String name) {
+		super(id, name);
+		this.Type = ActorType.Lamp;
+	}
 
 	@Override
 	public void setState(ActorState state) throws InvalidActorStateTypeException {

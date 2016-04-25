@@ -17,14 +17,16 @@ public class ActorConverter {
 		case "Lamp":
 			if (dto.getClass().equals(DummyActorDTO.class)) {
 				DummyActorDTO dummyDTO = (DummyActorDTO) dto;
-				DummyLampActorVO dummyVO = new DummyLampActorVO();
-				dummyVO.setId(dummyDTO.getId());
-				dummyVO.setName(dummyDTO.getName());
+				DummyLampActorVO dummyVO = new DummyLampActorVO(
+						dummyDTO.getId(),
+						dummyDTO.getName()
+				);
 				return dummyVO;
 			} else {
-				LampActorVO actorVO = new LampActorVO();
-				actorVO.setId(dto.getId());
-				actorVO.setName(dto.getName());
+				LampActorVO actorVO = new LampActorVO(
+						dto.getId(),
+						dto.getName()
+				);
 				return actorVO;
 			}
 			
@@ -32,14 +34,16 @@ public class ActorConverter {
 		case "Thermostat":
 			if (dto.getClass().equals(DummyActorDTO.class)) {
 				DummyActorDTO dummyDTO = (DummyActorDTO) dto;
-				DummyThermostatActorVO dummyVO = new DummyThermostatActorVO();
-				dummyVO.setId(dummyDTO.getId());
-				dummyVO.setName(dummyDTO.getName());
+				DummyThermostatActorVO dummyVO = new DummyThermostatActorVO(
+						dummyDTO.getId(),
+						dummyDTO.getName()
+				);
 				return dummyVO;
 			} else {
-				ThermostatActorVO actorVO = new ThermostatActorVO();
-				actorVO.setId(dto.getId());
-				actorVO.setName(dto.getName());
+				ThermostatActorVO actorVO = new ThermostatActorVO(
+						dto.getId(),
+						dto.getName()
+				);
 				return actorVO;
 			}
 			

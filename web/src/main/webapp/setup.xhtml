@@ -15,8 +15,7 @@
 		            Sensors
 		        </f:facet>
 		        
-		        <p:ajax event="rowEdit" listener="#{setupManager.onRowEdit}" />
-       			<p:ajax event="rowEditCancel" listener="#{setupManager.onRowCancel}" />
+		        <p:ajax event="rowEdit" listener="#{setupManager.onRowEditSensor}" />
 		        
 		        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
 		        <p:column headerText="ID">
@@ -33,7 +32,39 @@
 		               	<f:facet name="output"><h:outputText value="#{sensor.type}" /></f:facet>
 		               	<f:facet name="input">
 							<h:selectOneMenu value="#{sensor.type}" style="width:100%">
-		                    	<f:selectItems value="#{setupManager.sensor_types}" var="man" itemLabel="#{man}" itemValue="#{man}" />
+		                    	<f:selectItems value="#{setupManager.sensorTypes}" var="man" itemLabel="#{man}" itemValue="#{man}" />
+		                   	</h:selectOneMenu>
+						</f:facet>
+		           </p:cellEditor>
+		        </p:column>
+		        <p:column style="width:32px">
+			    	<p:rowEditor />
+			    </p:column>
+		    </p:dataTable>
+		    
+		    <p:dataTable id="actorDT" var="actor" value="#{setupManager.actors}"  editable="true" selection="#{setupManager.selectedActors}" rowKey="#{actor.id}" >
+		        <f:facet name="header">
+		            Actors
+		        </f:facet>
+		        
+		        <p:ajax event="rowEdit" listener="#{setupManager.onRowEditActor}" />
+		        
+		        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+		        <p:column headerText="ID">
+		        	<h:outputText value="#{actor.id}" />
+		        </p:column>
+		        <p:column headerText="Name">
+		            <p:cellEditor>
+		               <f:facet name="output"><h:outputText value="#{actor.name}" /></f:facet>
+		               <f:facet name="input"><p:inputText id="modelInput" value="#{actor.name}" style="width:100%"/></f:facet>
+		           </p:cellEditor>
+		        </p:column>
+		        <p:column headerText="Type">
+		            <p:cellEditor>
+		               	<f:facet name="output"><h:outputText value="#{actor.type}" /></f:facet>
+		               	<f:facet name="input">
+							<h:selectOneMenu value="#{actor.type}" style="width:100%">
+		                    	<f:selectItems value="#{setupManager.actorTypes}" var="man" itemLabel="#{man}" itemValue="#{man}" />
 		                   	</h:selectOneMenu>
 						</f:facet>
 		           </p:cellEditor>
@@ -43,26 +74,36 @@
 			    </p:column>
 		    </p:dataTable>
 			
-			<p:dialog header="#{setupManager.dlgHeader}" widgetVar="dlg" modal="true"
+			<p:dialog header="#{setupManager.sensorDlgHeader}" widgetVar="dlgSensor" modal="true"
 				height="300" width="220" resizable="false">
 				<h:outputText value="Name: " />
-				<p:inputText value="#{setupManager.name}"/>
+				<p:inputText value="#{setupManager.sensorName}"/>
 				<br/>
 				
 				<h:outputText value="Min: " />
-				<p:inputText value="#{setupManager.minValue}"/>
+				<p:inputText value="#{setupManager.sensorMinValue}"/>
 				<br/>
 	
 				<h:outputText value="Max: " />
-				<p:inputText value="#{setupManager.maxValue}"/>
+				<p:inputText value="#{setupManager.sensorMaxValue}"/>
 				<br/>
 				
 				<h:outputText value="Interval:  " />
-				<p:inputText value="#{setupManager.interval}"/>
+				<p:inputText value="#{setupManager.sensorInterval}"/>
 				<br/>
 	
 				<p:commandButton value="Create"
 					actionListener="#{setupManager.createSensor}" update="sensorDT"/>
+			</p:dialog>
+			
+			<p:dialog header="#{setupManager.actorDlgHeader}" widgetVar="dlgActor" modal="true"
+				height="300" width="220" resizable="false">
+				<h:outputText value="Name: " />
+				<p:inputText value="#{setupManager.actorName}"/>
+				<br/>
+	
+				<p:commandButton value="Create"
+					actionListener="#{setupManager.createActor}" update="actorDT"/>
 			</p:dialog>
 	
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

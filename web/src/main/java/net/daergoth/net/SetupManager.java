@@ -14,7 +14,12 @@ import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 
+import net.daergoth.serviceapi.ActorContainerLocal;
 import net.daergoth.serviceapi.SensorContainerLocal;
+import net.daergoth.serviceapi.actors.ActorType;
+import net.daergoth.serviceapi.actors.ActorVO;
+import net.daergoth.serviceapi.actors.dummy.DummyLampActorVO;
+import net.daergoth.serviceapi.actors.dummy.DummyThermostatActorVO;
 import net.daergoth.serviceapi.sensors.SensorType;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummyLightSensorVO;
@@ -27,80 +32,95 @@ public class SetupManager {
 	@EJB
 	SensorContainerLocal sensorContainer;
 	
-	private DefaultMenuModel menuBar;
-	private String dlgHeader = "Header"; 
+	@EJB
+	ActorContainerLocal actorContainer;
 	
-	private String minValue;
-	private String maxValue;
-	private String name;
-	private String interval;
-	private SensorType selectedType;
+	private DefaultMenuModel menuBar;
+	
+	private String sensorDlgHeader = "Header";
+	
+	private String actorDlgHeader = "Header";
+	
+	private String sensorMinValue;
+	private String sensorMaxValue;
+	private String sensorInterval;
+	private String sensorName;
+	private SensorType selectedSensorType;
+	
+	private String actorName;
+	private ActorType selectedActorType; 
 
 	private List<SensorVO> sensors;
 	private List<SensorVO> selectedSensors;
 	private SensorType[] sensorTypes = SensorType.values();
+	
+	private List<ActorVO> actors;
+	private List<ActorVO> selectedActors;
+	private ActorType[] actorTypes = ActorType.values();
 
 	@PostConstruct
 	public void init() {
 		setSensors(sensorContainer.getSensors());
+		setActors(actorContainer.getActors());
 		
 		menuBar = new DefaultMenuModel();
 		
+		// Creating "New sensor" submenu
 		DefaultSubMenu sensorSubMenu = new DefaultSubMenu("New sensor");
 		sensorSubMenu.setIcon("fa fa-plus");
 		for (SensorType type : sensorTypes) {
 			DefaultMenuItem item = new DefaultMenuItem(type.toString());
-			item.setCommand("#{setupManager.setSensorType('" + type.toString() + "')}");
+			item.setCommand("#{setupManager.setSensorCreateType('" + type.toString() + "')}");
 			sensorSubMenu.addElement(item);
 		}
 		menuBar.addElement(sensorSubMenu);
 		
+		// Creating "New actor" submenu
 		DefaultSubMenu actorSubMenu = new DefaultSubMenu("New actor");
 		actorSubMenu.setIcon("fa fa-plus");
-		/*
-		for (SensorTypes type : SensorTypes.values()) {
+		
+		for (ActorType type : actorTypes) {
 			DefaultMenuItem item = new DefaultMenuItem(type.toString());
+			item.setCommand("#{setupManager.setActorCreateType('" + type.toString() + "')}");
 			actorSubMenu.addElement(item);
 		}
-		*/
-		actorSubMenu.addElement(new DefaultMenuItem("TODO"));
 		menuBar.addElement(actorSubMenu);
 		
 		DefaultMenuItem deleteItem = new DefaultMenuItem("Delete");
 		deleteItem.setCommand("#{setupManager.delete}");
 		deleteItem.setIcon("fa fa-eraser");
-		deleteItem.setUpdate("sensorDT");
+		deleteItem.setUpdate("sensorDT, actorDT");
 		menuBar.addElement(deleteItem);
 	}
 	
-	public void onRowEdit(RowEditEvent event) {
+	public void onRowEditSensor(RowEditEvent event) {
 		sensorContainer.updateSensor((SensorVO) event.getObject());
     }
-     
-    public void onRowCancel(RowEditEvent event) {
-        
+    
+	public void onRowEditActor(RowEditEvent event) {
+		actorContainer.updateActor((ActorVO) event.getObject());
     }
     
     public void createSensor() {
-		switch (selectedType) {
+		switch (selectedSensorType) {
 		case Light:
 			sensorContainer.addSensor(
 					new DummyLightSensorVO(
 							sensorContainer.getNewId(), 
-							"Dummy" + name, 
-							Double.parseDouble(minValue), 
-							Double.parseDouble(maxValue),
-							Long.parseLong(interval))
+							"Dummy" + sensorName, 
+							Double.parseDouble(sensorMinValue), 
+							Double.parseDouble(sensorMaxValue),
+							Long.parseLong(sensorInterval))
 			);
 			break;
 		case Temperature:
 			sensorContainer.addSensor(
 					new DummyTemperatureSensorVO(
 							sensorContainer.getNewId(), 
-							"Dummy" + name, 
-							Double.parseDouble(minValue), 
-							Double.parseDouble(maxValue),
-							Long.parseLong(interval))
+							"Dummy" + sensorName, 
+							Double.parseDouble(sensorMinValue), 
+							Double.parseDouble(sensorMaxValue),
+							Long.parseLong(sensorInterval))
 			);
 			break;
 		default:
@@ -110,19 +130,44 @@ public class SetupManager {
 		
 		setSensors(sensorContainer.getSensors());
 		RequestContext context = RequestContext.getCurrentInstance();
-		context.execute("PF('dlg').hide();");
+		context.execute("PF('dlgSensor').hide();");
     }
     
-    public void setSensorType(String t) {
-    	for (SensorType type : sensorTypes) {
-			if (t.equals(type.toString())) {
-				selectedType = type;
-				setDlgHeader(type.toString());
-				RequestContext context = RequestContext.getCurrentInstance();
-				context.execute("PF('dlg').show();");
-				break;
-			}
-		}
+    public void createActor() {
+    	switch (selectedActorType) {
+		case Lamp:
+			actorContainer.addActor(new DummyLampActorVO(
+					actorContainer.getNewId(),
+					"Dummy" + actorName)
+			);
+			break;
+		case Thermostat:
+			actorContainer.addActor(new DummyThermostatActorVO(
+					actorContainer.getNewId(),
+					"Dummy" + actorName)
+			);
+			break;
+		default:
+			
+			break;
+    	}
+    	setActors(actorContainer.getActors());
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('dlgActor').hide();");
+    }
+    
+    public void setSensorCreateType(String t) {
+    	selectedSensorType = SensorType.valueOf(t);
+    	sensorDlgHeader = "New " + selectedSensorType.toString() + " sensor";
+    	RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('dlgSensor').show();");
+    }
+    
+    public void setActorCreateType(String t) {
+    	selectedActorType = ActorType.valueOf(t);
+    	actorDlgHeader = "New " + selectedActorType.toString() + " actor";
+    	RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('dlgActor').show();");
     }
     
 	public void delete() {
@@ -132,6 +177,12 @@ public class SetupManager {
 		}
 		sensorContainer.deleteSensors(ids);
 		setSensors(sensorContainer.getSensors());
+		ids.clear();
+		for (ActorVO selected : selectedActors) {
+			ids.add(selected.getId());
+		}
+		actorContainer.deleteActors(ids);
+		setActors(actorContainer.getActors());
 	}
 
 	public List<SensorVO> getSensors() {
@@ -150,46 +201,6 @@ public class SetupManager {
 		this.selectedSensors = selected_sensors;
 	}
 
-	public SensorType[] getSensor_types() {
-		return sensorTypes;
-	}
-
-	public void setSensor_types(SensorType[] sensor_types) {
-		this.sensorTypes = sensor_types;
-	}
-
-	public String getMinValue() {
-		return minValue;
-	}
-
-	public void setMinValue(String minValue) {
-		this.minValue = minValue;
-	}
-
-	public String getMaxValue() {
-		return maxValue;
-	}
-
-	public void setMaxValue(String maxValue) {
-		this.maxValue = maxValue;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getInterval() {
-		return interval;
-	}
-
-	public void setInterval(String interval) {
-		this.interval = interval;
-	}
-
 	public DefaultMenuModel getMenuBar() {
 		return menuBar;
 	}
@@ -198,22 +209,108 @@ public class SetupManager {
 		this.menuBar = menuBar;
 	}
 
-	public SensorType getSelectedType() {
-		return selectedType;
+	public String getSensorDlgHeader() {
+		return sensorDlgHeader;
 	}
 
-	public void setSelectedType(SensorType selectedType) {
-		this.selectedType = selectedType;
+	public void setSensorDlgHeader(String sensorDlgHeader) {
+		this.sensorDlgHeader = sensorDlgHeader;
 	}
 
-	public String getDlgHeader() {
-		return dlgHeader;
+	public String getActorDlgHeader() {
+		return actorDlgHeader;
 	}
 
-	public void setDlgHeader(String dlgHeader) {
-		this.dlgHeader = dlgHeader;
+	public void setActorDlgHeader(String actorDlgHeader) {
+		this.actorDlgHeader = actorDlgHeader;
 	}
 
+	public String getSensorMinValue() {
+		return sensorMinValue;
+	}
 
+	public void setSensorMinValue(String sensorMinValue) {
+		this.sensorMinValue = sensorMinValue;
+	}
 
+	public String getSensorMaxValue() {
+		return sensorMaxValue;
+	}
+
+	public void setSensorMaxValue(String sensorMaxValue) {
+		this.sensorMaxValue = sensorMaxValue;
+	}
+
+	public String getSensorInterval() {
+		return sensorInterval;
+	}
+
+	public void setSensorInterval(String sensorInterval) {
+		this.sensorInterval = sensorInterval;
+	}
+
+	public String getSensorName() {
+		return sensorName;
+	}
+
+	public void setSensorName(String sensorName) {
+		this.sensorName = sensorName;
+	}
+
+	public SensorType getSelectedSensorType() {
+		return selectedSensorType;
+	}
+
+	public void setSelectedSensorType(SensorType selectedSensorType) {
+		this.selectedSensorType = selectedSensorType;
+	}
+
+	public String getActorName() {
+		return actorName;
+	}
+
+	public SensorType[] getSensorTypes() {
+		return sensorTypes;
+	}
+
+	public void setSensorTypes(SensorType[] sensorTypes) {
+		this.sensorTypes = sensorTypes;
+	}
+
+	public ActorType[] getActorTypes() {
+		return actorTypes;
+	}
+
+	public void setActorTypes(ActorType[] actorTypes) {
+		this.actorTypes = actorTypes;
+	}
+
+	public void setActorName(String actorName) {
+		this.actorName = actorName;
+	}
+
+	public ActorType getSelectedActorType() {
+		return selectedActorType;
+	}
+
+	public void setSelectedActorType(ActorType selectedActorType) {
+		this.selectedActorType = selectedActorType;
+	}
+	
+	public List<ActorVO> getActors() {
+		return actors;
+	}
+
+	public void setActors(List<ActorVO> actors) {
+		this.actors = actors;
+	}
+
+	public List<ActorVO> getSelectedActors() {
+		return selectedActors;
+	}
+
+	public void setSelectedActors(List<ActorVO> selectedActors) {
+		this.selectedActors = selectedActors;
+	}
+	
 }

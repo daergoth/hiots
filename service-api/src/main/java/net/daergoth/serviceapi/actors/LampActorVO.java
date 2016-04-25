@@ -10,6 +10,11 @@ public class LampActorVO extends ActorVO {
 		this.Type = ActorType.Lamp;
 	}
 
+	public LampActorVO(long id, String name) {
+		super(id, name);
+		this.Type = ActorType.Lamp;
+	}
+
 	/**
 	 * 
 	 */
