@@ -49,5 +49,7 @@ public abstract class ActorVO implements Serializable{
 		Type = type;
 	}
 	
-	
+	public void setType(String type) {
+		Type = ActorType.valueOf(type);
+	}
 }

@@ -8,16 +8,12 @@ import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 
-import net.daergoth.coreapi.DummySensorDTO;
-import net.daergoth.coreapi.SensorDTO;
-import net.daergoth.coreapi.SensorDaoLocal;
+import net.daergoth.coreapi.sensor.SensorDTO;
+import net.daergoth.coreapi.sensor.SensorDaoLocal;
 import net.daergoth.serviceapi.SensorContainerLocal;
-import net.daergoth.serviceapi.sensors.LightSensorVO;
+import net.daergoth.serviceapi.sensors.SensorConvertException;
 import net.daergoth.serviceapi.sensors.SensorVO;
-import net.daergoth.serviceapi.sensors.TemperatureSensorVO;
-import net.daergoth.serviceapi.sensors.dummy.DummyLightSensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
-import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
 
 @Stateless
 @Local(SensorContainerLocal.class)
@@ -33,9 +29,18 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 	@Override
 	public List<SensorVO> getSensors() {
 		if (changed) {
-			List<SensorDTO> dto_list = sensorDao.getSensors();
-			List<SensorVO> vo_list = new ArrayList<>();
+			List<SensorDTO> dtoList = sensorDao.getSensors();
+			List<SensorVO> voList = new ArrayList<>();
 			
+			for (SensorDTO sensorDTO : dtoList) {
+				try {
+					voList.add(SensorConverter.toVO(sensorDTO));
+				} catch (SensorConvertException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			/*
 			for (SensorDTO sensorDTO : dto_list) {
 				switch (sensorDTO.getType()) {
 				case "Temperature":
@@ -69,8 +74,9 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 					break;
 				}
 			}
+			*/
 			
-			sensors = vo_list;
+			sensors = voList;
 			
 			changed = false;
 		}
@@ -97,6 +103,8 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 	public void addSensor(SensorVO s) {
 		changed = true;
 		
+		sensorDao.addSensor(SensorConverter.toDTO(s));
+		/*
 		if (s.getClass().getSuperclass().equals(DummySensorVO.class)) {
 			DummySensorVO ds = (DummySensorVO) s;
 			
@@ -115,12 +123,15 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 			newSensDTO.setType(s.getType().toString());
 			sensorDao.addSensor(newSensDTO);
 		}
+		*/
 	}
 
 	@Override
 	public void updateSensor(SensorVO s) {
 		changed = true;
 		
+		sensorDao.updateSensor(SensorConverter.toDTO(s));
+		/*
 		if (s.getClass().getSuperclass().equals(DummySensorVO.class)) {
 			DummySensorVO ds = (DummySensorVO) s;
 			
@@ -139,6 +150,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 			newSensDTO.setType(s.getType().toString());
 			sensorDao.updateSensor(newSensDTO);
 		}
+		*/
 	}
 
 	@Override

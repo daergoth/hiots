@@ -1,4 +1,4 @@
-package net.daergoth.coreapi;
+package net.daergoth.coreapi.sensor;
 
 import java.io.Serializable;
 
@@ -9,11 +9,11 @@ public class SensorDTO implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	long Id;
+	private long Id;
 	
-	String Name;
+	private String Name;
 	
-	String Type;
+	private String Type;
 
 	public long getId() {
 		return Id;

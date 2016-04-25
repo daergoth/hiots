@@ -7,8 +7,10 @@
 		transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>HiotsRes</jta-data-source>
-		<class>net.daergoth.core.Sensor</class>
-		<class>net.daergoth.core.DummySensorInformation</class>
+		<class>net.daergoth.core.sensor.Sensor</class>
+		<class>net.daergoth.core.sensor.DummySensorInformation</class>
+		<class>net.daergoth.core.actor.Actor</class>
+		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.show_sql" value="true" />

@@ -1,5 +1,6 @@
 package net.daergoth.serviceapi.actors.dummy;
 
+import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 import net.daergoth.serviceapi.actors.states.ActorState;
 import net.daergoth.serviceapi.actors.states.ThermostatActorState;
@@ -10,6 +11,11 @@ public class DummyThermostatActorVO extends DummyActorVO{
 	 * 
 	 */
 	private static final long serialVersionUID = 2538590725135055427L;
+	
+	public DummyThermostatActorVO() {
+		super();
+		this.Type = ActorType.Thermostat;
+	}
 
 	@Override
 	public void setState(ActorState state) throws InvalidActorStateTypeException {

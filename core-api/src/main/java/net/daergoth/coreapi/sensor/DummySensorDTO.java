@@ -1,12 +1,12 @@
-package net.daergoth.coreapi;
+package net.daergoth.coreapi.sensor;
 
 public class DummySensorDTO extends SensorDTO {
-
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = -4339087405771028487L;
+
 	double Max;
 	
 	double Min;

@@ -5,6 +5,11 @@ import net.daergoth.serviceapi.actors.states.LampActorState;
 
 public class LampActorVO extends ActorVO {
 
+	public LampActorVO() {
+		super();
+		this.Type = ActorType.Lamp;
+	}
+
 	/**
 	 * 
 	 */

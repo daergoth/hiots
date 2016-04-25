@@ -1,31 +1,44 @@
-package net.daergoth.core;
+package net.daergoth.core.sensor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.daergoth.coreapi.DummySensorDTO;
-import net.daergoth.coreapi.SensorDTO;
+import net.daergoth.coreapi.sensor.DummySensorDTO;
+import net.daergoth.coreapi.sensor.SensorDTO;
 
 public class SensorConverter {
 	
-	public static SensorDTO toSensorDTO(Sensor s) {
-		SensorDTO dto = new SensorDTO();
-		dto.setId(s.getId());
-		dto.setName(s.getName());
-		dto.setType(s.getType());
-		return dto;
+	public static SensorDTO toDTO(Sensor s) {
+		if (s.getDummyInfo() != null) {
+			DummySensorDTO dto = new DummySensorDTO();
+			dto.setId(s.getId());
+			dto.setName(s.getName());
+			dto.setType(s.getType());
+			dto.setMin(s.getDummyInfo().getMinData());
+			dto.setMax(s.getDummyInfo().getMaxData());
+			dto.setInterval(s.getDummyInfo().getRefreshInterval());
+			return dto;
+		} else {
+			SensorDTO dto = new SensorDTO();
+			dto.setId(s.getId());
+			dto.setName(s.getName());
+			dto.setType(s.getType());
+			return dto;
+		}
+		
 	}
 	
-	public static List<SensorDTO> toSensorDTOs(List<Sensor> list) {
+	public static List<SensorDTO> toDTOs(List<Sensor> list) {
 		List<SensorDTO> dto_list = new ArrayList<>();
 		
 		for (Sensor entity : list) {
-			dto_list.add(SensorConverter.toSensorDTO(entity));
+			dto_list.add(SensorConverter.toDTO(entity));
 		}
 		
 		return dto_list;
 	}
 	
+	/*
 	public static DummySensorDTO toDummyDTO(Sensor s) {
 		DummySensorDTO dto = new DummySensorDTO();
 		dto.setId(s.getId());
@@ -37,6 +50,7 @@ public class SensorConverter {
 		return dto;
 	}
 	
+	
 	public static List<DummySensorDTO> toDummySensorDTOs(List<Sensor> list) {
 		List<DummySensorDTO> dto_list = new ArrayList<>();
 		
@@ -46,10 +60,10 @@ public class SensorConverter {
 		
 		return dto_list;
 	}
+	*/
 	
+	/*
 	public static Sensor toEntity(DummySensorDTO s) {
-		
-		
 		Sensor e = new Sensor();
 		e.setId(s.getId());
 		e.setName(s.getName());
@@ -64,19 +78,9 @@ public class SensorConverter {
 		
 		return e;
 	}
-	
-	public static List<Sensor> toEntities(List<DummySensorDTO> list) {
-		List<Sensor> entities = new ArrayList<>();
-		
-		for (DummySensorDTO dto : list) {
-			entities.add(SensorConverter.toEntity(dto));
-		}
-		
-		return entities;
-	}
+	*/
 	
 	public static Sensor toEntity(SensorDTO s) {
-		
 		if (s.getClass().equals(DummySensorDTO.class)) {
 			DummySensorDTO ds = (DummySensorDTO) s;
 			
@@ -101,11 +105,8 @@ public class SensorConverter {
 			
 			return e;
 		}
-		
-		
 	}
 	
-	/*
 	public static List<Sensor> toEntities(List<SensorDTO> list) {
 		List<Sensor> entities = new ArrayList<>();
 		
@@ -115,5 +116,5 @@ public class SensorConverter {
 		
 		return entities;
 	}
-	*/
+	
 }

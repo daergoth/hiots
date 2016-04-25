@@ -1,4 +1,4 @@
-package net.daergoth.core;
+package net.daergoth.core.sensor;
 
 import java.io.Serializable;
 
