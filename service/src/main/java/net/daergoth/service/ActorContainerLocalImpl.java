@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 
 import net.daergoth.coreapi.actor.ActorDTO;
 import net.daergoth.coreapi.actor.ActorDaoLocal;
@@ -15,7 +15,7 @@ import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyActorVO;
 
-@Stateless
+@Singleton
 @Local(ActorContainerLocal.class)
 public class ActorContainerLocalImpl implements ActorContainerLocal{
 	

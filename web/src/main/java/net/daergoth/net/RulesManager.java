@@ -6,7 +6,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import net.daergoth.serviceapi.DataChangeHandler;
 import net.daergoth.serviceapi.DataChangeListenerLocal;
@@ -23,44 +22,29 @@ public class RulesManager {
 	
 	@EJB
 	DataChangeListenerLocal changeListener;
-	
-	private int i = 0;
-	
+
 	private List<SensorVO> sensors;
 	
 	private SensorVO selectedSensor;
 	
 	private String console = "Basic:";
 	
-	private FacesContext c;
-	
 	@PostConstruct
 	public void init() {
 		setSensors(sensorContainer.getSensors());
-		c = FacesContext.getCurrentInstance();
+		
 	}
 	public void listenerFor() {
 		System.out.println("Selected: " + selectedSensor);
 		changeListener.subscribeFor(selectedSensor, new DataChangeHandler() {
-			
-			FacesContext ctx;
 
 			@Override
 			public void onChange(SensorData newData) {
 				System.out.println("CHANGED!");
-				setConsole("change:" + i++);
-				if (ctx != null) 
-					ctx.getPartialViewContext().getRenderIds().add("form:label");
-			}
-
-			@Override
-			public DataChangeHandler setFacesContext(FacesContext ctx) {
-				this.ctx = ctx;
-				return this;
 			}
 			
 			
-		}.setFacesContext(c));
+		});
 		System.out.println("listener cerated.");
 	}
 

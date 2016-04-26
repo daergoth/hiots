@@ -10,6 +10,8 @@
 		<class>net.daergoth.core.sensor.Sensor</class>
 		<class>net.daergoth.core.sensor.DummySensorInformation</class>
 		<class>net.daergoth.core.actor.Actor</class>
+		<class>net.daergoth.core.sensor.SensorData</class>
+		<class>net.daergoth.core.actor.ActorState</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>

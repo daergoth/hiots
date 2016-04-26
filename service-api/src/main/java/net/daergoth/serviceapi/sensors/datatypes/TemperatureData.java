@@ -6,31 +6,14 @@ import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 
 public class TemperatureData implements SensorData {
 	
-	private enum TemperatureType {
-		CELSIUS,
-		FAHRENHEIT,
-		KELVIN
-	}
-	
 	private double temperature = 0;
-	
-	private TemperatureType tempType = TemperatureType.CELSIUS; 
 	
 	public TemperatureData(double d) {
 		this.temperature = d;
 	}
 
-	public TemperatureData(float temperature, TemperatureType tempType) {
+	public TemperatureData(float temperature) {
 		this.temperature = temperature;
-		this.tempType = tempType;
-	}
-
-	public TemperatureType getTempType() {
-		return tempType;
-	}
-
-	public void setTempType(TemperatureType tempType) {
-		this.tempType = tempType;
 	}
 
 	public double getTemperature() {
@@ -45,17 +28,7 @@ public class TemperatureData implements SensorData {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(new DecimalFormat("###.##").format(temperature));
-		switch (tempType) {
-		case CELSIUS:
-			stringBuilder.append("°C");
-			break;
-		case FAHRENHEIT:
-			stringBuilder.append("°F");
-			break;
-		case KELVIN:
-			stringBuilder.append("K");
-			break;
-		}
+		stringBuilder.append("°C");
 		
 		return stringBuilder.toString();
 	}
