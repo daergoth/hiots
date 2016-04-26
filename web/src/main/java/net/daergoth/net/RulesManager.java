@@ -5,8 +5,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import net.daergoth.serviceapi.DataChangeHandler;
 import net.daergoth.serviceapi.DataChangeListenerLocal;
@@ -19,14 +19,12 @@ import net.daergoth.serviceapi.sensors.datatypes.SensorData;
 public class RulesManager {
 	
 	@EJB
-	@ManagedProperty("#{sensorContainer}")
 	private SensorContainerLocal sensorContainer;
 	
 	@EJB
 	DataChangeListenerLocal changeListener;
 	
-	
-	public int i = 0;
+	private int i = 0;
 	
 	private List<SensorVO> sensors;
 	
@@ -34,24 +32,35 @@ public class RulesManager {
 	
 	private String console = "Basic:";
 	
+	private FacesContext c;
+	
 	@PostConstruct
 	public void init() {
-		setSensors(getSensorContainer().getSensors());
+		setSensors(sensorContainer.getSensors());
+		c = FacesContext.getCurrentInstance();
 	}
-	
 	public void listenerFor() {
 		System.out.println("Selected: " + selectedSensor);
-		//SensorVO s = sensorContainer.getSensors().stream().filter(se -> se.getId() == Long.parseLong(selectedSensor)).findFirst().get();
-		SensorVO s = selectedSensor;
-		changeListener.subscribeFor(s, new DataChangeHandler() {
+		changeListener.subscribeFor(selectedSensor, new DataChangeHandler() {
+			
+			FacesContext ctx;
 
 			@Override
 			public void onChange(SensorData newData) {
+				System.out.println("CHANGED!");
 				setConsole("change:" + i++);
+				if (ctx != null) 
+					ctx.getPartialViewContext().getRenderIds().add("form:label");
+			}
+
+			@Override
+			public DataChangeHandler setFacesContext(FacesContext ctx) {
+				this.ctx = ctx;
+				return this;
 			}
 			
 			
-		});
+		}.setFacesContext(c));
 		System.out.println("listener cerated.");
 	}
 

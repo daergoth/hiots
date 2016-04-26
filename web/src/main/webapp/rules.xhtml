@@ -7,11 +7,12 @@
 	xmlns:p="http://primefaces.org/ui" template="/template/base.xhtml">
 	<ui:define name="content">
 	
-		<h:form>
+		<h:form id="form">
 		
 			<p:outputLabel id="label" for="console" value="#{rulesManager.console}" />
-	        <p:selectOneMenu id="console" value="#{rulesManager.selectedSensor}" style="width:125px" var="s" converter="ruleConverter">
+	        <p:selectOneMenu id="console" value="#{rulesManager.selectedSensor}" style="width:125px" var="s" >
 	            <f:selectItems value="#{rulesManager.sensors}" var="selectedSensor" itemLabel="#{selectedSensor.name}" itemValue="#{selectedSensor}"/>
+	            <f:converter binding="#{ruleConverter}"/>
 	            
 	            <p:column>
 	                <h:outputText value="#{s.name}" />
@@ -19,7 +20,7 @@
 	            
 	        </p:selectOneMenu>
 	        
-	        <p:commandButton value="create" id="ref" actionListener="#{rulesManager.listenerFor}" icon="fa fa-refresh" update="label"/>
+	        <p:commandButton value="create" id="ref" actionListener="#{rulesManager.listenerFor}" icon="fa fa-refresh" update="form:label"/>
 		</h:form>
 		
 	</ui:define>
