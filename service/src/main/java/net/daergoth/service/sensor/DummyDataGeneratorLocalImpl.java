@@ -1,4 +1,4 @@
-package net.daergoth.service;
+package net.daergoth.service.sensor;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerConfig;
 
-import net.daergoth.serviceapi.DummyDataGeneratorLocal;
-import net.daergoth.serviceapi.SensorContainerLocal;
+import net.daergoth.serviceapi.sensors.DummyDataGeneratorLocal;
+import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 
 @Singleton

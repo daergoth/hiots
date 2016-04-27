@@ -1,4 +1,4 @@
-package net.daergoth.serviceapi;
+package net.daergoth.serviceapi.sensors;
 
 import java.util.List;
 

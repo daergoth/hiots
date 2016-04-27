@@ -4,11 +4,11 @@ import java.text.DecimalFormat;
 
 import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 
-public class LightData implements SensorData {
+public class LightDataVO implements SensorDataVO {
 	
 	private double lightness = 0;
 
-	public LightData(double lightness) {
+	public LightDataVO(double lightness) {
 		super();
 		this.lightness = lightness;
 	}
@@ -30,9 +30,9 @@ public class LightData implements SensorData {
 	}
 
 	@Override
-	public int compareTo(SensorData other) throws InvalidSensorDataTypeException {
-		if (other.getClass().equals(LightData.class)) {
-			LightData o = (LightData) other;
+	public int compareTo(SensorDataVO other) throws InvalidSensorDataTypeException {
+		if (other.getClass().equals(LightDataVO.class)) {
+			LightDataVO o = (LightDataVO) other;
 			return Double.compare(getLightness(), o.getLightness());
 		} else {
 			throw new InvalidSensorDataTypeException("LightData expected!");

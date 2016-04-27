@@ -19,7 +19,7 @@ import net.daergoth.serviceapi.DataChangeHandler;
 import net.daergoth.serviceapi.DataChangeListenerLocal;
 import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 import net.daergoth.serviceapi.sensors.SensorVO;
-import net.daergoth.serviceapi.sensors.datatypes.SensorData;
+import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 
 @Singleton
 @Startup
@@ -28,7 +28,7 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	
 	HashMap<SensorVO, ArrayList<DataChangeHandler> > subs = new HashMap<>();
 	
-	HashMap<Long, SensorData> pastData = new HashMap<>();
+	HashMap<Long, SensorDataVO> pastData = new HashMap<>();
 	
 	@Resource
 	private SessionContext context;
@@ -58,8 +58,8 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	public void checkForChange(Timer timer) {
 		
 		for (Map.Entry<SensorVO, ArrayList<DataChangeHandler>> entry : subs.entrySet()) {
-			SensorData current = entry.getKey().getData();
-			SensorData past = pastData.get(entry.getKey().getId());
+			SensorDataVO current = entry.getKey().getData();
+			SensorDataVO past = pastData.get(entry.getKey().getId());
 			
 			if (past != null && current != null) {
 				try {

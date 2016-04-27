@@ -4,16 +4,12 @@ import java.text.DecimalFormat;
 
 import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 
-public class TemperatureData implements SensorData {
+public class TemperatureDataVO implements SensorDataVO {
 	
 	private double temperature = 0;
 	
-	public TemperatureData(double d) {
+	public TemperatureDataVO(double d) {
 		this.temperature = d;
-	}
-
-	public TemperatureData(float temperature) {
-		this.temperature = temperature;
 	}
 
 	public double getTemperature() {
@@ -34,9 +30,9 @@ public class TemperatureData implements SensorData {
 	}
 
 	@Override
-	public int compareTo(SensorData other) throws InvalidSensorDataTypeException {
-		if (other.getClass().equals(TemperatureData.class)) {
-			TemperatureData o = (TemperatureData) other;
+	public int compareTo(SensorDataVO other) throws InvalidSensorDataTypeException {
+		if (other.getClass().equals(TemperatureDataVO.class)) {
+			TemperatureDataVO o = (TemperatureDataVO) other;
 			return Double.compare(getTemperature(), o.getTemperature());
 		} else {
 			throw new InvalidSensorDataTypeException("TemperatureData expected!");

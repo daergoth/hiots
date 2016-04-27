@@ -1,9 +1,9 @@
 package net.daergoth.serviceapi;
 
-import net.daergoth.serviceapi.sensors.datatypes.SensorData;
+import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 
 public interface DataChangeHandler {
 	
-	public void onChange(SensorData newData);
+	public void onChange(SensorDataVO newData);
 	
 }

@@ -9,9 +9,9 @@ import javax.faces.bean.ViewScoped;
 
 import net.daergoth.serviceapi.DataChangeHandler;
 import net.daergoth.serviceapi.DataChangeListenerLocal;
-import net.daergoth.serviceapi.SensorContainerLocal;
+import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorVO;
-import net.daergoth.serviceapi.sensors.datatypes.SensorData;
+import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 
 @ManagedBean(name = "rulesManager")
 @ViewScoped
@@ -39,7 +39,7 @@ public class RulesManager {
 		changeListener.subscribeFor(selectedSensor, new DataChangeHandler() {
 
 			@Override
-			public void onChange(SensorData newData) {
+			public void onChange(SensorDataVO newData) {
 				System.out.println("CHANGED!");
 			}
 			

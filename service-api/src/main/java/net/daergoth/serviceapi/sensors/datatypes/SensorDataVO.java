@@ -2,9 +2,9 @@ package net.daergoth.serviceapi.sensors.datatypes;
 
 import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 
-public interface SensorData {
+public interface SensorDataVO {
 	
-	public int compareTo(SensorData other) throws InvalidSensorDataTypeException;
+	public int compareTo(SensorDataVO other) throws InvalidSensorDataTypeException;
 	
 	@Override
 	public String toString();

@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 import net.daergoth.core.sensor.Sensor;
 import net.daergoth.core.sensor.SensorData;
-import net.daergoth.coreapi.rule.ConditionType;
+import net.daergoth.coreapi.rule.ConditionTypeCore;
 
 @Entity
 @Table(name = "conditions")
@@ -30,7 +30,7 @@ public class Condition implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private ConditionType type;
+	private ConditionTypeCore type;
 	
 	@Column
 	private Long sensorId;
@@ -54,11 +54,11 @@ public class Condition implements Serializable {
 		this.id = id;
 	}
 
-	public ConditionType getType() {
+	public ConditionTypeCore getType() {
 		return type;
 	}
 
-	public void setType(ConditionType type) {
+	public void setType(ConditionTypeCore type) {
 		this.type = type;
 	}
 

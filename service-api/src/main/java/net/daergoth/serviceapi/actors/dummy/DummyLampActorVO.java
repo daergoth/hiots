@@ -2,8 +2,8 @@ package net.daergoth.serviceapi.actors.dummy;
 
 import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
-import net.daergoth.serviceapi.actors.states.ActorState;
-import net.daergoth.serviceapi.actors.states.LampActorState;
+import net.daergoth.serviceapi.actors.states.ActorStateVO;
+import net.daergoth.serviceapi.actors.states.LampActorStateVO;
 
 public class DummyLampActorVO extends DummyActorVO {
 
@@ -23,8 +23,8 @@ public class DummyLampActorVO extends DummyActorVO {
 	}
 
 	@Override
-	public void setState(ActorState state) throws InvalidActorStateTypeException {
-		if (state.getClass().equals(LampActorState.class)) {
+	public void setState(ActorStateVO state) throws InvalidActorStateTypeException {
+		if (state.getClass().equals(LampActorStateVO.class)) {
 			this.State = state;
 		} else {
 			throw new InvalidActorStateTypeException("LampActorState expected!");

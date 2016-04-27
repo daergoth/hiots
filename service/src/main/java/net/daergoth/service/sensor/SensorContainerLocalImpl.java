@@ -1,4 +1,4 @@
-package net.daergoth.service;
+package net.daergoth.service.sensor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import javax.ejb.Singleton;
 
 import net.daergoth.coreapi.sensor.SensorDTO;
 import net.daergoth.coreapi.sensor.SensorDaoLocal;
-import net.daergoth.serviceapi.SensorContainerLocal;
+import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorConvertException;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;

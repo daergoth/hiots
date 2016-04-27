@@ -1,8 +1,7 @@
-package net.daergoth.serviceapi;
+package net.daergoth.serviceapi.actors;
 
 import java.util.List;
 
-import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyActorVO;
 
 public interface ActorContainerLocal {

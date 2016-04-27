@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import net.daergoth.serviceapi.SensorContainerLocal;
+import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorVO;
 
 @ManagedBean(name = "ruleConverter")

@@ -1,4 +1,4 @@
-package net.daergoth.service;
+package net.daergoth.service.actor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import javax.ejb.Singleton;
 
 import net.daergoth.coreapi.actor.ActorDTO;
 import net.daergoth.coreapi.actor.ActorDaoLocal;
-import net.daergoth.serviceapi.ActorContainerLocal;
+import net.daergoth.serviceapi.actors.ActorContainerLocal;
 import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyActorVO;
@@ -40,40 +40,6 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 				}
 			}
 			
-			/*
-			for (ActorDTO actorDTO: dtoList) {
-				switch(actorDTO.getType()) {
-				case "Lamp":
-					if (actorDTO.getClass().equals(DummyActorDTO.class)) {
-						DummyActorDTO dummyDTO = (DummyActorDTO) actorDTO;
-						DummyLampActorVO dummyVO = new DummyLampActorVO();
-						dummyVO.setId(dummyDTO.getId());
-						dummyVO.setName(dummyDTO.getName());
-						voList.add(dummyVO);
-					} else {
-						LampActorVO actorVO = new LampActorVO();
-						actorVO.setId(actorDTO.getId());
-						actorVO.setName(actorDTO.getName());
-						voList.add(actorVO);
-					}
-					break;
-				case "Thermostat":
-					if (actorDTO.getClass().equals(DummyActorDTO.class)) {
-						DummyActorDTO dummyDTO = (DummyActorDTO) actorDTO;
-						DummyThermostatActorVO dummyVO = new DummyThermostatActorVO();
-						dummyVO.setId(dummyDTO.getId());
-						dummyVO.setName(dummyDTO.getName());
-						voList.add(dummyVO);
-					} else {
-						ThermostatActorVO actorVO = new ThermostatActorVO();
-						actorVO.setId(actorDTO.getId());
-						actorVO.setName(actorDTO.getName());
-						voList.add(actorVO);
-					}
-					break;
-				}
-			}
-			*/
 			actors = voList;
 			
 			changed = false;
@@ -101,23 +67,6 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 		changed = true;
 		
 		actorDao.addActor(ActorConverter.toDTO(a));
-		/*
-		if (a.getClass().getSuperclass().equals(DummyActorVO.class)) {
-			DummyActorVO da = (DummyActorVO) a;
-			DummyActorDTO newDummyDTO = new DummyActorDTO();
-			newDummyDTO.setId(da.getId());
-			newDummyDTO.setName(da.getName());
-			newDummyDTO.setType(da.getType().toString());
-			actorDao.addActor(newDummyDTO);
-			
-		} else {
-			ActorDTO newActorDTO = new ActorDTO();
-			newActorDTO.setId(a.getId());
-			newActorDTO.setName(a.getName());
-			newActorDTO.setType(a.getType().toString());
-			actorDao.addActor(newActorDTO);
-		}
-		*/
 	}
 
 	@Override

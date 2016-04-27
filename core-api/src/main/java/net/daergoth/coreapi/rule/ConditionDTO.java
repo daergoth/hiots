@@ -14,7 +14,7 @@ public class ConditionDTO implements Serializable {
 	
 	private Long id;
 	
-	private ConditionType conditionType;
+	private ConditionTypeCore conditionType;
 	
 	private SensorDTO sensor;
 	
@@ -28,11 +28,11 @@ public class ConditionDTO implements Serializable {
 		this.id = id;
 	}
 
-	public ConditionType getConditionType() {
+	public ConditionTypeCore getConditionType() {
 		return conditionType;
 	}
 
-	public void setConditionType(ConditionType conditionType) {
+	public void setConditionType(ConditionTypeCore conditionType) {
 		this.conditionType = conditionType;
 	}
 

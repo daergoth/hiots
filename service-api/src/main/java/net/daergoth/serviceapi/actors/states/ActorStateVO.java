@@ -2,9 +2,9 @@ package net.daergoth.serviceapi.actors.states;
 
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 
-public interface ActorState {
+public interface ActorStateVO {
 	
 	public String toString();
 	
-	public int compareTo(ActorState other) throws InvalidActorStateTypeException;
+	public int compareTo(ActorStateVO other) throws InvalidActorStateTypeException;
 }

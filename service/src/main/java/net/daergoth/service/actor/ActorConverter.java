@@ -1,4 +1,4 @@
-package net.daergoth.service;
+package net.daergoth.service.actor;
 
 import net.daergoth.coreapi.actor.ActorDTO;
 import net.daergoth.coreapi.actor.DummyActorDTO;

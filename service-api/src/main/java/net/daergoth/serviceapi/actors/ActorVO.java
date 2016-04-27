@@ -2,7 +2,7 @@ package net.daergoth.serviceapi.actors;
 
 import java.io.Serializable;
 
-import net.daergoth.serviceapi.actors.states.ActorState;
+import net.daergoth.serviceapi.actors.states.ActorStateVO;
 
 public abstract class ActorVO implements Serializable{
 
@@ -15,7 +15,7 @@ public abstract class ActorVO implements Serializable{
 	
 	protected String Name;
 	
-	protected ActorState State;
+	protected ActorStateVO State;
 	
 	protected ActorType Type;
 	
@@ -44,11 +44,11 @@ public abstract class ActorVO implements Serializable{
 		Name = name;
 	}
 
-	public ActorState getState() {
+	public ActorStateVO getState() {
 		return State;
 	}
 
-	public abstract void setState(ActorState state) throws InvalidActorStateTypeException;
+	public abstract void setState(ActorStateVO state) throws InvalidActorStateTypeException;
 
 	public ActorType getType() {
 		return Type;

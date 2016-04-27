@@ -8,7 +8,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import net.daergoth.serviceapi.SensorContainerLocal;
+import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorVO;
 
 @ManagedBean(name = "liveManager")

@@ -1,8 +1,7 @@
-package net.daergoth.serviceapi;
+package net.daergoth.serviceapi.sensors;
 
 import java.util.List;
 
-import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 
 public interface SensorContainerLocal {

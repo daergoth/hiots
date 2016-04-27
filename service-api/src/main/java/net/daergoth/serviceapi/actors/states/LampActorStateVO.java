@@ -2,7 +2,7 @@ package net.daergoth.serviceapi.actors.states;
 
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 
-public class LampActorState implements ActorState {
+public class LampActorStateVO implements ActorStateVO {
 	
 	private boolean status;
 
@@ -15,9 +15,9 @@ public class LampActorState implements ActorState {
 	}
 
 	@Override
-	public int compareTo(ActorState other) throws InvalidActorStateTypeException {
-		if (other.getClass().equals(LampActorState.class)) {
-			LampActorState o = (LampActorState) other;
+	public int compareTo(ActorStateVO other) throws InvalidActorStateTypeException {
+		if (other.getClass().equals(LampActorStateVO.class)) {
+			LampActorStateVO o = (LampActorStateVO) other;
 			return status == o.getStatus() ? 0 : 1;
 		} else {
 			throw new InvalidActorStateTypeException("LampActorState expected!");

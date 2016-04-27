@@ -1,4 +1,4 @@
-package net.daergoth.service;
+package net.daergoth.service.sensor;
 
 import net.daergoth.coreapi.sensor.DummySensorDTO;
 import net.daergoth.coreapi.sensor.SensorDTO;

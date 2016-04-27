@@ -1,7 +1,7 @@
 package net.daergoth.serviceapi.actors;
 
-import net.daergoth.serviceapi.actors.states.ActorState;
-import net.daergoth.serviceapi.actors.states.ThermostatActorState;
+import net.daergoth.serviceapi.actors.states.ActorStateVO;
+import net.daergoth.serviceapi.actors.states.ThermostatActorStateVO;
 
 public class ThermostatActorVO extends ActorVO {
 
@@ -23,8 +23,8 @@ public class ThermostatActorVO extends ActorVO {
 	}
 
 	@Override
-	public void setState(ActorState state) throws InvalidActorStateTypeException {
-		if (state.getClass().equals(ThermostatActorState.class)) {
+	public void setState(ActorStateVO state) throws InvalidActorStateTypeException {
+		if (state.getClass().equals(ThermostatActorStateVO.class)) {
 			this.State = state;
 		} else {
 			throw new InvalidActorStateTypeException("ThermostatActorState expected!");
