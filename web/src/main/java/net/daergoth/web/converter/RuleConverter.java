@@ -1,4 +1,4 @@
-package net.daergoth.net.converter;
+package net.daergoth.web.converter;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;

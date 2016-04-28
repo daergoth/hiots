@@ -1,4 +1,4 @@
-package net.daergoth.net;
+package net.daergoth.web;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;

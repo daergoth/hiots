@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 
 import net.daergoth.coreapi.rule.ConditionDTO;
 import net.daergoth.coreapi.rule.ConditionTypeCore;
@@ -12,17 +14,27 @@ import net.daergoth.service.sensor.SensorDataConverter;
 import net.daergoth.serviceapi.rule.ConditionTypeService;
 import net.daergoth.serviceapi.rule.ConditionVO;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
+import net.daergoth.serviceapi.sensors.SensorConvertException;
 
+@Stateless
+@Local
 public class ConditionConverter {
 	
 	@EJB
-	private static SensorContainerLocal sensorContainer;
+	static SensorContainerLocal sensorContainer;
 	
-	public static ConditionVO toVO(ConditionDTO d) {
+	public static ConditionVO toVO(ConditionDTO d)  {
 		ConditionVO vo = new ConditionVO();
 		vo.setId(d.getId());
 		vo.setType(ConditionTypeService.valueOf(d.getConditionType().toString()));
-		vo.setSensor(sensorContainer.getSensors().stream().filter(s -> s.getId() == d.getSensor().getId()).findFirst().get());
+		//sensorContainer.getSensors();
+		//vo.setSensor(sensorContainer.getSensors().stream().filter(s -> s.getId() == d.getSensor().getId()).findFirst().get());
+		try {
+			vo.setSensor(SensorConverter.toVO(d.getSensor()));
+		} catch (SensorConvertException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		vo.setValue(SensorDataConverter.toVO(d.getValue()));
 		return vo;
 	}

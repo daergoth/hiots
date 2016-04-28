@@ -12,6 +12,9 @@
 		<class>net.daergoth.core.actor.Actor</class>
 		<class>net.daergoth.core.sensor.SensorData</class>
 		<class>net.daergoth.core.actor.ActorState</class>
+		<class>net.daergoth.core.rule.Rule</class>
+		<class>net.daergoth.core.rule.Condition</class>
+		<class>net.daergoth.core.rule.Action</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>

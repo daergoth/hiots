@@ -1,4 +1,4 @@
-package net.daergoth.net;
+package net.daergoth.web;
 
 import java.util.List;
 

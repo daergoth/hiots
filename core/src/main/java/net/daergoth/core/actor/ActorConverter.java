@@ -10,7 +10,7 @@ public class ActorConverter {
 	
 	public static ActorDTO toDTO(Actor a) {
 
-		ActorDTO dto = new ActorDTO();
+		ActorDTO dto = new DummyActorDTO();
 		dto.setId(a.getId());
 		dto.setName(a.getName());
 		dto.setType(a.getType());

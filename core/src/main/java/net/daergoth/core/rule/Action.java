@@ -2,9 +2,10 @@ package net.daergoth.core.rule;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,10 +24,8 @@ public class Action implements Serializable {
 	private static final long serialVersionUID = -8294785838870585395L;
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(nullable = false)
-	private Long actorId;
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "actorId", referencedColumnName = "id")
@@ -45,14 +44,6 @@ public class Action implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getActorId() {
-		return actorId;
-	}
-
-	public void setActorId(Long actorId) {
-		this.actorId = actorId;
 	}
 
 	public Actor getActor() {

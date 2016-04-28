@@ -7,6 +7,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,14 +28,12 @@ public class Condition implements Serializable {
 	private static final long serialVersionUID = -5061363642467257220L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private ConditionTypeCore type;
-	
-	@Column
-	private Long sensorId;
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "sensorId", referencedColumnName="id")
@@ -60,14 +60,6 @@ public class Condition implements Serializable {
 
 	public void setType(ConditionTypeCore type) {
 		this.type = type;
-	}
-
-	public Long getSensorId() {
-		return sensorId;
-	}
-
-	public void setSensorId(Long sensorId) {
-		this.sensorId = sensorId;
 	}
 
 	public Sensor getSensor() {

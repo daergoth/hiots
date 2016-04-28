@@ -15,6 +15,13 @@ public class ThermostatActorStateVO implements ActorStateVO {
 			throw new InvalidActorStateTypeException("ThermostatActorState expected!");
 		}
 	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(targetTemperature);
+		sb.append("°C");
+		return sb.toString();
+	}
 
 	public double getTargetTemperature() {
 		return targetTemperature;

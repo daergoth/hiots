@@ -9,19 +9,32 @@
 	
 		<h:form id="form">
 		
-			<p:outputLabel id="label" for="console" value="#{rulesManager.console}" />
-	        <p:selectOneMenu id="console" value="#{rulesManager.selectedSensor}" style="width:125px" var="s" >
-	            <f:selectItems value="#{rulesManager.sensors}" var="selectedSensor" itemLabel="#{selectedSensor.name}" itemValue="#{selectedSensor}"/>
-	            <f:converter binding="#{ruleConverter}"/>
-	            
-	            <p:column>
-	                <h:outputText value="#{s.name}" />
-	            </p:column>
-	            
-	        </p:selectOneMenu>
-	        
-	        <p:commandButton disabled="true" value="create" id="ref" actionListener="#{rulesManager.listenerFor}" icon="fa fa-refresh" update="form:label"/>
+			<h3>Rules</h3>
+		    <p:accordionPanel value="#{rulesManager.rules}" var="rule" id="ruleAP">
+		        <p:tab title="Rule #{rule.id} - #{rule.name}">
+		            <h:panelGrid columns="2" cellpadding="5">                 
+		                
+		                <p:dataList value="#{rule.conditions}" var="cond" type="definition">
+					        <f:facet name="header">
+					            Conditions
+					        </f:facet>
+					        #{cond.sensor.name} #{cond.type} #{cond.value}
+					    </p:dataList>
+					    
+					     <p:dataList value="#{rule.actions}" var="act" type="definition">
+					        <f:facet name="header">
+					            Actions
+					        </f:facet>
+					        #{act.actor.name} = #{act.value}
+					    </p:dataList>
+					    
+					    
+		                
+		            </h:panelGrid>
+		        </p:tab>
+		    </p:accordionPanel>
+			<p:commandButton actionListener="#{rulesManager.addExample}" value="Add ExampleRule" update="ruleAP"/>
 		</h:form>
-		
+
 	</ui:define>
 </ui:composition>

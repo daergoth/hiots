@@ -21,6 +21,9 @@
 		        <p:column headerText="ID">
 		        	<h:outputText value="#{sensor.id}" />
 		        </p:column>
+		        <p:column headerText="Class">
+		        	<h:outputText value="#{sensor.class}" />
+		        </p:column>
 		        <p:column headerText="Name">
 		            <p:cellEditor>
 		               <f:facet name="output"><h:outputText value="#{sensor.name}" /></f:facet>
@@ -52,6 +55,9 @@
 		        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
 		        <p:column headerText="ID">
 		        	<h:outputText value="#{actor.id}" />
+		        </p:column>
+		        <p:column headerText="Class">
+		        	<h:outputText value="#{actor.class}" />
 		        </p:column>
 		        <p:column headerText="Name">
 		            <p:cellEditor>

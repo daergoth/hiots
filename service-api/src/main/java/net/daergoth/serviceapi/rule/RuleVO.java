@@ -14,6 +14,22 @@ public class RuleVO {
 	private List<ConditionVO> conditions = new ArrayList<>();
 	
 	private List<ActionVO> actions = new ArrayList<>();
+	
+	public void addCondition(ConditionVO cond) {
+		conditions.add(cond);
+	}
+	
+	public void deleteCondition(ConditionVO cond) {
+		conditions.remove(cond);
+	}
+	
+	public void addAction(ActionVO action) {
+		actions.add(action);
+	}
+	
+	public void deleteAction(ActionVO action) {
+		actions.remove(action);
+	}
 
 	public Long getId() {
 		return id;

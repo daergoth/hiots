@@ -11,7 +11,7 @@ public class ActionConverter {
 	
 	public static ActionDTO toDTO(Action e) {
 		ActionDTO dto = new ActionDTO();
-		dto.setId(e.getActorId());
+		dto.setId(e.getId());
 		dto.setActor(ActorConverter.toDTO(e.getActor()));
 		dto.setValue(ActorStateConverter.toDTO(e.getValue()));
 		return dto;

@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 
 import net.daergoth.coreapi.rule.ActionDTO;
 import net.daergoth.service.actor.ActorConverter;
 import net.daergoth.service.actor.ActorStateConverter;
 import net.daergoth.serviceapi.actors.ActorContainerLocal;
+import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.rule.ActionVO;
 
+@Stateless
+@Local
 public class ActionConverter {
 	
 	@EJB
@@ -19,7 +24,12 @@ public class ActionConverter {
 	public static ActionVO toVO(ActionDTO d) {
 		ActionVO vo = new ActionVO();
 		vo.setId(d.getId());
-		vo.setActor(actorContainer.getActors().stream().filter(a -> a.getId() == d.getActor().getId()).findFirst().get());
+		//vo.setActor(actorContainer.getActors().stream().filter(a -> a.getId() == d.getActor().getId()).findFirst().get());
+		try {
+			vo.setActor(ActorConverter.toVO(d.getActor()));
+		} catch (ActorConvertException e) {
+			e.printStackTrace();
+		}
 		vo.setValue(ActorStateConverter.toVO(d.getValue()));
 		return vo;
 	}
