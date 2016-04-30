@@ -36,17 +36,19 @@ public class SensorDataConverter {
 	
 	public static SensorDataDTO toDTO(SensorDataVO v) {
 		SensorDataDTO dto = new SensorDataDTO();
-		SensorDataType type;
-		if (v instanceof LightDataVO) {
-			type = SensorDataType.LIGHT;
-			dto.setValue( ((LightDataVO)v).getLightness() );
-		} else if (v instanceof TemperatureDataVO) {
-			type = SensorDataType.TEMPERATURE;
-			dto.setValue( ((TemperatureDataVO)v).getTemperature() );
-		} else {
+		switch (v.getType()) {
+		case Light:
+			dto.setType(SensorDataType.LIGHT);
+			dto.setValue( v.getData() );
+			break;
+		case Temperature:
+			dto.setType(SensorDataType.TEMPERATURE);
+			dto.setValue( v.getData() );
+			break;
+		default:
 			return null;
+		
 		}
-		dto.setType(type);
 		return dto;
 	}
 	

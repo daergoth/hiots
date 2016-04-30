@@ -10,27 +10,139 @@
 		<h:form id="form">
 		
 			<h3>Rules</h3>
-		    <p:accordionPanel value="#{rulesManager.rules}" var="rule" id="ruleAP">
-		        <p:tab title="Rule #{rule.id} - #{rule.name}">
-		            <h:panelGrid columns="2" cellpadding="5">                 
-		                
-		                <p:dataList value="#{rule.conditions}" var="cond" type="definition">
-					        <f:facet name="header">
-					            Conditions
-					        </f:facet>
-					        #{cond.sensor.name} #{cond.type} #{cond.value}
-					    </p:dataList>
-					    
-					     <p:dataList value="#{rule.actions}" var="act" type="definition">
-					        <f:facet name="header">
-					            Actions
-					        </f:facet>
-					        #{act.actor.name} = #{act.value}
-					    </p:dataList>
-					    
-					    
-		                
-		            </h:panelGrid>
+		    <p:accordionPanel value="#{rulesManager.rules}" var="rule" id="ruleAP" activeIndex="#{rulesManager.activeRuleIndex}">
+		    
+		    	<p:ajax event="tabChange" />
+		    	
+		        <p:tab title="Rule #{rule.id} - #{rule.name}">           
+		                <div class="ui-grid ui-grid-responsive">	
+		                	<div class="ui-grid-row">
+		                		<div class="ui-grid-col-5">
+								    
+								    <p:dataTable value="#{rule.conditions}" var="cond" editable="true" editMode="cell" id="condDT">
+									    <f:facet name="header">
+								            Conditions
+								        </f:facet>
+								        
+								        <p:ajax event="cellEdit" listener="#{rulesManager.onCellEditCondition}" update="condDT" />
+								        
+								        <p:column headerText="Name">
+								        	<p:cellEditor>
+								        		<f:facet name="output"><h:outputText value="#{cond.sensor.name}"/></f:facet>
+								        		<f:facet name="input">
+								        			<p:selectOneMenu value="#{cond.sensor}" var="s" style="width:70%">
+								        				<f:selectItems value="#{rulesManager.sensors}"  var="sens" itemLabel="#{sens.name}" itemValue="#{sens}"/>
+								        				<f:converter binding="#{sensorConverter}" />
+								        				
+								        				<p:column>
+										 	                <h:outputText value="#{s.name}" />
+										 	            </p:column>
+										 	            
+										 	            <p:column>
+										 	                <h:outputText value="#{s.type}" />
+										 	            </p:column>
+								        				
+								        			</p:selectOneMenu> 
+								        		</f:facet>
+								        	</p:cellEditor>
+								        </p:column>
+								        
+								        <p:column headerText="Type">
+								        	<p:cellEditor>
+								        		<f:facet name="output"><h:outputText value="#{cond.type}" converter="#{condTypeConverter}"/></f:facet>
+								        		<f:facet name="input">
+								        			<p:selectOneMenu value="#{cond.type}" var="t" style="width:70%" converter="#{condTypeConverter}">
+								        				<f:selectItems value="#{rulesManager.condTypes}"  var="type" itemLabel="#{type}" itemValue="#{type}"/>
+								        				<f:converter binding="#{condTypeConverter}" />
+								        				
+								        				<p:column>
+										 	                <h:outputText value="#{t}" converter="#{condTypeConverter}"/>
+										 	            </p:column>
+								        				
+								        			</p:selectOneMenu> 
+								        		</f:facet>
+								        	</p:cellEditor>
+								        </p:column>
+								        
+								        <p:column headerText="Value">
+								        	<p:cellEditor>
+								        		<f:facet name="output">
+								        			<h:outputText value="#{cond.value}"/>
+								        		</f:facet>
+								        		<f:facet name="input">        			
+								        			<h:inputText value="#{cond.value.data}" style="width:100%"/>
+								        		</f:facet>
+								        	</p:cellEditor>
+								        </p:column>
+								        
+								    </p:dataTable>
+								    
+		                		</div>
+		                		
+		                		<div class="ui-grid-col-5">
+		                											    
+								    <p:dataTable value="#{rule.actions}" var="action" editable="true" editMode="cell" id="actionDT">
+								    	<f:facet name="header">
+								            Actions
+								        </f:facet>
+								        
+								        <p:ajax event="cellEdit" listener="#{rulesManager.onCellEditAction}" update="actionDT" />
+								        
+								        <p:column headerText="Name">
+								        	<p:cellEditor>
+								        		<f:facet name="output"><h:outputText value="#{action.actor.name}"/></f:facet>
+								        		<f:facet name="input">
+								        			<p:selectOneMenu value="#{action.actor}" var="a" style="width:70%">
+								        				<f:selectItems value="#{rulesManager.actors}"  var="act" itemLabel="#{act.name}" itemValue="#{act}"/>
+								        				<f:converter binding="#{actorConverter}" />
+								        				
+								        				<p:column>
+										 	                <h:outputText value="#{a.name}" />
+										 	            </p:column>
+										 	            
+										 	            <p:column>
+										 	                <h:outputText value="#{a.type}" />
+										 	            </p:column>
+								        				
+								        			</p:selectOneMenu> 
+								        		</f:facet>
+								        	</p:cellEditor>
+								        </p:column>
+								        
+								        <p:column headerText="Type">
+								        	=
+								        </p:column>
+								        
+								        <p:column headerText="Value">
+								        	<p:cellEditor>
+								        		<f:facet name="output">
+								        			<h:outputText value="#{action.value}"/>
+								        		</f:facet>
+								        		<f:facet name="input">
+								        			<h:inputText value="#{action.value.data}" style="width:100%"/>
+								        		</f:facet>
+								        	</p:cellEditor>
+								        </p:column>
+								    
+								    </p:dataTable>
+								    
+								    
+		                		</div>
+		                		
+		                		<div class="ui-grid-col-1">
+		                			<p:dataList value="#{rule}" type="definition" style="background-color: red; height: 54px; text-align: center;">
+								        <f:facet name="header">
+								            Enabled
+								        </f:facet>
+								        <p:selectBooleanButton value="#{rule.enabled}" onLabel="Yes" offLabel="No" style="width:60px;text-align: center;" />
+								    </p:dataList>
+		                		</div>
+		                		
+		                		<div class="ui-grid-col-1" style="text-align: center; display:table-cell; vertical-align: middle;">
+		                			<p:commandButton icon="fa fa-trash" actionListener="#{rulesManager.deleteRule(rule.id)}" style="line-height:54px;"/>
+		                		</div>
+							</div>
+					    </div>
 		        </p:tab>
 		    </p:accordionPanel>
 			<p:commandButton actionListener="#{rulesManager.addExample}" value="Add ExampleRule" update="ruleAP"/>

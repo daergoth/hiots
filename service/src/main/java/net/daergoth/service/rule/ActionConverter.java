@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.Local;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import net.daergoth.coreapi.rule.ActionDTO;
@@ -15,7 +15,7 @@ import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.rule.ActionVO;
 
 @Stateless
-@Local
+@LocalBean
 public class ActionConverter {
 	
 	@EJB
@@ -25,11 +25,13 @@ public class ActionConverter {
 		ActionVO vo = new ActionVO();
 		vo.setId(d.getId());
 		//vo.setActor(actorContainer.getActors().stream().filter(a -> a.getId() == d.getActor().getId()).findFirst().get());
+		
 		try {
 			vo.setActor(ActorConverter.toVO(d.getActor()));
 		} catch (ActorConvertException e) {
 			e.printStackTrace();
 		}
+		
 		vo.setValue(ActorStateConverter.toVO(d.getValue()));
 		return vo;
 	}

@@ -12,9 +12,9 @@ import javax.faces.convert.ConverterException;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorVO;
 
-@ManagedBean(name = "ruleConverter")
+@ManagedBean(name = "sensorConverter")
 @RequestScoped
-public class RuleConverter implements Converter {
+public class SensorConverter implements Converter {
 	
 	@EJB
 	SensorContainerLocal sensorContainer;
@@ -22,13 +22,10 @@ public class RuleConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if(value != null && value.trim().length() > 0) {
-            try {
-            	
-            	System.out.println("RuleConverter getAsObject: " + value);
-            	
+            try {            	
                 return sensorContainer.getSensors().stream().filter(s -> s.getId().equals(Long.parseLong(value))).findFirst().get();
             } catch(NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid id."));
             } 
         }
         else {

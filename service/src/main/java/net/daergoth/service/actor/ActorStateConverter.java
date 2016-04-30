@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.daergoth.coreapi.actor.ActorStateDTO;
 import net.daergoth.coreapi.actor.ActorStateType;
+import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.states.ActorStateVO;
 import net.daergoth.serviceapi.actors.states.LampActorStateVO;
 import net.daergoth.serviceapi.actors.states.ThermostatActorStateVO;
@@ -13,17 +14,18 @@ public class ActorStateConverter {
 	
 	public static ActorStateDTO toDTO(ActorStateVO v) { 
 		ActorStateDTO dto = new ActorStateDTO();
-		ActorStateType type;
-		if (v instanceof LampActorStateVO) {
-			type = ActorStateType.LAMP;
-			dto.setValue( ((LampActorStateVO)v).getStatus()?1.0:0.0 );
-		} else if (v instanceof ThermostatActorStateVO) {
-			type = ActorStateType.THERMOSTAT;
-			dto.setValue( ((ThermostatActorStateVO)v).getTargetTemperature() );
-		} else {
+		switch (v.getType()) {
+		case Lamp:
+			dto.setType(ActorStateType.LAMP);
+			dto.setValue(v.getData());
+			break;
+		case Thermostat:
+			dto.setType(ActorStateType.THERMOSTAT);
+			dto.setValue(v.getData());
+			break;
+		default:
 			return null;
 		}
-		dto.setType(type);
 		return dto;
 	}
 	
@@ -40,11 +42,13 @@ public class ActorStateConverter {
 		case LAMP:
 			LampActorStateVO lampState = new LampActorStateVO();
 			lampState.setStatus(d.getValue()==1);
+			lampState.setType(ActorType.Lamp);
 			return lampState;
 			//break;
 		case THERMOSTAT:
 			ThermostatActorStateVO thermoState = new ThermostatActorStateVO();
 			thermoState.setTargetTemperature(d.getValue());
+			thermoState.setType(ActorType.Thermostat);
 			return thermoState;
 			//break;
 		default:

@@ -2,7 +2,7 @@ package net.daergoth.serviceapi.actors.states;
 
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 
-public class LampActorStateVO implements ActorStateVO {
+public class LampActorStateVO extends ActorStateVO {
 	
 	private boolean status;
 
@@ -27,6 +27,16 @@ public class LampActorStateVO implements ActorStateVO {
 	@Override
 	public String toString() {
 		return status?"On":"Off";
+	}
+
+	@Override
+	public Double getData() {
+		return status?1.0:0.0;
+	}
+
+	@Override
+	public void setData(Double d) {
+		this.status = d==1;
 	}
 	
 }

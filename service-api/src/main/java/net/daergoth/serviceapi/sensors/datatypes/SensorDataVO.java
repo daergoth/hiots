@@ -1,12 +1,31 @@
 package net.daergoth.serviceapi.sensors.datatypes;
 
 import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
+import net.daergoth.serviceapi.sensors.SensorType;
 
-public interface SensorDataVO {
+public abstract class SensorDataVO {
 	
-	public int compareTo(SensorDataVO other) throws InvalidSensorDataTypeException;
+	protected SensorType type;
+	
+	public SensorDataVO() {
+		
+	}
+
+	public abstract int compareTo(SensorDataVO other) throws InvalidSensorDataTypeException;
+	
+	public abstract Double getData();
+	
+	public abstract void setData(Double d);
 	
 	@Override
-	public String toString();
+	public abstract String toString();
+
+	public SensorType getType() {
+		return type;
+	}
+
+	public void setType(SensorType type) {
+		this.type = type;
+	}
 	
 }

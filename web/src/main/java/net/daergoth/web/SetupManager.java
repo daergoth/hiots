@@ -48,7 +48,7 @@ public class SetupManager {
 	
 	private String sensorMinValue;
 	private String sensorMaxValue;
-	private String sensorInterval;
+	//private String sensorInterval;
 	private String sensorName;
 	private SensorType selectedSensorType;
 	
@@ -107,6 +107,8 @@ public class SetupManager {
 			changeListener.subscribeFor(
 					sensorContainer.getSensors().stream().filter(se -> se.getId() == s.getId()).findFirst().get(),
 					handlers);
+		} else {
+			sensorContainer.updateSensor(s);
 		}
     }
     
@@ -123,7 +125,7 @@ public class SetupManager {
 							"Dummy" + sensorName, 
 							Double.parseDouble(sensorMinValue), 
 							Double.parseDouble(sensorMaxValue),
-							Long.parseLong(sensorInterval))
+							1000/*Long.parseLong(sensorInterval)*/)
 			);
 			break;
 		case Temperature:
@@ -133,7 +135,7 @@ public class SetupManager {
 							"Dummy" + sensorName, 
 							Double.parseDouble(sensorMinValue), 
 							Double.parseDouble(sensorMaxValue),
-							Long.parseLong(sensorInterval))
+							1000/*Long.parseLong(sensorInterval)*/)
 			);
 			break;
 		default:
@@ -254,6 +256,7 @@ public class SetupManager {
 		this.sensorMaxValue = sensorMaxValue;
 	}
 
+	/*
 	public String getSensorInterval() {
 		return sensorInterval;
 	}
@@ -261,6 +264,7 @@ public class SetupManager {
 	public void setSensorInterval(String sensorInterval) {
 		this.sensorInterval = sensorInterval;
 	}
+	*/
 
 	public String getSensorName() {
 		return sensorName;

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.Local;
 import javax.ejb.Stateless;
 
 import net.daergoth.coreapi.rule.ConditionDTO;
@@ -17,7 +16,6 @@ import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorConvertException;
 
 @Stateless
-@Local
 public class ConditionConverter {
 	
 	@EJB
@@ -27,8 +25,8 @@ public class ConditionConverter {
 		ConditionVO vo = new ConditionVO();
 		vo.setId(d.getId());
 		vo.setType(ConditionTypeService.valueOf(d.getConditionType().toString()));
-		//sensorContainer.getSensors();
 		//vo.setSensor(sensorContainer.getSensors().stream().filter(s -> s.getId() == d.getSensor().getId()).findFirst().get());
+		
 		try {
 			vo.setSensor(SensorConverter.toVO(d.getSensor()));
 		} catch (SensorConvertException e) {

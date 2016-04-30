@@ -2,11 +2,10 @@ package net.daergoth.serviceapi.actors.states;
 
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 
-public class ThermostatActorStateVO implements ActorStateVO {
+public class ThermostatActorStateVO extends ActorStateVO {
 	
 	private double targetTemperature;
-
-	@Override
+	
 	public int compareTo(ActorStateVO other) throws InvalidActorStateTypeException {
 		if (other.getClass().equals(ThermostatActorStateVO.class)) {
 			ThermostatActorStateVO o = (ThermostatActorStateVO) other;
@@ -29,6 +28,16 @@ public class ThermostatActorStateVO implements ActorStateVO {
 
 	public void setTargetTemperature(double targetTemperature) {
 		this.targetTemperature = targetTemperature;
+	}
+
+	@Override
+	public Double getData() {
+		return targetTemperature;
+	}
+
+	@Override
+	public void setData(Double d) {
+		this.targetTemperature = d;
 	}
 
 }

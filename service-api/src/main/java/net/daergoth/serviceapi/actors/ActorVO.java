@@ -28,11 +28,11 @@ public abstract class ActorVO implements Serializable{
 		this.Name = name;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return Id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		Id = id;
 	}
 

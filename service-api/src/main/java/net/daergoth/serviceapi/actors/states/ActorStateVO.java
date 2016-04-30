@@ -1,10 +1,25 @@
 package net.daergoth.serviceapi.actors.states;
 
+import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 
-public interface ActorStateVO {
+public abstract class ActorStateVO {
 	
-	public String toString();
+	private ActorType type;
 	
-	public int compareTo(ActorStateVO other) throws InvalidActorStateTypeException;
+	public abstract String toString();
+	
+	public abstract int compareTo(ActorStateVO other) throws InvalidActorStateTypeException;
+	
+	public abstract Double getData();
+	
+	public abstract void setData(Double d);
+
+	public ActorType getType() {
+		return type;
+	}
+
+	public void setType(ActorType type) {
+		this.type = type;
+	}
 }
