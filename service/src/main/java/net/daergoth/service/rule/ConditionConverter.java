@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 
 import net.daergoth.coreapi.rule.ConditionDTO;
 import net.daergoth.coreapi.rule.ConditionTypeCore;
@@ -15,13 +15,13 @@ import net.daergoth.serviceapi.rule.ConditionVO;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorConvertException;
 
-@Stateless
+@Singleton
 public class ConditionConverter {
 	
 	@EJB
-	static SensorContainerLocal sensorContainer;
+	SensorContainerLocal sensorContainer;
 	
-	public static ConditionVO toVO(ConditionDTO d)  {
+	public ConditionVO toVO(ConditionDTO d)  {
 		ConditionVO vo = new ConditionVO();
 		vo.setId(d.getId());
 		vo.setType(ConditionTypeService.valueOf(d.getConditionType().toString()));
@@ -30,22 +30,22 @@ public class ConditionConverter {
 		try {
 			vo.setSensor(SensorConverter.toVO(d.getSensor()));
 		} catch (SensorConvertException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		vo.setValue(SensorDataConverter.toVO(d.getValue()));
 		return vo;
 	}
 	
-	public static List<ConditionVO> toVOs(List<ConditionDTO> ds) {
+	public List<ConditionVO> toVOs(List<ConditionDTO> ds) {
 		List<ConditionVO> vos = new ArrayList<>();
 		for (ConditionDTO d : ds) {
-			vos.add(ConditionConverter.toVO(d));
+			vos.add(toVO(d));
 		}
 		return vos;
 	}
 	
-	public static ConditionDTO toDTO(ConditionVO v) {
+	public ConditionDTO toDTO(ConditionVO v) {
 		ConditionDTO dto = new ConditionDTO();
 		dto.setId(v.getId());
 		dto.setConditionType(ConditionTypeCore.valueOf(v.getType().toString()));
@@ -54,10 +54,10 @@ public class ConditionConverter {
 		return dto;
 	}
 	
-	public static List<ConditionDTO> toDTOs(List<ConditionVO> vs) {
+	public List<ConditionDTO> toDTOs(List<ConditionVO> vs) {
 		List<ConditionDTO> dtos = new ArrayList<>();
 		for (ConditionVO v : vs) {
-			dtos.add(ConditionConverter.toDTO(v));
+			dtos.add(toDTO(v));
 		}
 		return dtos;
 	}

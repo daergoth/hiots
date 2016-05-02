@@ -19,9 +19,9 @@ import net.daergoth.serviceapi.rule.ActionVO;
 public class ActionConverter {
 	
 	@EJB
-	static ActorContainerLocal actorContainer;
+	ActorContainerLocal actorContainer;
 	
-	public static ActionVO toVO(ActionDTO d) {
+	public ActionVO toVO(ActionDTO d) {
 		ActionVO vo = new ActionVO();
 		vo.setId(d.getId());
 		//vo.setActor(actorContainer.getActors().stream().filter(a -> a.getId() == d.getActor().getId()).findFirst().get());
@@ -32,19 +32,20 @@ public class ActionConverter {
 			e.printStackTrace();
 		}
 		
+		
 		vo.setValue(ActorStateConverter.toVO(d.getValue()));
 		return vo;
 	}
 	
-	public static List<ActionVO> toVOs(List<ActionDTO> ds) {
+	public List<ActionVO> toVOs(List<ActionDTO> ds) {
 		List<ActionVO> vos = new ArrayList<>();
 		for (ActionDTO d : ds) {
-			vos.add(ActionConverter.toVO(d));
+			vos.add(toVO(d));
 		}
 		return vos;
 	}
 	
-	public static ActionDTO toDTO(ActionVO v) {
+	public ActionDTO toDTO(ActionVO v) {
 		ActionDTO dto = new ActionDTO();
 		dto.setId(v.getId());
 		dto.setActor(ActorConverter.toDTO(v.getActor()));
@@ -52,12 +53,12 @@ public class ActionConverter {
 		return dto;
 	}
 	
-	public static List<ActionDTO> toDTOs(List<ActionVO> vs) {
+	public List<ActionDTO> toDTOs(List<ActionVO> vs) {
 		List<ActionDTO> dtos = new ArrayList<>();
 		for (ActionVO v : vs) {
-			dtos.add(ActionConverter.toDTO(v));
+			dtos.add(toDTO(v));
 		}
 		return dtos;
-	}
-
+	}	
+	
 }

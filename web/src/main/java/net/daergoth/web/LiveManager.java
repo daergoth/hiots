@@ -39,9 +39,6 @@ public class LiveManager {
 	
 	public void forceRefresh() {
 		setSensors(sensorContainer.getSensors());
-		for (SensorVO sensorVO : sensors) {
-			System.out.println(sensorVO.getName() + ": " + sensorVO.getData());
-		}
 	}
 
 	public List<SensorVO> getSensors() {

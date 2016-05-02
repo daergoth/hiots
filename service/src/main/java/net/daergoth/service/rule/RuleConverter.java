@@ -13,8 +13,8 @@ public class RuleConverter {
 		vo.setId(d.getId());
 		vo.setName(d.getName());
 		vo.setEnabled(d.isEnabled());
-		vo.setConditions(ConditionConverter.toVOs(d.getConditions()));
-		vo.setActions(ActionConverter.toVOs(d.getActions()));
+		vo.setConditions(new ConditionConverter().toVOs(d.getConditions()));
+		vo.setActions(new ActionConverter().toVOs(d.getActions()));
 		return vo;
 	}
 	
@@ -31,8 +31,8 @@ public class RuleConverter {
 		dto.setId(v.getId());
 		dto.setName(v.getName());
 		dto.setEnabled(v.isEnabled());
-		dto.setConditions(ConditionConverter.toDTOs(v.getConditions()));
-		dto.setActions(ActionConverter.toDTOs(v.getActions()));
+		dto.setConditions(new ConditionConverter().toDTOs(v.getConditions()));
+		dto.setActions(new ActionConverter().toDTOs(v.getActions()));
 		return dto;
 	}
 	

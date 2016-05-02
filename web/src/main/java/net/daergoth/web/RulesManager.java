@@ -6,9 +6,10 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.TabChangeEvent;
 
 import net.daergoth.serviceapi.actors.ActorContainerLocal;
 import net.daergoth.serviceapi.actors.ActorType;
@@ -42,16 +43,19 @@ public class RulesManager {
 	SensorContainerLocal sensorContainer;
 	
 	private List<RuleVO> rules;
-	
 	private List<SensorVO> sensors;
-	
 	private List<ActorVO> actors;
 	
 	private ConditionTypeService[] condTypes;
-	
 	private SensorType[] sensTypes;
 	
 	private int activeRuleIndex;
+	
+	private SensorVO newCondSensor;
+	private ConditionTypeService newCondType;
+	private Double newCondValue;
+	
+	private String newName;
 	
 	@PostConstruct
 	public void init() {
@@ -62,6 +66,46 @@ public class RulesManager {
 		setSensTypes(SensorType.values());
 	}
 	
+	public void addCondition() {
+		
+	}
+	
+	public void removeCondition(String id) {
+		rules.get(activeRuleIndex).deleteCondition(
+				rules.get(activeRuleIndex).getConditions().stream().filter(c -> c.getId() == Long.parseLong(id)).findFirst().get()
+		);
+	}
+	
+	public void addAction() {
+		
+	}
+	
+	public void removeAction(String id) {
+		rules.get(activeRuleIndex).deleteAction(
+				rules.get(activeRuleIndex).getActions().stream().filter(a -> a.getId() == Long.parseLong(id)).findFirst().get()
+		);
+	}
+	
+	public void deleteRule() {
+		System.out.println("ActiveRuleIndex:_" + activeRuleIndex);
+		ruleContainer.deleteRule(rules.get(activeRuleIndex).getId());
+	}
+	
+	public void renameRule()  {
+		System.out.println("ActiveRuleIndex:_" + activeRuleIndex);
+		rules.get(activeRuleIndex).setName(newName);
+		newName = "";
+		ruleContainer.updateRule(rules.get(activeRuleIndex));
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('renameDlg').hide();");
+	}
+	
+	public void updateRule(ValueChangeEvent event) {
+		System.out.println("Rule Update!!");
+		rules.get(activeRuleIndex).setEnabled((boolean)event.getNewValue());
+		ruleContainer.updateRule(rules.get(activeRuleIndex));
+	}
+	
 	public void addExample() {
 		RuleVO rule = new RuleVO();
 		
@@ -70,6 +114,7 @@ public class RulesManager {
 		action.setActor(actorContainer.getActors().stream().filter(a -> a.getClass().equals(DummyThermostatActorVO.class)).findFirst().get());
 		ThermostatActorStateVO state = new ThermostatActorStateVO();
 		state.setTargetTemperature(35.0);
+		state.setType(ActorType.Thermostat);
 		action.setValue(state);
 		rule.addAction(action);
 		
@@ -90,8 +135,6 @@ public class RulesManager {
 	}
 	
 	public void onCellEditCondition(CellEditEvent event) throws InvalidSensorDataTypeException {
-		System.out.println("----- CELLEDIT EVENT CONDITION -----");
-		System.out.println("----- activeRuleIndex: " + activeRuleIndex + " -----");
 		ConditionVO modifiedCond = rules.get(activeRuleIndex).getConditions().get(event.getRowIndex()); 
 		switch (modifiedCond.getSensor().getType()) {
 		case Light:
@@ -108,8 +151,6 @@ public class RulesManager {
 	}
 	
 	public void onCellEditAction(CellEditEvent event) throws InvalidActorStateTypeException {
-		System.out.println("----- CELLEDIT EVENT ACTION -----");
-		System.out.println("----- activeRuleIndex: " + activeRuleIndex + " -----");
 		ActionVO modifiedAct = rules.get(activeRuleIndex).getActions().get(event.getRowIndex());
 		switch (modifiedAct.getActor().getType()) {
 		case Lamp:
@@ -120,17 +161,9 @@ public class RulesManager {
 			break;
 		default:
 			throw new InvalidActorStateTypeException("Unknown ActorType");
-		
+			//break;
 		}
 		ruleContainer.updateRule(rules.get(activeRuleIndex));
-	}
-	
-	public void onTabChange(TabChangeEvent event) {
-		System.out.println("----- activeRuleIndex: " + activeRuleIndex + " -----");
-	}
-	
-	public void deleteRule(String id) {
-		ruleContainer.deleteRule(Long.parseLong(id));
 	}
 
 	public List<RuleVO> getRules() {
@@ -181,8 +214,36 @@ public class RulesManager {
 		this.activeRuleIndex = activeRuleIndex;
 	}
 
-	
-	
-	
+	public SensorVO getNewCondSensor() {
+		return newCondSensor;
+	}
+
+	public void setNewCondSensor(SensorVO newCondSensor) {
+		this.newCondSensor = newCondSensor;
+	}
+
+	public ConditionTypeService getNewCondType() {
+		return newCondType;
+	}
+
+	public void setNewCondType(ConditionTypeService newCondType) {
+		this.newCondType = newCondType;
+	}
+
+	public Double getNewCondValue() {
+		return newCondValue;
+	}
+
+	public void setNewCondValue(Double newCondValue) {
+		this.newCondValue = newCondValue;
+	}
+
+	public String getNewName() {
+		return newName;
+	}
+
+	public void setNewName(String newName) {
+		this.newName = newName;
+	}
 
 }
