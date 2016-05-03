@@ -175,11 +175,19 @@
 	   			<p:selectOneMenu value="#{rulesManager.newCondType}" var="t" id="typeSL">
 	   				<f:selectItems value="#{rulesManager.condTypes}"  var="type" itemLabel="#{type}" itemValue="#{type}"/>
 	   				<f:converter binding="#{condTypeConverter}" />
+	   				<f:ajax event="valueChange" immediate="true" process="@form" />
 	   				
 	   				<p:column>
 	                	<h:outputText value="#{t}" converter="#{condTypeConverter}"/>
 	            	</p:column>
 	   			</p:selectOneMenu><br/>
+	   			
+	   			<p:outputLabel value="Value"/><br/>
+	   			<p:selectOneMenu rendered="#{rulesManager.newCondSensor.type == 'Light'}"> 
+	   				<f:selectItem itemValue="0" itemLabel="Off"/>
+	   				<f:selectItem itemValue="1" itemLabel="On"/>
+	   			</p:selectOneMenu>
+	   			<p:inputText rendered="rulesManager.newCondSensor.type == 'Temperature'" />
 	   			
 	   			
 	   			<p:commandButton value="Add" type="button" actionListener="#{rulesManager.addCondition}"/>

@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 
 import net.daergoth.coreapi.sensor.SensorDTO;
 import net.daergoth.coreapi.sensor.SensorDaoLocal;
@@ -15,10 +16,11 @@ import net.daergoth.serviceapi.sensors.SensorConvertException;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 
-@Singleton(mappedName = "sensorContainer")
+@Singleton(name = "sensorContainer")
+@Startup
 @Local(SensorContainerLocal.class)
 public class SensorContainerLocalImpl implements SensorContainerLocal {
-	
+	 
 	@EJB
 	SensorDaoLocal sensorDao;
 	

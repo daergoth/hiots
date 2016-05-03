@@ -19,7 +19,7 @@ import net.daergoth.serviceapi.sensors.SensorConvertException;
 public class ConditionConverter {
 	
 	@EJB
-	SensorContainerLocal sensorContainer;
+	private SensorContainerLocal sensorContainer;
 	
 	public ConditionVO toVO(ConditionDTO d)  {
 		ConditionVO vo = new ConditionVO();
@@ -32,6 +32,7 @@ public class ConditionConverter {
 		} catch (SensorConvertException e) {
 			e.printStackTrace();
 		}
+		
 		
 		vo.setValue(SensorDataConverter.toVO(d.getValue()));
 		return vo;
