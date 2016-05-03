@@ -76,7 +76,7 @@
 								        </p:column>
 								        
 								        <p:column style="width: 32px;">
-								        	<p:commandButton icon="fa fa-remove" actionListener="#{rulesManager.removeCondition(cond.id)}" />
+								        	<p:commandButton update=":form:ruleAP" icon="fa fa-remove" actionListener="#{rulesManager.removeCondition(cond.id)}" />
 								        </p:column>
 								        
 								    </p:dataTable>
@@ -131,7 +131,7 @@
 								        </p:column>
 								        
 								        <p:column style="width: 32px;">
-								        	<p:commandButton icon="fa fa-remove" actionListener="#{rulesManager.removeAction(action.id)}" />
+								        	<p:commandButton update=":form:ruleAP" icon="fa fa-remove" actionListener="#{rulesManager.removeAction(action.id)}" />
 								        </p:column>
 								    
 								    </p:dataTable>
@@ -144,8 +144,8 @@
 		                		
 		                		<div class="ui-grid-col-2" style="text-align: center; display:table-cell; vertical-align: middle;">
 		                			<p:selectBooleanButton value="#{rule.enabled}" valueChangeListener="#{rulesManager.updateRule}" style="width: 110px;" onLabel="Enabled" offLabel="Disabled"  onIcon="ui-icon-check" offIcon="ui-icon-close"/><br/>
-		                			<p:commandButton value="Rename" icon="fa fa-edit" type="button" onclick="PF('renameDlg').show();" style="width: 110px;"/><br/>
-		                			<p:commandButton value="Delete" icon="fa fa-trash" actionListener="#{rulesManager.deleteRule}" update="ruleAP" style="width: 110px;"/>
+		                			<p:commandButton value="Rename" icon="fa fa-edit" type="button" onclick="PF('renameDlg').show();" update=":form:ruleAP" style="width: 110px;"/><br/>
+		                			<p:commandButton value="Delete" icon="fa fa-trash" actionListener="#{rulesManager.deleteRule}" update=":form:ruleAP" style="width: 110px;"/>
 		                			
 		                		</div>
 							</div>
@@ -153,7 +153,7 @@
 		        </p:tab>
 		    </p:accordionPanel>
 		    
-			<p:commandButton actionListener="#{rulesManager.addExample}" value="Add ExampleRule" update="ruleAP"/>
+			<p:commandButton actionListener="#{rulesManager.addExample}" value="Add ExampleRule" update=":form:ruleAP"/>
 		
 		
 			<p:dialog header="New condition" widgetVar="condDlg" modal="true" resizable="false">
@@ -161,6 +161,7 @@
 			    <p:selectOneMenu value="#{rulesManager.newCondSensor}" var="s" id="sensorSL">
 					<f:selectItems value="#{rulesManager.sensors}"  var="sens" itemLabel="#{sens.name}" itemValue="#{sens}"/>
 					<f:converter binding="#{sensorConverter}" />
+					<p:ajax update="newCondValueGroup"/>
 					
 					<p:column>
 		            	<h:outputText value="#{s.name}" />
@@ -175,7 +176,6 @@
 	   			<p:selectOneMenu value="#{rulesManager.newCondType}" var="t" id="typeSL">
 	   				<f:selectItems value="#{rulesManager.condTypes}"  var="type" itemLabel="#{type}" itemValue="#{type}"/>
 	   				<f:converter binding="#{condTypeConverter}" />
-	   				<f:ajax event="valueChange" immediate="true" process="@form" />
 	   				
 	   				<p:column>
 	                	<h:outputText value="#{t}" converter="#{condTypeConverter}"/>
@@ -183,18 +183,39 @@
 	   			</p:selectOneMenu><br/>
 	   			
 	   			<p:outputLabel value="Value"/><br/>
-	   			<p:selectOneMenu rendered="#{rulesManager.newCondSensor.type == 'Light'}"> 
-	   				<f:selectItem itemValue="0" itemLabel="Off"/>
-	   				<f:selectItem itemValue="1" itemLabel="On"/>
-	   			</p:selectOneMenu>
-	   			<p:inputText rendered="rulesManager.newCondSensor.type == 'Temperature'" />
+	   			<h:panelGroup id="newCondValueGroup">
+		   			<p:inputText value="#{rulesManager.newCondValue}"/>
+	   			</h:panelGroup>	   			
 	   			
-	   			
-	   			<p:commandButton value="Add" type="button" actionListener="#{rulesManager.addCondition}"/>
+	   			<p:commandButton value="Add" actionListener="#{rulesManager.addCondition}" update=":form:ruleAP"/>
 			</p:dialog> 
 			
 			<p:dialog header="New action" widgetVar="actDlg" modal="true" resizable="false">
-			    
+			    <p:outputLabel value="Action" for="actorSL"/><br/>
+			    <p:selectOneMenu value="#{rulesManager.newActActor}" var="a" id="actorSL">
+					<f:selectItems value="#{rulesManager.actors}"  var="act" itemLabel="#{act.name}" itemValue="#{sens}"/>
+					<f:converter binding="#{actorConverter}" />
+					<p:ajax update="newActValueGroup"/>
+					
+					<p:column>
+		            	<h:outputText value="#{a.name}" />
+		            </p:column>
+		            
+		            <p:column>
+		                <h:outputText value="#{a.type}" />
+		            </p:column>	
+	   			</p:selectOneMenu><br/>
+	   			
+	   			<p:outputLabel value="Value"/><br/>
+	   			<h:panelGroup id="newActValueGroup">
+	   				<p:selectOneMenu value="#{rulesManager.newActValue}" rendered="#{rulesManager.newActActor.type == 'Lamp'}"> 
+		   				<f:selectItem itemValue="1" itemLabel="On"/>
+		   				<f:selectItem itemValue="0" itemLabel="Off"/>
+		   			</p:selectOneMenu>
+		   			<p:inputText value="#{rulesManager.newActValue}" rendered="#{rulesManager.newActActor.type == 'Thermostat'}" />
+	   			</h:panelGroup>	   			
+	   			
+	   			<p:commandButton value="Add" actionListener="#{rulesManager.addAction}"  update=":form:ruleAP"/>
 			</p:dialog> 
 			
 			<p:dialog header="Rename" widgetVar="renameDlg" modal="true" resizable="false" >

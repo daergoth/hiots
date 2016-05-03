@@ -16,6 +16,8 @@ import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 import net.daergoth.serviceapi.actors.dummy.DummyThermostatActorVO;
+import net.daergoth.serviceapi.actors.states.ActorStateVO;
+import net.daergoth.serviceapi.actors.states.LampActorStateVO;
 import net.daergoth.serviceapi.actors.states.ThermostatActorStateVO;
 import net.daergoth.serviceapi.rule.ActionVO;
 import net.daergoth.serviceapi.rule.ConditionTypeService;
@@ -26,6 +28,8 @@ import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorType;
 import net.daergoth.serviceapi.sensors.SensorVO;
+import net.daergoth.serviceapi.sensors.datatypes.LightDataVO;
+import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 import net.daergoth.serviceapi.sensors.datatypes.TemperatureDataVO;
 import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
 
@@ -53,7 +57,10 @@ public class RulesManager {
 	
 	private SensorVO newCondSensor;
 	private ConditionTypeService newCondType;
-	private Double newCondValue;
+	private String newCondValue;
+	
+	private ActorVO newActActor;
+	private String newActValue;
 	
 	private String newName;
 	
@@ -64,10 +71,34 @@ public class RulesManager {
 		setActors(actorContainer.getActors());
 		setCondTypes(ConditionTypeService.values());
 		setSensTypes(SensorType.values());
+		
+		newCondSensor = sensors.get(0);
 	}
 	
 	public void addCondition() {
+		ConditionVO cond = new ConditionVO();
+		cond.setId(0l);
+		cond.setSensor(newCondSensor);
+		cond.setType(newCondType);
+		SensorDataVO val;
+		switch (newCondSensor.getType()) {
+		case Light:
+			val = new LightDataVO(Double.parseDouble(newCondValue));
+			break;
+		case Temperature:
+			val = new TemperatureDataVO(Double.parseDouble(newCondValue));
+			break;
+		default:
+			val = null;
+			break;
+		}
+		val.setType(newCondSensor.getType());
+		cond.setValue(val);
 		
+		rules.get(activeRuleIndex).addCondition(cond);
+		ruleContainer.updateRule(rules.get(activeRuleIndex));
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('condDlg').hide();");
 	}
 	
 	public void removeCondition(String id) {
@@ -78,6 +109,31 @@ public class RulesManager {
 	
 	public void addAction() {
 		
+		ActionVO action = new ActionVO();
+		action.setId(0l);
+		action.setActor(newActActor);
+		ActorStateVO state;
+		switch(newActActor.getType()) {
+		case Lamp:
+			state = new LampActorStateVO();
+			state.setData(Double.parseDouble(newActValue));
+			break;
+		case Thermostat:
+			state = new ThermostatActorStateVO();
+			state.setData(Double.parseDouble(newActValue));
+			break;
+		default:
+			state = null;
+			break;
+		}
+		state.setType(newActActor.getType());
+		action.setValue(state);
+		
+		rules.get(activeRuleIndex).addAction(action);
+		ruleContainer.updateRule(rules.get(activeRuleIndex));
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('actDlg').hide();");
 	}
 	
 	public void removeAction(String id) {
@@ -230,11 +286,27 @@ public class RulesManager {
 		this.newCondType = newCondType;
 	}
 
-	public Double getNewCondValue() {
+	public String getNewCondValue() {
 		return newCondValue;
 	}
 
-	public void setNewCondValue(Double newCondValue) {
+	public ActorVO getNewActActor() {
+		return newActActor;
+	}
+
+	public void setNewActActor(ActorVO newActActor) {
+		this.newActActor = newActActor;
+	}
+
+	public String getNewActValue() {
+		return newActValue;
+	}
+
+	public void setNewActValue(String newActValue) {
+		this.newActValue = newActValue;
+	}
+
+	public void setNewCondValue(String newCondValue) {
 		this.newCondValue = newCondValue;
 	}
 
