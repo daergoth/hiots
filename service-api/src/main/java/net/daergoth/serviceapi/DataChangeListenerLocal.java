@@ -16,10 +16,10 @@ public interface DataChangeListenerLocal {
 	
 	public void unsubscribeFrom(SensorVO sensor, DataChangeHandler handler);
 	
+	public void unsubscribeFrom(SensorVO sensor, List<DataChangeHandler> handlers);
+	
 	public void unsubscribeAllFrom(SensorVO sensor);
 	
 	public List<DataChangeHandler> getHandlersFor(SensorVO sensor);
-	
-	//TODO: subscribeFor/unsunscribeFrom Actor
 	
 }

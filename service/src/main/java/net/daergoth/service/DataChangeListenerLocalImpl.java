@@ -117,6 +117,16 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 		}
 	}
 	
+	
+	
+	@Override
+	public void unsubscribeFrom(SensorVO sensor, List<DataChangeHandler> handlers) {
+		for (DataChangeHandler handler : handlers) {
+			unsubscribeFrom(sensor, handler);
+		}
+	}
+
+
 	@Override
 	public void unsubscribeAllFrom(SensorVO sensor) {
 		subs.remove(sensor);

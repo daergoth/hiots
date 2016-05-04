@@ -125,7 +125,7 @@ public class SetupManager {
 							"Dummy" + sensorName, 
 							Double.parseDouble(sensorMinValue), 
 							Double.parseDouble(sensorMaxValue),
-							1000/*Long.parseLong(sensorInterval)*/)
+							1000)
 			);
 			break;
 		case Temperature:
@@ -135,7 +135,7 @@ public class SetupManager {
 							"Dummy" + sensorName, 
 							Double.parseDouble(sensorMinValue), 
 							Double.parseDouble(sensorMaxValue),
-							1000/*Long.parseLong(sensorInterval)*/)
+							1000)
 			);
 			break;
 		default:

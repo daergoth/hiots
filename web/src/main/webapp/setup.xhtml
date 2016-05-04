@@ -18,11 +18,8 @@
 		        <p:ajax event="rowEdit" listener="#{setupManager.onRowEditSensor}" />
 		        
 		        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-		        <p:column headerText="ID">
+		        <p:column headerText="ID" style="width: 100px; text-align: center;">
 		        	<h:outputText value="#{sensor.id}" />
-		        </p:column>
-		        <p:column headerText="Class">
-		        	<h:outputText value="#{sensor.class}" />
 		        </p:column>
 		        <p:column headerText="Name">
 		            <p:cellEditor>
@@ -53,11 +50,8 @@
 		        <p:ajax event="rowEdit" listener="#{setupManager.onRowEditActor}" />
 		        
 		        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-		        <p:column headerText="ID">
+		        <p:column headerText="ID" style="width: 100px; text-align: center;">
 		        	<h:outputText value="#{actor.id}" />
-		        </p:column>
-		        <p:column headerText="Class">
-		        	<h:outputText value="#{actor.class}" />
 		        </p:column>
 		        <p:column headerText="Name">
 		            <p:cellEditor>

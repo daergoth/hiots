@@ -143,7 +143,9 @@
 		                		
 		                		
 		                		<div class="ui-grid-col-2" style="text-align: center; display:table-cell; vertical-align: middle;">
-		                			<p:selectBooleanButton value="#{rule.enabled}" valueChangeListener="#{rulesManager.updateRule}" style="width: 110px;" onLabel="Enabled" offLabel="Disabled"  onIcon="ui-icon-check" offIcon="ui-icon-close"/><br/>
+		                			<p:selectBooleanButton value="#{rule.enabled}"  style="width: 110px;" onLabel="Enabled" offLabel="Disabled"  onIcon="ui-icon-check" offIcon="ui-icon-close"> 
+		                				<p:ajax listener="#{rulesManager.setRuleEnable}"/>
+		                			</p:selectBooleanButton><br/>
 		                			<p:commandButton value="Rename" icon="fa fa-edit" type="button" onclick="PF('renameDlg').show();" update=":form:ruleAP" style="width: 110px;"/><br/>
 		                			<p:commandButton value="Delete" icon="fa fa-trash" actionListener="#{rulesManager.deleteRule}" update=":form:ruleAP" style="width: 110px;"/>
 		                			
@@ -153,8 +155,8 @@
 		        </p:tab>
 		    </p:accordionPanel>
 		    
-			<p:commandButton actionListener="#{rulesManager.addExample}" value="Add ExampleRule" update=":form:ruleAP"/>
-		
+			<p:commandButton type="button" onclick="PF('newRuleDlg').show();" value="Add new rule" update=":form:ruleAP"/>
+			<!-- <p:commandButton actionListener="#{rulesManager.tryIt}" value="try" />  -->
 		
 			<p:dialog header="New condition" widgetVar="condDlg" modal="true" resizable="false">
 			    <p:outputLabel value="Sensor" for="sensorSL"/><br/>
@@ -185,7 +187,7 @@
 	   			<p:outputLabel value="Value"/><br/>
 	   			<h:panelGroup id="newCondValueGroup">
 		   			<p:inputText value="#{rulesManager.newCondValue}"/>
-	   			</h:panelGroup>	   			
+	   			</h:panelGroup><br/>	
 	   			
 	   			<p:commandButton value="Add" actionListener="#{rulesManager.addCondition}" update=":form:ruleAP"/>
 			</p:dialog> 
@@ -213,7 +215,7 @@
 		   				<f:selectItem itemValue="0" itemLabel="Off"/>
 		   			</p:selectOneMenu>
 		   			<p:inputText value="#{rulesManager.newActValue}" rendered="#{rulesManager.newActActor.type == 'Thermostat'}" />
-	   			</h:panelGroup>	   			
+	   			</h:panelGroup><br/>		
 	   			
 	   			<p:commandButton value="Add" actionListener="#{rulesManager.addAction}"  update=":form:ruleAP"/>
 			</p:dialog> 
@@ -223,6 +225,13 @@
 			    <p:inputText id="nameIT" value="#{rulesManager.newName}"/><br/>
 			    <p:commandButton value="Rename" actionListener="#{rulesManager.renameRule}" update="ruleAP"/>
 			</p:dialog> 
+			
+			<p:dialog header="New rule" widgetVar="newRuleDlg" modal="true" resizable="false" >
+				<p:outputLabel value="Rule name:" for="newRuleNameIT"/><br/>
+				<p:inputText id="newRuleNameIT" value="#{rulesManager.newRuleName}" /><br/>
+				<p:commandButton value="Add rule" actionListener="#{rulesManager.addRule}" update=":form:ruleAP"/>
+			
+			</p:dialog>
 	
 		</h:form>
 	</ui:define>

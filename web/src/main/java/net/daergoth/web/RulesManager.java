@@ -6,16 +6,16 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
 
+import net.daergoth.serviceapi.DataChangeHandler;
+import net.daergoth.serviceapi.DataChangeListenerLocal;
 import net.daergoth.serviceapi.actors.ActorContainerLocal;
 import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
-import net.daergoth.serviceapi.actors.dummy.DummyThermostatActorVO;
 import net.daergoth.serviceapi.actors.states.ActorStateVO;
 import net.daergoth.serviceapi.actors.states.LampActorStateVO;
 import net.daergoth.serviceapi.actors.states.ThermostatActorStateVO;
@@ -31,7 +31,6 @@ import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.datatypes.LightDataVO;
 import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 import net.daergoth.serviceapi.sensors.datatypes.TemperatureDataVO;
-import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
 
 @ManagedBean(name = "rulesManager")
 @ViewScoped
@@ -45,6 +44,9 @@ public class RulesManager {
 	
 	@EJB
 	SensorContainerLocal sensorContainer;
+
+	@EJB
+	DataChangeListenerLocal changeListener;
 	
 	private List<RuleVO> rules;
 	private List<SensorVO> sensors;
@@ -62,6 +64,8 @@ public class RulesManager {
 	private ActorVO newActActor;
 	private String newActValue;
 	
+	private String newRuleName;
+	
 	private String newName;
 	
 	@PostConstruct
@@ -73,6 +77,26 @@ public class RulesManager {
 		setSensTypes(SensorType.values());
 		
 		newCondSensor = sensors.get(0);
+		newActActor = actors.get(0);
+	}
+	
+	public void ttt(String str) {
+		System.out.println(sensorContainer.getSensors().get(0));
+
+	}
+	
+	public void tryIt() {
+		int limit = 23;
+		
+		changeListener.subscribeFor(sensors.get(0), new DataChangeHandler() {
+			
+			@Override
+			public void onChange(SensorDataVO newData) {
+				if (newData.getData() > limit) {
+					ttt(newData.toString());
+				}
+			}
+		});
 	}
 	
 	public void addCondition() {
@@ -145,6 +169,7 @@ public class RulesManager {
 	public void deleteRule() {
 		System.out.println("ActiveRuleIndex:_" + activeRuleIndex);
 		ruleContainer.deleteRule(rules.get(activeRuleIndex).getId());
+		setRules(ruleContainer.getRules());
 	}
 	
 	public void renameRule()  {
@@ -156,38 +181,21 @@ public class RulesManager {
 		context.execute("PF('renameDlg').hide();");
 	}
 	
-	public void updateRule(ValueChangeEvent event) {
-		System.out.println("Rule Update!!");
-		rules.get(activeRuleIndex).setEnabled((boolean)event.getNewValue());
+	public void setRuleEnable() {
 		ruleContainer.updateRule(rules.get(activeRuleIndex));
 	}
 	
-	public void addExample() {
+	public void addRule() {
 		RuleVO rule = new RuleVO();
-		
-		ActionVO action = new ActionVO();
-		action.setId(2l);
-		action.setActor(actorContainer.getActors().stream().filter(a -> a.getClass().equals(DummyThermostatActorVO.class)).findFirst().get());
-		ThermostatActorStateVO state = new ThermostatActorStateVO();
-		state.setTargetTemperature(35.0);
-		state.setType(ActorType.Thermostat);
-		action.setValue(state);
-		rule.addAction(action);
-		
-		ConditionVO cond = new ConditionVO();
-		cond.setId(2l);
-		cond.setType(ConditionTypeService.GE);
-		cond.setSensor(sensorContainer.getSensors().stream().filter(s -> s.getClass().equals(DummyTemperatureSensorVO.class)).findFirst().get());
-		TemperatureDataVO data = new TemperatureDataVO(26.1);
-		cond.setValue(data);
-		rule.addCondition(cond);
-		
-		rule.setId(2l);
-		rule.setName("Example Rule");
+		rule.setId(0l);
+		rule.setName(newRuleName);
 		rule.setEnabled(true);
 		
-		
 		ruleContainer.addRule(rule);
+		setRules(ruleContainer.getRules());
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('newRuleDlg').hide();");
 	}
 	
 	public void onCellEditCondition(CellEditEvent event) throws InvalidSensorDataTypeException {
@@ -288,6 +296,14 @@ public class RulesManager {
 
 	public String getNewCondValue() {
 		return newCondValue;
+	}
+
+	public String getNewRuleName() {
+		return newRuleName;
+	}
+
+	public void setNewRuleName(String newRuleName) {
+		this.newRuleName = newRuleName;
 	}
 
 	public ActorVO getNewActActor() {

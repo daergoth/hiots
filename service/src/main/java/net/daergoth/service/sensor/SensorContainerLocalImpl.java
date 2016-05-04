@@ -42,42 +42,6 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 				}
 			}
 			
-			/*
-			for (SensorDTO sensorDTO : dto_list) {
-				switch (sensorDTO.getType()) {
-				case "Temperature":
-					if (sensorDTO.getClass().equals(DummySensorDTO.class)) {
-						DummySensorDTO dummyDTO = (DummySensorDTO) sensorDTO;
-						DummyTemperatureSensorVO dummyVo = new DummyTemperatureSensorVO(dummyDTO.getId(), 
-								dummyDTO.getName(), 
-								dummyDTO.getMin(), 
-								dummyDTO.getMax(), 
-								dummyDTO.getInterval());
-						vo_list.add(dummyVo);
-					} else {
-						TemperatureSensorVO sensorVO = new TemperatureSensorVO(sensorDTO.getId(), sensorDTO.getName());
-						vo_list.add(sensorVO);
-					}
-					
-					break;
-				case "Light":
-					if (sensorDTO.getClass().equals(DummySensorDTO.class)) {
-						DummySensorDTO dummyDTO = (DummySensorDTO) sensorDTO;
-						DummyLightSensorVO dummyVo = new DummyLightSensorVO(dummyDTO.getId(), 
-								dummyDTO.getName(), 
-								dummyDTO.getMin(), 
-								dummyDTO.getMax(), 
-								dummyDTO.getInterval());
-						vo_list.add(dummyVo);
-					} else {
-						LightSensorVO sensorVO = new LightSensorVO(sensorDTO.getId(), sensorDTO.getName());
-						vo_list.add(sensorVO);
-					}
-					break;
-				}
-			}
-			*/
-			
 			sensors = voList;
 			
 			changed = false;
@@ -106,26 +70,6 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 		changed = true;
 		
 		sensorDao.addSensor(SensorConverter.toDTO(s));
-		/*
-		if (s.getClass().getSuperclass().equals(DummySensorVO.class)) {
-			DummySensorVO ds = (DummySensorVO) s;
-			
-			DummySensorDTO newDummyDTO = new DummySensorDTO();
-			newDummyDTO.setId(ds.getId());
-			newDummyDTO.setName(ds.getName());
-			newDummyDTO.setType(ds.getType().toString());
-			newDummyDTO.setMax(ds.getMaxData());
-			newDummyDTO.setMin(ds.getMinData());
-			newDummyDTO.setInterval(ds.getInterval());
-			sensorDao.addSensor(newDummyDTO);
-		} else {
-			SensorDTO newSensDTO = new SensorDTO();
-			newSensDTO.setId(s.getId());
-			newSensDTO.setName(s.getName());
-			newSensDTO.setType(s.getType().toString());
-			sensorDao.addSensor(newSensDTO);
-		}
-		*/
 	}
 
 	@Override
@@ -133,26 +77,6 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 		changed = true;
 		
 		sensorDao.updateSensor(SensorConverter.toDTO(s));
-		/*
-		if (s.getClass().getSuperclass().equals(DummySensorVO.class)) {
-			DummySensorVO ds = (DummySensorVO) s;
-			
-			DummySensorDTO newDummyDTO = new DummySensorDTO();
-			newDummyDTO.setId(ds.getId());
-			newDummyDTO.setName(ds.getName());
-			newDummyDTO.setType(ds.getType().toString());
-			newDummyDTO.setMax(ds.getMaxData());
-			newDummyDTO.setMin(ds.getMinData());
-			newDummyDTO.setInterval(ds.getInterval());
-			sensorDao.updateSensor(newDummyDTO);
-		} else {
-			SensorDTO newSensDTO = new SensorDTO();
-			newSensDTO.setId(s.getId());
-			newSensDTO.setName(s.getName());
-			newSensDTO.setType(s.getType().toString());
-			sensorDao.updateSensor(newSensDTO);
-		}
-		*/
 	}
 
 	@Override

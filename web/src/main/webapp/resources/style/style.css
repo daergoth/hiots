@@ -12,3 +12,7 @@ header div.logo {
 	font-size: 3em;
 	display: inline-block;
 }
+
+.ui-accordion .ui-accordion-header {
+	/*background-color: #ddd;*/
+}
