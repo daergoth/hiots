@@ -12,6 +12,8 @@ import javax.ejb.Singleton;
 import net.daergoth.coreapi.rule.RuleDaoLocal;
 import net.daergoth.serviceapi.DataChangeHandler;
 import net.daergoth.serviceapi.DataChangeListenerLocal;
+import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
+import net.daergoth.serviceapi.rule.ActionVO;
 import net.daergoth.serviceapi.rule.ConditionVO;
 import net.daergoth.serviceapi.rule.InvalidConditionTypeException;
 import net.daergoth.serviceapi.rule.RuleManagerServiceLocal;
@@ -75,7 +77,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 			handlerList.add(h);
 			changeListener.subscribeFor(cond.getSensor(), h);
 		}
-		handlers.replace(r.getId(), handlerList);
+		handlers.put(r.getId(), handlerList);
 		
 		ruleDao.updateRule(RuleConverter.toDTO(r));
 	}
@@ -84,35 +86,67 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	public void deleteRule(Long id) {
 		changed = true;
 		
-		handlers.remove(id);
 		RuleVO rule = rules.stream().filter(r -> r.getId() == id).findFirst().get();
 		for (ConditionVO cond : rule.getConditions()) {
 			changeListener.unsubscribeFrom(cond.getSensor(), handlers.get(id));
 		}
+		handlers.remove(id);
 		
 		ruleDao.deleteRule(id);
 	}
 	
 	public void checkForRule(Long ruleId) {
+		System.out.println("CheckForRule id: " + ruleId);
 		
+		RuleVO rule = rules.stream().filter(r -> r.getId() == ruleId).findFirst().get();
+		boolean result = true;
+		for (ConditionVO cond : rule.getConditions()) {
+			try {
+				result = result && evaluateCondition(cond, cond.getSensor().getData());
+				
+			} catch (InvalidSensorDataTypeException | InvalidConditionTypeException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("CheckForRule result: " + result);
+		
+		if (result) {
+			for (ActionVO action : rule.getActions()) {
+				try {
+					System.out.println("CheckForRule action: " + action.getActor() + " -> " + action.getValue());
+					action.getActor().setState(action.getValue());
+				} catch (InvalidActorStateTypeException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public boolean evaluateCondition(ConditionVO cond, SensorDataVO data) throws InvalidSensorDataTypeException, InvalidConditionTypeException  {
+		/*System.out.println(data);
+		System.out.println(cond.getType());
+		System.out.println(cond.getValue());*/
 		switch (cond.getType()) {
 		case EQ:
+			System.out.println(data.compareTo(cond.getValue()) == 0);
 			return data.compareTo(cond.getValue()) == 0;
 			//break;
 		case GE:
-			return data.compareTo(cond.getValue()) <= 0;
-			//break;
-		case GT:
-			return data.compareTo(cond.getValue()) < 0;
-			//break;
-		case LE:
+			System.out.println(data.compareTo(cond.getValue()) >= 0);
 			return data.compareTo(cond.getValue()) >= 0;
 			//break;
-		case LT:
+		case GT:
+			System.out.println(data.compareTo(cond.getValue()) > 0);
 			return data.compareTo(cond.getValue()) > 0;
+			//break;
+		case LE:
+			System.out.println(data.compareTo(cond.getValue()) <= 0);
+			return data.compareTo(cond.getValue()) <= 0;
+			//break;
+		case LT:
+			System.out.println(data.compareTo(cond.getValue()) < 0);
+			return data.compareTo(cond.getValue()) < 0;
 			//break;
 		default:
 			throw new InvalidConditionTypeException("Invalid ConditionType!");

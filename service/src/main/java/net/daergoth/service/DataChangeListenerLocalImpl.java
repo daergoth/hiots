@@ -81,7 +81,6 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 
 	@Override
 	public void changed(SensorVO sensor) {
-		System.out.println("changed: " + sensor);
 		for (DataChangeHandler handler : subs.get(sensor)) {
 			handler.onChange(sensor.getData());
 		}
@@ -121,9 +120,10 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	
 	@Override
 	public void unsubscribeFrom(SensorVO sensor, List<DataChangeHandler> handlers) {
-		for (DataChangeHandler handler : handlers) {
-			unsubscribeFrom(sensor, handler);
-		}
+		if (handlers != null)
+			for (DataChangeHandler handler : handlers) {
+				unsubscribeFrom(sensor, handler);
+			}
 	}
 
 
