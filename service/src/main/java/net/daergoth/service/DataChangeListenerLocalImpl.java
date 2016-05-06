@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+import javax.ejb.DependsOn;
+import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.SessionContext;
 import javax.ejb.Singleton;
@@ -18,11 +21,13 @@ import javax.ejb.TimerConfig;
 import net.daergoth.serviceapi.DataChangeHandler;
 import net.daergoth.serviceapi.DataChangeListenerLocal;
 import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
+import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 
-@Singleton
+@Singleton(name = "DataChangeListener")
 @Startup
+@DependsOn("DummyDataGenerator")
 @Local(DataChangeListenerLocal.class)
 public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	
@@ -32,6 +37,9 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	
 	@Resource
 	private SessionContext context;
+	
+	@EJB
+	private SensorContainerLocal sensorContainer;
 	
 	private Timer tm;
 	
@@ -47,6 +55,7 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	
 	@PostConstruct
 	public void init() {
+		System.out.println("DataChangeListener @PostConstruct");
 		createTimer(UPDATE_INTERVAL);
 		
 		for (SensorVO s : subs.keySet()) {
@@ -54,12 +63,24 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 		}
 	}
 	
+	@PreDestroy
+	public void destroy() {
+		System.out.println("DataChangeListener @PreDestroy");
+		if (tm != null) {
+			tm.cancel();
+		}
+	}
+	
 	@Timeout
 	public void checkForChange(Timer timer) {
+		
+		//System.out.println("DataChangeListener checkForChange start");
 		
 		for (Map.Entry<SensorVO, ArrayList<DataChangeHandler>> entry : subs.entrySet()) {
 			SensorDataVO current = entry.getKey().getData();
 			SensorDataVO past = pastData.get(entry.getKey().getId());
+			
+			System.out.println("DataChangeListener checkForChange (name, past, current): " + entry.getKey().getName() + ", " + past + ", " + current);
 			
 			if (past != null && current != null) {
 				try {
@@ -81,13 +102,15 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 
 	@Override
 	public void changed(SensorVO sensor) {
+		System.out.println("DataChangeListener changed: " + sensor.getName());
 		for (DataChangeHandler handler : subs.get(sensor)) {
 			handler.onChange(sensor.getData());
 		}
 	}
 	
 	@Override
-	public void subscribeFor(SensorVO sensor, DataChangeHandler handler) {
+	public void subscribeFor(Long sensorId, DataChangeHandler handler) {
+		SensorVO sensor = sensorContainer.getSensors().stream().filter(s -> s.getId() == sensorId).findFirst().get();
 		System.out.println("Subscription for: " + sensor.getName());
 		if (subs.containsKey(sensor)) {
 			subs.get(sensor).add(handler);
@@ -96,17 +119,23 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 			list.add(handler);
 			subs.put(sensor, list);
 		}
+		pastData.put(sensor.getId(), sensor.getData());
+		System.out.println("DatChangeListener subscribeFor sensorClass: " + sensor.getClass());
+		System.out.println("DatChangeListener subscribeFor sensorData: " + sensor.getData());
+		System.out.println("DataChangeListener subscribeFor pastData: " + pastData.get(sensor.getId()));
 	}
 	
 	@Override
-	public void subscribeFor(SensorVO sensor, List<DataChangeHandler> handlers) {
+	public void subscribeFor(Long sensorId, List<DataChangeHandler> handlers) {
 		for (DataChangeHandler handler : handlers) {
-			subscribeFor(sensor, handler);
+			subscribeFor(sensorId, handler);
 		}
 	}
 
 	@Override
-	public void unsubscribeFrom(SensorVO sensor, DataChangeHandler handler) {
+	public void unsubscribeFrom(Long sensorId, DataChangeHandler handler) {
+		SensorVO sensor = sensorContainer.getSensors().stream().filter(s -> s.getId() == sensorId).findFirst().get();
+		System.out.println("Unsubscription for: " + sensor.getName());
 		if (subs.containsKey(sensor)) {
 			if (subs.get(sensor).size() <= 1) {
 				subs.remove(sensor);
@@ -114,26 +143,29 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 				subs.get(sensor).remove(handler);
 			}
 		}
+		pastData.remove(sensor.getId());
 	}
 	
 	
 	
 	@Override
-	public void unsubscribeFrom(SensorVO sensor, List<DataChangeHandler> handlers) {
+	public void unsubscribeFrom(Long sensorId, List<DataChangeHandler> handlers) {
 		if (handlers != null)
 			for (DataChangeHandler handler : handlers) {
-				unsubscribeFrom(sensor, handler);
+				unsubscribeFrom(sensorId, handler);
 			}
 	}
 
 
 	@Override
-	public void unsubscribeAllFrom(SensorVO sensor) {
+	public void unsubscribeAllFrom(Long sensorId) {
+		SensorVO sensor = sensorContainer.getSensors().stream().filter(s -> s.getId() == sensorId).findFirst().get();
 		subs.remove(sensor);
 	}
 	
 	@Override
-	public List<DataChangeHandler> getHandlersFor(SensorVO sensor) {
+	public List<DataChangeHandler> getHandlersFor(Long sensorId) {
+		SensorVO sensor = sensorContainer.getSensors().stream().filter(s -> s.getId() == sensorId).findFirst().get();
 		return subs.get(sensor);
 	}
 

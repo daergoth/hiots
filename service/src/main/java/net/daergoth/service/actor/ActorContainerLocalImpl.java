@@ -15,7 +15,7 @@ import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyActorVO;
 
-@Singleton
+@Singleton(name = "ActorContainer")
 @Local(ActorContainerLocal.class)
 public class ActorContainerLocalImpl implements ActorContainerLocal{
 	

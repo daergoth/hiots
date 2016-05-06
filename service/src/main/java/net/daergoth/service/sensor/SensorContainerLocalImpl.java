@@ -16,7 +16,7 @@ import net.daergoth.serviceapi.sensors.SensorConvertException;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 
-@Singleton(name = "sensorContainer")
+@Singleton(name = "SensorContainer")
 @Startup
 @Local(SensorContainerLocal.class)
 public class SensorContainerLocalImpl implements SensorContainerLocal {

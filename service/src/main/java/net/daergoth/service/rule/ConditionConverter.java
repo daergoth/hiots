@@ -3,7 +3,6 @@ package net.daergoth.service.rule;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
 import net.daergoth.coreapi.rule.ConditionDTO;
@@ -12,21 +11,16 @@ import net.daergoth.service.sensor.SensorConverter;
 import net.daergoth.service.sensor.SensorDataConverter;
 import net.daergoth.serviceapi.rule.ConditionTypeService;
 import net.daergoth.serviceapi.rule.ConditionVO;
-import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorConvertException;
 
 @Singleton
 public class ConditionConverter {
 	
-	@EJB
-	private SensorContainerLocal sensorContainer;
-	
 	public ConditionVO toVO(ConditionDTO d)  {
 		ConditionVO vo = new ConditionVO();
 		vo.setId(d.getId());
 		vo.setType(ConditionTypeService.valueOf(d.getConditionType().toString()));
-		//vo.setSensor(sensorContainer.getSensors().stream().filter(s -> s.getId() == d.getSensor().getId()).findFirst().get());
-		
+				
 		try {
 			vo.setSensor(SensorConverter.toVO(d.getSensor()));
 		} catch (SensorConvertException e) {

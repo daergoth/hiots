@@ -6,7 +6,7 @@ import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 
 public interface DummyDataGeneratorLocal {
 	
-	public static final long MIN_UPDATE_INTERVAL = 1000;
+	public static final long MIN_UPDATE_INTERVAL = 5000;
 	
 	public void generateAllDummies();
 	

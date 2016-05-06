@@ -10,16 +10,16 @@ public interface DataChangeListenerLocal {
 	
 	public void changed(SensorVO sensor);
 	
-	public void subscribeFor(SensorVO sensor, DataChangeHandler handler);
+	public void subscribeFor(Long sensorId, DataChangeHandler handler);
 	
-	public void subscribeFor(SensorVO sensor, List<DataChangeHandler> handlers);
+	public void subscribeFor(Long sensorId, List<DataChangeHandler> handlers);
 	
-	public void unsubscribeFrom(SensorVO sensor, DataChangeHandler handler);
+	public void unsubscribeFrom(Long sensorId, DataChangeHandler handler);
 	
-	public void unsubscribeFrom(SensorVO sensor, List<DataChangeHandler> handlers);
+	public void unsubscribeFrom(Long sensorId, List<DataChangeHandler> handlers);
 	
-	public void unsubscribeAllFrom(SensorVO sensor);
+	public void unsubscribeAllFrom(Long sensorId);
 	
-	public List<DataChangeHandler> getHandlersFor(SensorVO sensor);
+	public List<DataChangeHandler> getHandlersFor(Long sensorId);
 	
 }

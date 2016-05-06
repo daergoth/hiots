@@ -3,7 +3,9 @@ package net.daergoth.service.sensor;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+import javax.ejb.DependsOn;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.SessionContext;
@@ -17,8 +19,9 @@ import net.daergoth.serviceapi.sensors.DummyDataGeneratorLocal;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 
-@Singleton
+@Singleton(name = "DummyDataGenerator")
 @Startup
+@DependsOn("SensorContainer")
 @Local(DummyDataGeneratorLocal.class)
 public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	
@@ -44,9 +47,18 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	
 	@PostConstruct
 	public void init() {
+		System.out.println("DummyDataGenerator @PostConstruct");
 		setDummiesList(sensorContainer.getDummySensors());
 		
 		createTimer(MIN_UPDATE_INTERVAL);
+	}
+	
+	@PreDestroy
+	public void destroy() {
+		System.out.println("DummyDataGenerator @PreDestroy");
+		if (tm != null) {
+			tm.cancel();
+		}
 	}
 	
 	@Timeout
@@ -59,6 +71,7 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	
 	public void generateAllDummies() {
 		for (int i = 0; i < dummiesList.size(); ++i) {
+			//System.out.println("DummyDataGenerator generateAllDummies: " + dummiesList.get(i).getName());
 			dummiesList.get(i).generateRandomData();
 		}
 	}

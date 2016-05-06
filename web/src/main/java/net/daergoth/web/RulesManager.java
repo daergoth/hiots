@@ -88,7 +88,7 @@ public class RulesManager {
 	public void tryIt() {
 		int limit = 23;
 		
-		changeListener.subscribeFor(sensors.get(0), new DataChangeHandler() {
+		changeListener.subscribeFor(sensors.get(0).getId(), new DataChangeHandler() {
 			
 			@Override
 			public void onChange(SensorDataVO newData) {

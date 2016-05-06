@@ -100,12 +100,12 @@ public class SetupManager {
 	
 	public void onRowEditSensor(RowEditEvent event) {
 		SensorVO s = (SensorVO) event.getObject();
-		List<DataChangeHandler> handlers = changeListener.getHandlersFor(s);
+		List<DataChangeHandler> handlers = changeListener.getHandlersFor(s.getId());
 		if (handlers != null) {
-			changeListener.unsubscribeAllFrom(s);
+			changeListener.unsubscribeAllFrom(s.getId());
 			sensorContainer.updateSensor(s);
 			changeListener.subscribeFor(
-					sensorContainer.getSensors().stream().filter(se -> se.getId() == s.getId()).findFirst().get(),
+					sensorContainer.getSensors().stream().filter(se -> se.getId() == s.getId()).findFirst().get().getId(),
 					handlers);
 		} else {
 			sensorContainer.updateSensor(s);
