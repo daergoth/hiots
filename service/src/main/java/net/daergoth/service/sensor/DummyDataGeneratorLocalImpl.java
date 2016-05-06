@@ -35,7 +35,7 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	
 	private Timer tm;
 	
-	public void createTimer(long interval) {
+	private void createTimer(long interval) {
 		if (tm == null)
 			tm = context.getTimerService().createIntervalTimer(0, interval, new TimerConfig());
 		else {

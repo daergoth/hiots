@@ -5,7 +5,7 @@ import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 
 public abstract class ActorStateVO {
 	
-	private ActorType type;
+	protected ActorType type;
 	
 	public abstract String toString();
 	

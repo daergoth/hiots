@@ -1,11 +1,17 @@
 package net.daergoth.serviceapi.actors.states;
 
+import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 
 public class ThermostatActorStateVO extends ActorStateVO {
 	
 	private double targetTemperature;
 	
+	public ThermostatActorStateVO() {
+		super();
+		this.type = ActorType.Thermostat;
+	}
+
 	public int compareTo(ActorStateVO other) throws InvalidActorStateTypeException {
 		if (other.getClass().equals(ThermostatActorStateVO.class)) {
 			ThermostatActorStateVO o = (ThermostatActorStateVO) other;

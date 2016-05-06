@@ -1,10 +1,16 @@
 package net.daergoth.serviceapi.actors.states;
 
+import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 
 public class LampActorStateVO extends ActorStateVO {
 	
 	private boolean status;
+
+	public LampActorStateVO() {
+		super();
+		this.type = ActorType.Lamp;
+	}
 
 	public boolean getStatus() {
 		return status;
