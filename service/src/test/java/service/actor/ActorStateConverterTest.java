@@ -105,7 +105,7 @@ public class ActorStateConverterTest {
 		
 		for (int i = 0; i < actual.size(); ++i) {
 			Assert.assertEquals("Not matching ActorStateType!", voList.get(i).getType(), actual.get(i).getType());
-			
+
 			Assert.assertEquals("Not matching value!", voList.get(i).getData(), actual.get(i).getData());
 		}
 	}

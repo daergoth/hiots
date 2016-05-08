@@ -16,6 +16,7 @@ import javax.ejb.Startup;
 import net.daergoth.coreapi.rule.RuleDaoLocal;
 import net.daergoth.serviceapi.DataChangeHandler;
 import net.daergoth.serviceapi.DataChangeListenerLocal;
+import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 import net.daergoth.serviceapi.rule.ActionVO;
 import net.daergoth.serviceapi.rule.ConditionVO;
@@ -24,6 +25,7 @@ import net.daergoth.serviceapi.rule.RuleManagerServiceLocal;
 import net.daergoth.serviceapi.rule.RuleVO;
 import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
+import net.daergoth.serviceapi.sensors.SensorConvertException;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 
@@ -61,7 +63,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 				handlers.get(rule.getId()).add(h);
 				changeListener.subscribeFor(cond.getSensor().getId(), h);
 			}
-		}
+		} 
 	}
 	
 	@PreDestroy
@@ -77,7 +79,11 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	@Override
 	public List<RuleVO> getRules() {
 		if (changed) {
-			rules = RuleConverter.toVOs(ruleDao.getRules());
+			try {
+				rules = RuleConverter.toVOs(ruleDao.getRules());
+			} catch (SensorConvertException | ActorConvertException e) {
+				e.printStackTrace();
+			}
 			changed = false;
 		}
 		
@@ -199,15 +205,9 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 		return new DataChangeHandler() {
 			
 			@Override
-			public void onChange(SensorDataVO newData) {
-				try {
-					if (evaluateCondition(cond, newData)) {
-						checkForRule(ruleId);
-					}
-				} catch (InvalidSensorDataTypeException e) {
-					e.printStackTrace();
-				} catch (InvalidConditionTypeException e) {
-					e.printStackTrace();
+			public void onChange(SensorDataVO newData) throws InvalidSensorDataTypeException, InvalidConditionTypeException {
+				if (evaluateCondition(cond, newData)) {
+					checkForRule(ruleId);
 				}
 			}
 		};

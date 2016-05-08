@@ -3,7 +3,7 @@ package net.daergoth.service.rule;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 
 import net.daergoth.coreapi.rule.ConditionDTO;
 import net.daergoth.coreapi.rule.ConditionTypeCore;
@@ -13,26 +13,19 @@ import net.daergoth.serviceapi.rule.ConditionTypeService;
 import net.daergoth.serviceapi.rule.ConditionVO;
 import net.daergoth.serviceapi.sensors.SensorConvertException;
 
-@Singleton
+@Stateless
 public class ConditionConverter {
 	
-	public ConditionVO toVO(ConditionDTO d)  {
+	public static ConditionVO toVO(ConditionDTO d) throws SensorConvertException  {
 		ConditionVO vo = new ConditionVO();
 		vo.setId(d.getId());
 		vo.setType(ConditionTypeService.valueOf(d.getConditionType().toString()));
-				
-		try {
-			vo.setSensor(SensorConverter.toVO(d.getSensor()));
-		} catch (SensorConvertException e) {
-			e.printStackTrace();
-		}
-		
-		
+		vo.setSensor(SensorConverter.toVO(d.getSensor()));
 		vo.setValue(SensorDataConverter.toVO(d.getValue()));
 		return vo;
 	}
 	
-	public List<ConditionVO> toVOs(List<ConditionDTO> ds) {
+	public static List<ConditionVO> toVOs(List<ConditionDTO> ds) throws SensorConvertException {
 		List<ConditionVO> vos = new ArrayList<>();
 		for (ConditionDTO d : ds) {
 			vos.add(toVO(d));
@@ -40,7 +33,7 @@ public class ConditionConverter {
 		return vos;
 	}
 	
-	public ConditionDTO toDTO(ConditionVO v) {
+	public static ConditionDTO toDTO(ConditionVO v) {
 		ConditionDTO dto = new ConditionDTO();
 		dto.setId(v.getId());
 		dto.setConditionType(ConditionTypeCore.valueOf(v.getType().toString()));
@@ -49,7 +42,7 @@ public class ConditionConverter {
 		return dto;
 	}
 	
-	public List<ConditionDTO> toDTOs(List<ConditionVO> vs) {
+	public static List<ConditionDTO> toDTOs(List<ConditionVO> vs) {
 		List<ConditionDTO> dtos = new ArrayList<>();
 		for (ConditionVO v : vs) {
 			dtos.add(toDTO(v));

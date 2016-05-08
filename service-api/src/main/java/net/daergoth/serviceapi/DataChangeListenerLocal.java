@@ -8,7 +8,7 @@ public interface DataChangeListenerLocal {
 	
 	public static final long UPDATE_INTERVAL = 5000;
 	
-	public void changed(SensorVO sensor);
+	public void changed(SensorVO sensor) throws Exception;
 	
 	public void subscribeFor(Long sensorId, DataChangeHandler handler);
 	

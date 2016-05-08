@@ -72,7 +72,7 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	}
 	
 	@Timeout
-	public void checkForChange(Timer timer) {
+	public void checkForChange(Timer timer) throws Exception {
 		
 		//System.out.println("DataChangeListener checkForChange start");
 		
@@ -101,7 +101,7 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	}
 
 	@Override
-	public void changed(SensorVO sensor) {
+	public void changed(SensorVO sensor) throws Exception {
 		System.out.println("DataChangeListener changed: " + sensor.getName());
 		for (DataChangeHandler handler : subs.get(sensor)) {
 			handler.onChange(sensor.getData());
