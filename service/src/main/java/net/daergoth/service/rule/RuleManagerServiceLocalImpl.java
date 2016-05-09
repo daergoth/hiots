@@ -16,7 +16,9 @@ import javax.ejb.Startup;
 import net.daergoth.coreapi.rule.RuleDaoLocal;
 import net.daergoth.serviceapi.DataChangeHandler;
 import net.daergoth.serviceapi.DataChangeListenerLocal;
+import net.daergoth.serviceapi.actors.ActorContainerLocal;
 import net.daergoth.serviceapi.actors.ActorConvertException;
+import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 import net.daergoth.serviceapi.rule.ActionVO;
 import net.daergoth.serviceapi.rule.ConditionVO;
@@ -31,7 +33,7 @@ import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 
 @Singleton
 @Startup
-@DependsOn("DataChangeListener")
+@DependsOn({"DataChangeListener","ActorContainer"})
 @Local(RuleManagerServiceLocal.class)
 public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	
@@ -43,6 +45,9 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	
 	@EJB
 	SensorContainerLocal sensorContainer;
+	
+	@EJB
+	ActorContainerLocal actorContainer;
 	
 	List<RuleVO> rules = new ArrayList<>();	
 	
@@ -159,11 +164,12 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 		if (result) {
 			for (ActionVO action : rule.getActions()) {
 				try {
-					//System.out.println("RuleManagerService checkForRule (action.actor.state, action.value): " + action.getActor().getState() + ", " + action.getValue());
+					ActorVO actor = actorContainer.getActors().stream().filter(a -> a.getId() == action.getActor().getId()).findFirst().get();
+					System.out.println("RuleManagerService checkForRule (actor.state, action.value): " + actor.getState() + ", " + action.getValue());
 					//System.out.println("RuleManagerService checkForRule action.actor.state != action.value: " + (action.getActor().getState() != action.getValue()) );
-					if (action.getActor().getState() != action.getValue()) {
-						System.out.println("RuleManagerService checkForRule action: " + action.getActor() + " -> " + action.getValue());
-						action.getActor().setState(action.getValue());
+					if (actor.getState() != action.getValue()) {
+						System.out.println("RuleManagerService checkForRule action: " + actor + " -> " + action.getValue());
+						actor.setState(action.getValue());
 					}
 				} catch (InvalidActorStateTypeException e) {
 					e.printStackTrace();
