@@ -10,15 +10,12 @@ public class LightDataVO extends SensorDataVO {
 	public static String UNIT;
 	
 	private double lightness = 0;
-	
-	private String customUnit;
 
 	public LightDataVO(double lightness) {
 		super();
 		this.lightness = lightness;
 		this.type = SensorType.Light;
 		LightDataVO.UNIT = "lm";
-		this.customUnit = LightDataVO.UNIT;
 	}
 
 	public double getLightness() {
@@ -33,7 +30,7 @@ public class LightDataVO extends SensorDataVO {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(new DecimalFormat("###.##").format(lightness));
-		stringBuilder.append(customUnit);
+		stringBuilder.append(UNIT);
 		return stringBuilder.toString();
 	}
 
@@ -57,14 +54,4 @@ public class LightDataVO extends SensorDataVO {
 		this.lightness = d;
 	}
 
-	public String getCustomUnit() {
-		return customUnit;
-	}
-
-	public void setCustomUnit(String unit) {
-		this.customUnit = unit;
-	}
-	
-	
-	
 }

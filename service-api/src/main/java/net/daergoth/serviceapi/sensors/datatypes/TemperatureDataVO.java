@@ -11,13 +11,10 @@ public class TemperatureDataVO extends SensorDataVO {
 	
 	private double temperature = 0;
 	
-	private String customUnit;
-	
 	public TemperatureDataVO(double d) {
 		this.temperature = d;
 		this.type = SensorType.Temperature;
-		TemperatureDataVO.UNIT = "°C";
-		this.customUnit = TemperatureDataVO.UNIT;
+		TemperatureDataVO.UNIT = "Â°C";
 	}
 
 	public double getTemperature() {
@@ -32,7 +29,7 @@ public class TemperatureDataVO extends SensorDataVO {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(new DecimalFormat("###.##").format(temperature));
-		stringBuilder.append(customUnit);
+		stringBuilder.append(UNIT);
 		
 		return stringBuilder.toString();
 	}
@@ -56,15 +53,5 @@ public class TemperatureDataVO extends SensorDataVO {
 	public void setData(Double d) {
 		this.temperature = d;
 	}
-
-	public String getCustomUnit() {
-		return customUnit;
-	}
-
-	public void setCustomUnit(String unit) {
-		this.customUnit = unit;
-	}
-	
-	
 	
 }

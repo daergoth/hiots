@@ -16,6 +16,14 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>net.daergoth</groupId>
 			<artifactId>service-api</artifactId>
 			<version>1.0</version>

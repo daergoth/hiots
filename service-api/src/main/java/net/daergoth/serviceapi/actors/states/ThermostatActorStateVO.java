@@ -24,7 +24,7 @@ public class ThermostatActorStateVO extends ActorStateVO {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(targetTemperature);
-		sb.append("°C");
+		sb.append("Â°C");
 		return sb.toString();
 	}
 

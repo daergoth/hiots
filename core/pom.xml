@@ -10,6 +10,14 @@
   
   <dependencies>
 		<dependency>
+		  	<groupId>junit</groupId>
+		  	<artifactId>junit</artifactId>
+	  	</dependency>
+	  	<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+		</dependency>
+	  	<dependency>
 			<groupId>net.daergoth</groupId>
 			<artifactId>core-api</artifactId>
 			<version>1.0</version>

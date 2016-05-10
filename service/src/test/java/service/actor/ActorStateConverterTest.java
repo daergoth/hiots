@@ -22,11 +22,16 @@ public class ActorStateConverterTest {
 	static ActorStateVO lampVo;
 	static ActorStateVO thermoVo;
 	
+	static ActorStateVO fakeVO;
+	
 	static ActorStateDTO lampDto;
 	static ActorStateDTO thermoDto;
 	
 	@BeforeClass
 	public static void setup() {
+		fakeVO = new LampActorStateVO();
+		fakeVO.setType(null);
+		
 		lampVo = new LampActorStateVO();
 		lampVo.setData(1.0);
 		
