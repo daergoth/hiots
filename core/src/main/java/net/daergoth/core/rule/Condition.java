@@ -42,10 +42,6 @@ public class Condition implements Serializable {
 	@Embedded
 	private SensorData value;
 
-	public Condition() {
-		super();
-	}
-
 	public Long getId() {
 		return id;
 	}

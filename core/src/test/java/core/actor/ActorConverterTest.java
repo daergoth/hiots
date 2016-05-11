@@ -14,14 +14,14 @@ import net.daergoth.coreapi.actor.DummyActorDTO;
 
 public class ActorConverterTest {
 
-	static ActorDTO actorDto;
-	static DummyActorDTO dummyActorDto;
+	private static ActorDTO actorDto;
+	private static DummyActorDTO dummyActorDto;
 
-	static Actor actorEntity;
-	static Actor dummyActorEntity;
+	private static Actor actorEntity;
+	private static Actor dummyActorEntity;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 		actorDto = new ActorDTO();
 		actorDto.setId(1l);
 		actorDto.setName("TestActor");
@@ -78,7 +78,7 @@ public class ActorConverterTest {
 			} else {
 				/*
 				 * if (actual.get(i) instanceof DummyActorDTO) { 
-				 * 	fail("Return is DummyActorDTO for Actor entity!"); 
+				 * 	Assert.fail("Return is DummyActorDTO for Actor entity!"); 
 				 * }
 				 */
 

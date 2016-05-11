@@ -14,12 +14,12 @@ import net.daergoth.coreapi.actor.ActorStateType;
 
 public class ActorStateConverterTest {
 
-	static ActorStateDTO stateDto;
+	private static ActorStateDTO stateDto;
 
-	static ActorState stateEntity;
+	private static ActorState stateEntity;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 		stateDto = new ActorStateDTO();
 		stateDto.setType(ActorStateType.LAMP);
 		stateDto.setValue(1.0);

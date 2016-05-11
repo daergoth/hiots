@@ -21,9 +21,9 @@ import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 public class SensorContainerLocalImpl implements SensorContainerLocal {
 	 
 	@EJB
-	SensorDaoLocal sensorDao;
+	private SensorDaoLocal sensorDao;
 	
-	List<SensorVO> sensors = new ArrayList<>();
+	private List<SensorVO> sensors = new ArrayList<>();
 	
 	private boolean changed = true;
 

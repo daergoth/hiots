@@ -26,9 +26,9 @@ import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 
 	@EJB
-	SensorContainerLocal sensorContainer;
+	private SensorContainerLocal sensorContainer;
 
-	List<DummySensorVO> dummiesList;
+	private List<DummySensorVO> dummiesList;
 
 	@Resource
 	private SessionContext context;

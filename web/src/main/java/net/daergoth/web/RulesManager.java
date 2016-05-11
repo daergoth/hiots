@@ -37,16 +37,16 @@ import net.daergoth.serviceapi.sensors.datatypes.TemperatureDataVO;
 public class RulesManager {
 	
 	@EJB
-	RuleManagerServiceLocal ruleContainer;
+	private RuleManagerServiceLocal ruleContainer;
 	
 	@EJB
-	ActorContainerLocal actorContainer;
+	private ActorContainerLocal actorContainer;
 	
 	@EJB
-	SensorContainerLocal sensorContainer;
+	private SensorContainerLocal sensorContainer;
 
 	@EJB
-	DataChangeListenerLocal changeListener;
+	private DataChangeListenerLocal changeListener;
 	
 	private List<RuleVO> rules;
 	private List<SensorVO> sensors;

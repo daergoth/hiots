@@ -19,18 +19,18 @@ import net.daergoth.serviceapi.sensors.datatypes.TemperatureDataVO;
 @FixMethodOrder(MethodSorters.JVM)
 public class SensorDataConverterTest {
 
-	static SensorDataVO lightVo;
-	static SensorDataVO tempVo;
+	private static SensorDataVO lightVo;
+	private static SensorDataVO tempVo;
 
-	static SensorDataVO fakeVo;
+	private static SensorDataVO fakeVo;
 
-	static SensorDataDTO lightDto;
-	static SensorDataDTO tempDto;
+	private static SensorDataDTO lightDto;
+	private static SensorDataDTO tempDto;
 
-	static SensorDataDTO fakeDto;
+	private static SensorDataDTO fakeDto;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 		lightVo = new LightDataVO(10);
 
 		tempVo = new TemperatureDataVO(23.4);

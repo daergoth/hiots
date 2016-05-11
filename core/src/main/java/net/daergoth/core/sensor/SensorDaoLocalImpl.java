@@ -16,7 +16,7 @@ import net.daergoth.coreapi.sensor.SensorDaoLocal;
 public class SensorDaoLocalImpl implements SensorDaoLocal {
 	
 	@PersistenceContext
-	EntityManager em;
+	private EntityManager em;
 	
 	@Override
 	public List<SensorDTO> getSensors() {

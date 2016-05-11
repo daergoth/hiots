@@ -22,12 +22,12 @@ import net.daergoth.serviceapi.sensors.SensorConvertException;
 @FixMethodOrder(MethodSorters.JVM)
 public class RuleConverterTest {
 
-	static RuleVO ruleVo;
+	private static RuleVO ruleVo;
 
-	static RuleDTO ruleDto;
+	private static RuleDTO ruleDto;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 		List<ConditionVO> conditionVOs = new ArrayList<>();
 		List<ActionVO> actionVOs = new ArrayList<>();
 

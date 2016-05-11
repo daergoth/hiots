@@ -24,16 +24,16 @@ import net.daergoth.serviceapi.rule.ActionVO;
 @FixMethodOrder(MethodSorters.JVM)
 public class ActionConverterTest {
 
-	static ActionVO actionVo;
-	static ActorVO actorVo;
-	static ActorStateVO stateVo;
+	private static ActionVO actionVo;
+	private static ActorVO actorVo;
+	private static ActorStateVO stateVo;
 
-	static ActionDTO actionDto;
-	static ActorDTO actorDto;
-	static ActorStateDTO stateDto;
+	private static ActionDTO actionDto;
+	private static ActorDTO actorDto;
+	private static ActorStateDTO stateDto;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 		actorVo = new LampActorVO(7l, "LampActor");
 
 		stateVo = new LampActorStateVO();

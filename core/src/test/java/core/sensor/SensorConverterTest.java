@@ -1,7 +1,5 @@
 package core.sensor;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,15 +18,15 @@ import net.daergoth.coreapi.sensor.SensorDTO;
 @FixMethodOrder(MethodSorters.JVM)
 public class SensorConverterTest {
 
-	static SensorDTO sensorDto;
-	static DummySensorDTO dummySensorDto;
+	private static SensorDTO sensorDto;
+	private static DummySensorDTO dummySensorDto;
 
-	static Sensor sensorEntity;
-	static Sensor dummySensorEntity;
-	static DummySensorInformation dummyInfo;
+	private static Sensor sensorEntity;
+	private static Sensor dummySensorEntity;
+	private static DummySensorInformation dummyInfo;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 
 		sensorDto = new SensorDTO();
 		sensorDto.setId(1l);
@@ -93,7 +91,7 @@ public class SensorConverterTest {
 					dummyDto.getInterval());
 
 		} else {
-			fail("Return not DummySensorDTO for Sensor /w DummySensorInformation!");
+			Assert.fail("Return not DummySensorDTO for Sensor /w DummySensorInformation!");
 		}
 
 	}
@@ -129,7 +127,7 @@ public class SensorConverterTest {
 				
 			} else {
 				if (actual.get(i) instanceof DummySensorDTO) {
-					fail("Expected SensorDTO isn't DummySensorDTO!");
+					Assert.fail("Expected SensorDTO isn't DummySensorDTO!");
 				}
 				
 				Assert.assertEquals("Not matching IDs!", dtoList.get(i).getId(), actual.get(i).getId());
@@ -176,7 +174,7 @@ public class SensorConverterTest {
 					newEntity.getDummyInfo().getRefreshInterval());
 
 		} else {
-			fail("Return not Sensor /w DummySensorInformation for DummySensorDTO!");
+			Assert.fail("Return not Sensor /w DummySensorInformation for DummySensorDTO!");
 		}
 	}
 
@@ -216,7 +214,7 @@ public class SensorConverterTest {
 				
 			} else {
 				if (actual.get(i).getDummyInfo() != null) {
-					fail("Expected SensorDTO isn't DummySensorDTO!");
+					Assert.fail("Expected SensorDTO isn't DummySensorDTO!");
 				}
 				
 				Assert.assertEquals("Not matching IDs!", entityList.get(i).getId(), actual.get(i).getId());

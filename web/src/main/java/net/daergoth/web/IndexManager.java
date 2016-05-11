@@ -41,7 +41,7 @@ public class IndexManager {
     }
 
     public void handleReorder(DashboardReorderEvent event) {
-    	
+    	//TODO
     }
 
 	public DashboardModel getModel() {

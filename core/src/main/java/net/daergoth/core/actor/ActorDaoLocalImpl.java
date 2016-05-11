@@ -16,7 +16,7 @@ import net.daergoth.coreapi.actor.ActorDaoLocal;
 public class ActorDaoLocalImpl implements ActorDaoLocal{
 	
 	@PersistenceContext
-	EntityManager em;
+	private EntityManager em;
 
 	@Override
 	public List<ActorDTO> getActors() {

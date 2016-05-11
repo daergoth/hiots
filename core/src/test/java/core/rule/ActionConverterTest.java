@@ -18,16 +18,16 @@ import net.daergoth.coreapi.rule.ActionDTO;
 
 public class ActionConverterTest {
 
-	static ActorDTO actorDto;
-	static ActorStateDTO stateDto;
-	static ActionDTO actionDto;
+	private static ActorDTO actorDto;
+	private static ActorStateDTO stateDto;
+	private static ActionDTO actionDto;
 
-	static Actor actorEntity;
-	static ActorState stateEntity;
-	static Action actionEntity;
+	private static Actor actorEntity;
+	private static ActorState stateEntity;
+	private static Action actionEntity;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 		actorDto = new ActorDTO();
 		actorDto.setId(1l);
 		actorDto.setName("TestActor");

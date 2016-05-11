@@ -20,16 +20,16 @@ public class DummySensorInformation implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	long id;
+	private long id;
 	
 	@Column
-	double minData;
+	private double minData;
 	
 	@Column
-	double maxData;
+	private double maxData;
 	
 	@Column
-	long refreshInterval;
+	private long refreshInterval;
 
 	public Long getId() {
 		return id;

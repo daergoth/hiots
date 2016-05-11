@@ -17,7 +17,7 @@ import net.daergoth.serviceapi.sensors.SensorVO;
 public class SensorConverter implements Converter {
 	
 	@EJB
-	SensorContainerLocal sensorContainer;
+	private SensorContainerLocal sensorContainer;
 
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {

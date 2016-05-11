@@ -19,16 +19,16 @@ import net.daergoth.serviceapi.actors.states.ThermostatActorStateVO;
 @FixMethodOrder(MethodSorters.JVM)
 public class ActorStateConverterTest {
 	
-	static ActorStateVO lampVo;
-	static ActorStateVO thermoVo;
+	private static ActorStateVO lampVo;
+	private static ActorStateVO thermoVo;
 	
-	static ActorStateVO fakeVO;
+	private static ActorStateVO fakeVO;
 	
-	static ActorStateDTO lampDto;
-	static ActorStateDTO thermoDto;
+	private static ActorStateDTO lampDto;
+	private static ActorStateDTO thermoDto;
 	
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 		fakeVO = new LampActorStateVO();
 		fakeVO.setType(null);
 		

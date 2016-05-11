@@ -1,8 +1,6 @@
 package serviceapi.actor;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
@@ -23,13 +21,13 @@ public class ActorStateTest {
 		wrontType.setTargetTemperature(23.4);
 		
 		try {
-			assertEquals(0, left.compareTo(right));
+			Assert.assertEquals(0, left.compareTo(right));
 			
 			right.setStatus(true);
-			assertEquals(1, left.compareTo(right));
+			Assert.assertEquals(1, left.compareTo(right));
 			
-			assertEquals(0, left.compareTo(wrontType));
-			fail("Should have thrown InvalidActorStateTypeException!");
+			Assert.assertEquals(0, left.compareTo(wrontType));
+			Assert.fail("Should have thrown InvalidActorStateTypeException!");
 		} catch (InvalidActorStateTypeException e) {}
 		
 		
@@ -47,16 +45,16 @@ public class ActorStateTest {
 		wrontType.setStatus(false);
 		
 		try {
-			assertEquals(0, left.compareTo(right));
+			Assert.assertEquals(0, left.compareTo(right));
 			
 			right.setTargetTemperature(13.4);
-			assertEquals(1, left.compareTo(right));
+			Assert.assertEquals(1, left.compareTo(right));
 			
 			right.setTargetTemperature(33.4);
-			assertEquals(-1, left.compareTo(right));
+			Assert.assertEquals(-1, left.compareTo(right));
 			
-			assertEquals(0, left.compareTo(wrontType));
-			fail("Should have thrown InvalidActorStateTypeException!");
+			Assert.assertEquals(0, left.compareTo(wrontType));
+			Assert.fail("Should have thrown InvalidActorStateTypeException!");
 		} catch (InvalidActorStateTypeException e) {}
 		
 		

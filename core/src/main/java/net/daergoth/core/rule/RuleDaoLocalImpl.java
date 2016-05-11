@@ -16,7 +16,7 @@ import net.daergoth.coreapi.rule.RuleDaoLocal;
 public class RuleDaoLocalImpl implements RuleDaoLocal{
 	
 	@PersistenceContext
-	EntityManager em;
+	private EntityManager em;
 
 	@Override
 	public List<RuleDTO> getRules() {

@@ -34,10 +34,6 @@ public class Action implements Serializable {
 	@Embedded
 	private ActorState value;
 
-	public Action() {
-		super();
-	}
-
 	public Long getId() {
 		return id;
 	}

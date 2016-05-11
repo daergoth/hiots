@@ -7,14 +7,13 @@ import net.daergoth.serviceapi.sensors.SensorType;
 
 public class TemperatureDataVO extends SensorDataVO {
 	
-	public static String UNIT;
+	public static String UNIT = "°C";
 	
 	private double temperature = 0;
 	
 	public TemperatureDataVO(double d) {
 		this.temperature = d;
 		this.type = SensorType.Temperature;
-		TemperatureDataVO.UNIT = "°C";
 	}
 
 	public double getTemperature() {
@@ -29,7 +28,7 @@ public class TemperatureDataVO extends SensorDataVO {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(new DecimalFormat("###.##").format(temperature));
-		stringBuilder.append(UNIT);
+		stringBuilder.append(TemperatureDataVO.UNIT);
 		
 		return stringBuilder.toString();
 	}

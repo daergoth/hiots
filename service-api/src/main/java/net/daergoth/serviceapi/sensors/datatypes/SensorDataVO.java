@@ -6,10 +6,6 @@ import net.daergoth.serviceapi.sensors.SensorType;
 public abstract class SensorDataVO {
 	
 	protected SensorType type;
-	
-	public SensorDataVO() {
-		
-	}
 
 	public abstract int compareTo(SensorDataVO other) throws InvalidSensorDataTypeException;
 	

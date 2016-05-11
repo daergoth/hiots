@@ -14,12 +14,12 @@ import net.daergoth.coreapi.sensor.SensorDataType;
 
 public class SensorDataConverterTest {
 
-	static SensorDataDTO dataDto;
+	private static SensorDataDTO dataDto;
 
-	static SensorData dataEntity;
+	private static SensorData dataEntity;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 		dataDto = new SensorDataDTO();
 		dataDto.setType(SensorDataType.TEMPERATURE);
 		dataDto.setValue(23.4);

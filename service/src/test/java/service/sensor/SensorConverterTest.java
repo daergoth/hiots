@@ -1,7 +1,5 @@
 package service.sensor;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -22,20 +20,20 @@ import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
 @FixMethodOrder(MethodSorters.JVM)
 public class SensorConverterTest {
 
-	static SensorVO tempVO;
-	static SensorVO lightVO;
-	static DummySensorVO tempDummyVO;
-	static DummySensorVO lightDummyVO;
+	private static SensorVO tempVO;
+	private static SensorVO lightVO;
+	private static DummySensorVO tempDummyVO;
+	private static DummySensorVO lightDummyVO;
 
-	static SensorDTO tempDTO;
-	static SensorDTO lightDTO;
-	static DummySensorDTO tempDummyDTO;
-	static DummySensorDTO lightDummyDTO;
+	private static SensorDTO tempDTO;
+	private static SensorDTO lightDTO;
+	private static DummySensorDTO tempDummyDTO;
+	private static DummySensorDTO lightDummyDTO;
 
-	static SensorDTO fakeDTO;
+	private static SensorDTO fakeDTO;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 
 		tempVO = new TemperatureSensorVO(5l, "TemperatureSensor");
 
@@ -96,7 +94,7 @@ public class SensorConverterTest {
 			Assert.assertEquals("Not matching SensorType!", lightVO.getType(), newVo.getType());
 
 		} catch (SensorConvertException e) {
-			fail();
+			Assert.fail(e.getMessage());
 		}
 
 	}
@@ -108,7 +106,7 @@ public class SensorConverterTest {
 			SensorVO newDummyVo = SensorConverter.toVO(tempDummyDTO);
 
 			if (!(newDummyVo instanceof DummySensorVO)) {
-				fail("Return for DummyDTO isn't DummyVO!");
+				Assert.fail("Return for DummyDTO isn't DummyVO!");
 			} else {
 				DummySensorVO dummyVo = (DummySensorVO) newDummyVo;
 
@@ -132,7 +130,7 @@ public class SensorConverterTest {
 			newDummyVo = SensorConverter.toVO(lightDummyDTO);
 
 			if (!(newDummyVo instanceof DummySensorVO)) {
-				fail("Return for DummyDTO isn't DummyVO!");
+				Assert.fail("Return for DummyDTO isn't DummyVO!");
 			} else {
 				DummySensorVO dummyVo = (DummySensorVO) newDummyVo;
 
@@ -154,14 +152,14 @@ public class SensorConverterTest {
 			}
 
 		} catch (SensorConvertException e) {
-			fail();
+			Assert.fail(e.getMessage());
 		}
 
 	}
 
 	@Test(expected = SensorConvertException.class)
 	public void testWrongtypeToVO() throws SensorConvertException {
-		SensorVO fakeVo = SensorConverter.toVO(fakeDTO);
+		SensorConverter.toVO(fakeDTO);
 	}
 
 	@Test
@@ -181,7 +179,7 @@ public class SensorConverterTest {
 		SensorDTO newDto = SensorConverter.toDTO(tempDummyVO);
 
 		if (!(newDto instanceof DummySensorDTO)) {
-			fail("Return for DummyVO isn't DummyDTO!");
+			Assert.fail("Return for DummyVO isn't DummyDTO!");
 		} else {
 			DummySensorDTO newDummyDto = (DummySensorDTO) newDto;
 

@@ -38,20 +38,20 @@ import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	
 	@EJB
-	RuleDaoLocal ruleDao;
+	private RuleDaoLocal ruleDao;
 	
 	@EJB
-	DataChangeListenerLocal changeListener;
+	private DataChangeListenerLocal changeListener;
 	
 	@EJB
-	SensorContainerLocal sensorContainer;
+	private SensorContainerLocal sensorContainer;
 	
 	@EJB
-	ActorContainerLocal actorContainer;
+	private ActorContainerLocal actorContainer;
 	
-	List<RuleVO> rules = new ArrayList<>();	
+	private List<RuleVO> rules = new ArrayList<>();	
 	
-	Map<Long, List<DataChangeHandler>> handlers = new HashMap<>();
+	private Map<Long, List<DataChangeHandler>> handlers = new HashMap<>();
 	
 	private boolean changed = true;
 	

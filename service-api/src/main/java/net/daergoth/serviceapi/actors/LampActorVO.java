@@ -4,6 +4,11 @@ import net.daergoth.serviceapi.actors.states.ActorStateVO;
 import net.daergoth.serviceapi.actors.states.LampActorStateVO;
 
 public class LampActorVO extends ActorVO {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7711374921543297393L;
 
 	public LampActorVO() {
 		super();
@@ -14,11 +19,6 @@ public class LampActorVO extends ActorVO {
 		super(id, name);
 		this.Type = ActorType.Lamp;
 	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7711374921543297393L;
 
 	@Override
 	public void setState(ActorStateVO state) throws InvalidActorStateTypeException {

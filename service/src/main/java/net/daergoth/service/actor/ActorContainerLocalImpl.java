@@ -19,9 +19,9 @@ import net.daergoth.serviceapi.actors.dummy.DummyActorVO;
 public class ActorContainerLocalImpl implements ActorContainerLocal{
 	
 	@EJB
-	ActorDaoLocal actorDao;
+	private ActorDaoLocal actorDao;
 	
-	List<ActorVO> actors = new ArrayList<>();
+	private List<ActorVO> actors = new ArrayList<>();
 	
 	private boolean changed = true;
 

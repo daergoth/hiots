@@ -31,9 +31,9 @@ import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 @Local(DataChangeListenerLocal.class)
 public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	
-	HashMap<SensorVO, ArrayList<DataChangeHandler> > subs = new HashMap<>();
+	private HashMap<SensorVO, ArrayList<DataChangeHandler> > subs = new HashMap<>();
 	
-	HashMap<Long, SensorDataVO> pastData = new HashMap<>();
+	private HashMap<Long, SensorDataVO> pastData = new HashMap<>();
 	
 	@Resource
 	private SessionContext context;

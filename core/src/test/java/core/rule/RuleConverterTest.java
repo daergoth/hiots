@@ -17,12 +17,12 @@ import net.daergoth.coreapi.rule.RuleDTO;
 
 public class RuleConverterTest {
 	
-	static RuleDTO ruleDto;
+	private static RuleDTO ruleDto;
 	
-	static Rule ruleEntity;
+	private static Rule ruleEntity;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 		List<ActionDTO> actionDtos = new ArrayList<>();
 		List<ConditionDTO> condDtos = new ArrayList<>();
 		ruleDto = new RuleDTO();

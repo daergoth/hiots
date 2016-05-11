@@ -32,13 +32,13 @@ import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
 public class SetupManager {
 	
 	@EJB
-	DataChangeListenerLocal changeListener;
+	private DataChangeListenerLocal changeListener;
 
 	@EJB
-	SensorContainerLocal sensorContainer;
+	private SensorContainerLocal sensorContainer;
 	
 	@EJB
-	ActorContainerLocal actorContainer;
+	private ActorContainerLocal actorContainer;
 	
 	private DefaultMenuModel menuBar;
 	

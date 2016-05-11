@@ -20,13 +20,13 @@ public class SensorDataConverter implements Converter {
 		if(value != null && value.trim().length() > 0) {
             for (SensorType type : SensorType.values()) {
             	if (value.startsWith(type.toString())) {
-            		value = value.split(": ")[1];
+            		String data = value.split(": ")[1];
             		switch(type) {
 					case Light:
-						return new LightDataVO(Double.parseDouble(value.substring(0,value.indexOf(LightDataVO.UNIT))));
+						return new LightDataVO(Double.parseDouble(value.substring(0,data.indexOf(LightDataVO.UNIT))));
 						//break;
 					case Temperature:
-						return new TemperatureDataVO(Double.parseDouble(value.substring(0,value.indexOf(TemperatureDataVO.UNIT))));
+						return new TemperatureDataVO(Double.parseDouble(value.substring(0,data.indexOf(TemperatureDataVO.UNIT))));
 						//break;
 					default:
 						return null;

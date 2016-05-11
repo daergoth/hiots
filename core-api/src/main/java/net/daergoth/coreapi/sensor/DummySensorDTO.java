@@ -7,11 +7,11 @@ public class DummySensorDTO extends SensorDTO {
 	 */
 	private static final long serialVersionUID = -4339087405771028487L;
 
-	double Max;
+	private double Max;
 	
-	double Min;
+	private double Min;
 	
-	long Interval;
+	private long Interval;
 
 	public double getMax() {
 		return Max;

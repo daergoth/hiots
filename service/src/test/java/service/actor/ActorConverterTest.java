@@ -1,7 +1,5 @@
 package service.actor;
 
-import static org.junit.Assert.*;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -22,22 +20,22 @@ import net.daergoth.serviceapi.actors.dummy.DummyThermostatActorVO;
 @FixMethodOrder(MethodSorters.JVM)
 public class ActorConverterTest {
 
-	static ActorVO lampVo;
-	static ActorVO thermoVo;
+	private static ActorVO lampVo;
+	private static ActorVO thermoVo;
 
-	static DummyActorVO lampDummyVo;
-	static DummyActorVO thermoDummyVo;
+	private static DummyActorVO lampDummyVo;
+	private static DummyActorVO thermoDummyVo;
 
-	static ActorDTO lampDto;
-	static ActorDTO thermoDto;
+	private static ActorDTO lampDto;
+	private static ActorDTO thermoDto;
 
-	static DummyActorDTO lampDummyDto;
-	static DummyActorDTO thermoDummyDto;
+	private static DummyActorDTO lampDummyDto;
+	private static DummyActorDTO thermoDummyDto;
 
-	static ActorDTO fakeDto;
+	private static ActorDTO fakeDto;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 		lampVo = new LampActorVO(5l, "LampActor");
 		thermoVo = new ThermostatActorVO(6l, "ThermostatActor");
 		lampDummyVo = new DummyLampActorVO(7l, "DummyLampActor");
@@ -84,7 +82,7 @@ public class ActorConverterTest {
 			Assert.assertEquals("Not matching ActorType!", thermoVo.getType(), newVo.getType());
 
 		} catch (ActorConvertException e) {
-			fail();
+			Assert.fail();
 		}
 	}
 
@@ -94,7 +92,7 @@ public class ActorConverterTest {
 			ActorVO newVo = ActorConverter.toVO(lampDummyDto);
 
 			if (!(newVo instanceof DummyActorVO)) {
-				fail("Return for DummyDTO isn't DummyVO!");
+				Assert.fail("Return for DummyDTO isn't DummyVO!");
 			} else {
 				DummyActorVO dummyVo = (DummyActorVO) newVo;
 
@@ -106,7 +104,7 @@ public class ActorConverterTest {
 			newVo = ActorConverter.toVO(thermoDummyDto);
 
 			if (!(newVo instanceof DummyActorVO)) {
-				fail("Return for DummyDTO isn't DummyVO!");
+				Assert.fail("Return for DummyDTO isn't DummyVO!");
 			} else {
 				DummyActorVO dummyVo = (DummyActorVO) newVo;
 
@@ -116,14 +114,14 @@ public class ActorConverterTest {
 			}
 
 		} catch (ActorConvertException e) {
-			fail();
+			Assert.fail();
 		}
 
 	}
 
 	@Test(expected = ActorConvertException.class)
 	public void testWrongTypeToVO() throws ActorConvertException {
-		ActorVO newVo = ActorConverter.toVO(fakeDto);
+		ActorConverter.toVO(fakeDto);
 	}
 
 	@Test
@@ -140,7 +138,7 @@ public class ActorConverterTest {
 		ActorDTO newDto = ActorConverter.toDTO(lampDummyVo);
 
 		if (!(newDto instanceof DummyActorDTO)) {
-			fail("Return for DummyDTO isn't DummyVO!");
+			Assert.fail("Return for DummyDTO isn't DummyVO!");
 		} else {
 			DummyActorDTO dummyDTO = (DummyActorDTO) newDto;
 

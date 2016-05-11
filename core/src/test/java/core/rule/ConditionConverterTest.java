@@ -19,16 +19,16 @@ import net.daergoth.coreapi.sensor.SensorDataType;
 
 public class ConditionConverterTest {
 
-	static SensorDTO sensorDto;
-	static SensorDataDTO valueDto;
-	static ConditionDTO condDto;
+	private static SensorDTO sensorDto;
+	private static SensorDataDTO valueDto;
+	private static ConditionDTO condDto;
 
-	static Sensor sensorEntity;
-	static SensorData valueEntity;
-	static Condition condEntity;
+	private static Sensor sensorEntity;
+	private static SensorData valueEntity;
+	private static Condition condEntity;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setUpBeforeClass() {
 		sensorDto = new SensorDTO();
 		sensorDto.setId(1l);
 		sensorDto.setName("TestSensor");

@@ -1,8 +1,6 @@
 package service.rule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -20,12 +18,12 @@ import net.daergoth.serviceapi.sensors.datatypes.TemperatureDataVO;
 
 public class RuleManagerServiceTest {
 	
-	static SensorVO sensor;
-	static ConditionVO cond;
-	static SensorDataVO data;
+	private static SensorVO sensor;
+	private static ConditionVO cond;
+	private static SensorDataVO data;
 	
-	static RuleManagerServiceLocalImpl rulesManager;
-	static RuleDaoLocal ruleDao;
+	private static RuleManagerServiceLocalImpl rulesManager;
+	private static RuleDaoLocal ruleDao;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws InvalidSensorDataTypeException {
@@ -44,7 +42,7 @@ public class RuleManagerServiceTest {
 
 	@Test
 	public void testCheckForRule() {
-		fail("Not yet implemented");
+		Assert.fail("Not yet implemented");
 	}
 	
 	private void assertEvaluateCondition(double d) throws InvalidSensorDataTypeException, InvalidConditionTypeException {
@@ -52,19 +50,19 @@ public class RuleManagerServiceTest {
 		data.setData(d);
 		
 		cond.setType(ConditionTypeService.EQ);
-		assertEquals(d == condvalue, rulesManager.evaluateCondition(cond, data));
+		Assert.assertEquals(d == condvalue, rulesManager.evaluateCondition(cond, data));
 		
 		cond.setType(ConditionTypeService.GE);
-		assertEquals(d >= condvalue, rulesManager.evaluateCondition(cond, data));
+		Assert.assertEquals(d >= condvalue, rulesManager.evaluateCondition(cond, data));
 		
 		cond.setType(ConditionTypeService.GT);
-		assertEquals(d > condvalue, rulesManager.evaluateCondition(cond, data));
+		Assert.assertEquals(d > condvalue, rulesManager.evaluateCondition(cond, data));
 		
 		cond.setType(ConditionTypeService.LE);
-		assertEquals(d <= condvalue, rulesManager.evaluateCondition(cond, data));
+		Assert.assertEquals(d <= condvalue, rulesManager.evaluateCondition(cond, data));
 		
 		cond.setType(ConditionTypeService.LT);
-		assertEquals(d < condvalue, rulesManager.evaluateCondition(cond, data));
+		Assert.assertEquals(d < condvalue, rulesManager.evaluateCondition(cond, data));
 	}
 
 	@Test

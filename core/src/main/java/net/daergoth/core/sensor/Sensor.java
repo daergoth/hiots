@@ -28,17 +28,17 @@ public class Sensor implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	long id;
+	private long id;
 	
 	@Column
-	String name;
+	private String name;
 	
 	@Column
-	String type;
+	private String type;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "DUMMY_ID")
-	DummySensorInformation dummyInfo;
+	private DummySensorInformation dummyInfo;
 
 	public DummySensorInformation getDummyInfo() {
 		return dummyInfo;

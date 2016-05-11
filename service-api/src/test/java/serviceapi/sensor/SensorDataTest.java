@@ -1,8 +1,6 @@
 package serviceapi.sensor;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
@@ -20,16 +18,16 @@ public class SensorDataTest {
 		TemperatureDataVO wrontType = new TemperatureDataVO(23.4);
 		
 		try {
-			assertEquals(0, left.compareTo(right));
+			Assert.assertEquals(0, left.compareTo(right));
 			
 			right.setLightness(1);
-			assertEquals(1, left.compareTo(right));
+			Assert.assertEquals(1, left.compareTo(right));
 			
 			right.setLightness(100);
-			assertEquals(-1, left.compareTo(right));
+			Assert.assertEquals(-1, left.compareTo(right));
 			
-			assertEquals(0, left.compareTo(wrontType));
-			fail("Should have thrown InvalidActorStateTypeException!");
+			Assert.assertEquals(0, left.compareTo(wrontType));
+			Assert.fail("Should have thrown InvalidActorStateTypeException!");
 		} catch (InvalidSensorDataTypeException e) {}
 	}
 	
@@ -42,16 +40,16 @@ public class SensorDataTest {
 		LightDataVO wrontType = new LightDataVO(10);
 		
 		try {
-			assertEquals(0, left.compareTo(right));
+			Assert.assertEquals(0, left.compareTo(right));
 			
 			right.setTemperature(13.4);
-			assertEquals(1, left.compareTo(right));
+			Assert.assertEquals(1, left.compareTo(right));
 			
 			right.setTemperature(33.4);
-			assertEquals(-1, left.compareTo(right));
+			Assert.assertEquals(-1, left.compareTo(right));
 			
-			assertEquals(0, left.compareTo(wrontType));
-			fail("Should have thrown InvalidActorStateTypeException!");
+			Assert.assertEquals(0, left.compareTo(wrontType));
+			Assert.fail("Should have thrown InvalidActorStateTypeException!");
 		} catch (InvalidSensorDataTypeException e) {}
 	}
 

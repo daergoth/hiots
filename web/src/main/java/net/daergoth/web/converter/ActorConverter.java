@@ -17,7 +17,7 @@ import net.daergoth.serviceapi.actors.ActorVO;
 public class ActorConverter implements Converter {
 	
 	@EJB
-	ActorContainerLocal actorContainer;
+	private ActorContainerLocal actorContainer;
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String value) {
