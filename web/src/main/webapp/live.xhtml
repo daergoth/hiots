@@ -20,7 +20,19 @@
 				</p:column>
 			</p:dataTable>
 			
-			<p:poll interval="2" listener="#{liveManager.refresh}" update="sensor_table" />
+			<p:dataTable var="actor" value="#{liveManager.actors}" id="actor_table">
+				<p:column headerText="Name">
+					<h:outputText value="#{actor.name}" />
+				</p:column>
+				<p:column headerText="Type">
+					<h:outputText value="#{actor.type}" />
+				</p:column>
+				<p:column headerText="Data">
+					<h:outputText value="#{actor.state}" />
+				</p:column>
+			</p:dataTable>
+			
+			<p:poll interval="2" listener="#{liveManager.refresh}" update="sensor_table actor_table" />
 		</h:form>
 	</ui:define>
 </ui:composition>
