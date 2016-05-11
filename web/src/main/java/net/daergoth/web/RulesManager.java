@@ -76,8 +76,12 @@ public class RulesManager {
 		setCondTypes(ConditionTypeService.values());
 		setSensTypes(SensorType.values());
 		
-		newCondSensor = sensors.get(0);
-		newActActor = actors.get(0);
+		if (!sensors.isEmpty()) {
+			newCondSensor = sensors.get(0);
+		}
+		if (!actors.isEmpty()) {
+			newActActor = actors.get(0);
+		}
 	}
 	
 	public void ttt(String str) {

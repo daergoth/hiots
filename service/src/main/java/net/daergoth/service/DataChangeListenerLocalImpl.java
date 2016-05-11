@@ -120,8 +120,8 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 			subs.put(sensor, list);
 		}
 		pastData.put(sensor.getId(), sensor.getData());
-		System.out.println("DatChangeListener subscribeFor sensorClass: " + sensor.getClass());
-		System.out.println("DatChangeListener subscribeFor sensorData: " + sensor.getData());
+		System.out.println("DataChangeListener subscribeFor sensorClass: " + sensor.getClass());
+		System.out.println("DataChangeListener subscribeFor sensorData: " + sensor.getData());
 		System.out.println("DataChangeListener subscribeFor pastData: " + pastData.get(sensor.getId()));
 	}
 	

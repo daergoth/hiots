@@ -5,7 +5,10 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -24,6 +27,7 @@ public class Sensor implements Serializable {
 	private static final long serialVersionUID = -1683731640470306082L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 	
 	@Column
@@ -33,6 +37,7 @@ public class Sensor implements Serializable {
 	String type;
 	
 	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "DUMMY_ID")
 	DummySensorInformation dummyInfo;
 
 	public DummySensorInformation getDummyInfo() {

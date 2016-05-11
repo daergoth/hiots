@@ -17,7 +17,5 @@ public interface SensorContainerLocal {
 	public void deleteSensor(long id);
 	
 	public void deleteSensors(List<Long> ids);
-
-	public long getNewId();
 	
 }

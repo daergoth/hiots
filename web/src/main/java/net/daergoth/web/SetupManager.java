@@ -48,7 +48,6 @@ public class SetupManager {
 	
 	private String sensorMinValue;
 	private String sensorMaxValue;
-	//private String sensorInterval;
 	private String sensorName;
 	private SensorType selectedSensorType;
 	
@@ -121,8 +120,8 @@ public class SetupManager {
 		case Light:
 			sensorContainer.addSensor(
 					new DummyLightSensorVO(
-							sensorContainer.getNewId(), 
-							"Dummy" + sensorName, 
+							0,
+							sensorName, 
 							Double.parseDouble(sensorMinValue), 
 							Double.parseDouble(sensorMaxValue),
 							1000)
@@ -131,8 +130,8 @@ public class SetupManager {
 		case Temperature:
 			sensorContainer.addSensor(
 					new DummyTemperatureSensorVO(
-							sensorContainer.getNewId(), 
-							"Dummy" + sensorName, 
+							0, 
+							sensorName, 
 							Double.parseDouble(sensorMinValue), 
 							Double.parseDouble(sensorMaxValue),
 							1000)
@@ -152,14 +151,14 @@ public class SetupManager {
     	switch (selectedActorType) {
 		case Lamp:
 			actorContainer.addActor(new DummyLampActorVO(
-					actorContainer.getNewId(),
-					"Dummy" + actorName)
+					0,
+					actorName)
 			);
 			break;
 		case Thermostat:
 			actorContainer.addActor(new DummyThermostatActorVO(
-					actorContainer.getNewId(),
-					"Dummy" + actorName)
+					0,
+					actorName)
 			);
 			break;
 		default:

@@ -4,16 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="dummy_sensor_information")
-@NamedQueries({
-	@NamedQuery(name="DummySensorInformation.findBySensorId", query="SELECT dsi FROM DummySensorInformation dsi WHERE dsi.sensorId = :sensorId")
-})
 public class DummySensorInformation implements Serializable {
 
 	/**
@@ -22,7 +19,8 @@ public class DummySensorInformation implements Serializable {
 	private static final long serialVersionUID = -5217383445604748536L;	
 	
 	@Id
-	long sensorId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	long id;
 	
 	@Column
 	double minData;
@@ -33,12 +31,12 @@ public class DummySensorInformation implements Serializable {
 	@Column
 	long refreshInterval;
 
-	public Long getSensorId() {
-		return sensorId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setSensorId(long sensor_id) {
-		sensorId = sensor_id;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public double getMinData() {

@@ -2,7 +2,6 @@ package net.daergoth.service.actor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -88,15 +87,6 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 		changed = true;
 		
 		actorDao.deleteActors(ids);
-	}
-
-	@Override
-	public long getNewId() {
-		try {
-			return getActors().stream().mapToLong(s -> s.getId()).max().getAsLong() + 1;
-		} catch (NoSuchElementException e) {
-			return 1;
-		}
 	}
 
 }

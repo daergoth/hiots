@@ -18,6 +18,4 @@ public interface ActorContainerLocal {
 	
 	public void deleteActors(List<Long> ids);
 
-	public long getNewId();
-	
 }

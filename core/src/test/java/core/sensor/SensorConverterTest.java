@@ -50,7 +50,7 @@ public class SensorConverterTest {
 		sensorEntity.setDummyInfo(null);
 
 		dummyInfo = new DummySensorInformation();
-		dummyInfo.setSensorId(2l);
+		dummyInfo.setId(2l);
 		dummyInfo.setMinData(20.0);
 		dummyInfo.setMaxData(30.0);
 		dummyInfo.setRefreshInterval(1000);
@@ -162,8 +162,8 @@ public class SensorConverterTest {
 
 			Assert.assertEquals("Not matching SensorType!", dummySensorEntity.getType(), newEntity.getType());
 			
-			Assert.assertEquals("Not matching Dummy SensorId!", dummySensorEntity.getDummyInfo().getSensorId(), 
-					newEntity.getDummyInfo().getSensorId());
+			Assert.assertEquals("Not matching Dummy SensorId!", dummySensorEntity.getDummyInfo().getId(), 
+					newEntity.getDummyInfo().getId());
 
 			Assert.assertEquals("Not matching Dummy lower limit!", dummySensorEntity.getDummyInfo().getMinData(),
 					newEntity.getDummyInfo().getMinData(), 0.0);
@@ -201,8 +201,8 @@ public class SensorConverterTest {
 
 				Assert.assertEquals("Not matching SensorType!", entityList.get(i).getType(), actual.get(i).getType());
 				
-				Assert.assertEquals("Not matching Dummy SensorId!", entityList.get(i).getDummyInfo().getSensorId(), 
-						actual.get(i).getDummyInfo().getSensorId());
+				Assert.assertEquals("Not matching Dummy SensorId!", entityList.get(i).getDummyInfo().getId(), 
+						actual.get(i).getDummyInfo().getId());
 
 				Assert.assertEquals("Not matching Dummy lower limit!", entityList.get(i).getDummyInfo().getMinData(),
 						actual.get(i).getDummyInfo().getMinData(), 0.0);

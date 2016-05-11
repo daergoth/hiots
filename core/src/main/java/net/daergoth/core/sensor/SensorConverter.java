@@ -48,7 +48,7 @@ public class SensorConverter {
 			e.setType(ds.getType());
 			
 			DummySensorInformation info = new DummySensorInformation();
-			info.setSensorId(ds.getId());
+			info.setId(ds.getId());
 			info.setMinData(ds.getMin());
 			info.setMaxData(ds.getMax());
 			info.setRefreshInterval(ds.getInterval());

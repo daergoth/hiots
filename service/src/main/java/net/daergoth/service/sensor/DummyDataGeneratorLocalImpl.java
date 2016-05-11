@@ -24,17 +24,17 @@ import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 @DependsOn("SensorContainer")
 @Local(DummyDataGeneratorLocal.class)
 public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
-	
+
 	@EJB
 	SensorContainerLocal sensorContainer;
-	
+
 	List<DummySensorVO> dummiesList;
-	
+
 	@Resource
 	private SessionContext context;
-	
+
 	private Timer tm;
-	
+
 	private void createTimer(long interval) {
 		if (tm == null)
 			tm = context.getTimerService().createIntervalTimer(0, interval, new TimerConfig());
@@ -44,15 +44,14 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 		}
 	}
 
-	
 	@PostConstruct
 	public void init() {
 		System.out.println("DummyDataGenerator @PostConstruct");
 		setDummiesList(sensorContainer.getDummySensors());
-		
+
 		createTimer(MIN_UPDATE_INTERVAL);
 	}
-	
+
 	@PreDestroy
 	public void destroy() {
 		System.out.println("DummyDataGenerator @PreDestroy");
@@ -60,18 +59,16 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 			tm.cancel();
 		}
 	}
-	
+
 	@Timeout
 	public void generateDummyData(Timer timer) {
 		setDummiesList(sensorContainer.getDummySensors());
 
 		generateAllDummies();
 	}
-	
-	
+
 	public void generateAllDummies() {
 		for (int i = 0; i < dummiesList.size(); ++i) {
-			//System.out.println("DummyDataGenerator generateAllDummies: " + dummiesList.get(i).getName());
 			dummiesList.get(i).generateRandomData();
 		}
 	}
@@ -79,22 +76,16 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	@Override
 	public void setDummiesList(List<DummySensorVO> dl) {
 		this.dummiesList = dl;
-
 	}
 
 	@Override
 	public void addDummy(DummySensorVO d) {
 		dummiesList.add(d);
-
-
 	}
 
 	@Override
 	public void deleteDummy(DummySensorVO d) {
-
 		dummiesList.remove(d);
 	}
-	
-
 
 }
