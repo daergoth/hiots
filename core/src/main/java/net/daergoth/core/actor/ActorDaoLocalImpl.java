@@ -11,9 +11,12 @@ import javax.persistence.TypedQuery;
 import net.daergoth.coreapi.actor.ActorDTO;
 import net.daergoth.coreapi.actor.ActorDaoLocal;
 
+/**
+ * @inheritDoc
+ */
 @Stateless
 @Local
-public class ActorDaoLocalImpl implements ActorDaoLocal{
+public class ActorDaoLocalImpl implements ActorDaoLocal {
 	
 	@PersistenceContext
 	private EntityManager em;
