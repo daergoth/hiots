@@ -11,6 +11,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+/**
+ * JPA Entity class for {@code Actor}s.
+ * Defines how an {@code Actor} will look like in the database.
+ */
 @Entity
 @Table(name="actors")
 @NamedQueries({
@@ -18,9 +22,6 @@ import javax.persistence.Table;
 })
 public class Actor implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6332682507250099159L;
 	
 	@Id
@@ -33,26 +34,50 @@ public class Actor implements Serializable{
 	@Column
 	private String type;
 
+	/**
+	 * Getter for the {@code Actor}'s ID.
+	 * @return the ID of the actor
+	 */
 	public long getId() {
 		return id;
 	}
 
+	/**
+	 * Setter for the {@code Actor}'s ID.
+	 * @param id the new ID for the actor
+	 */
 	public void setId(long id) {
 		this.id = id;
 	}
 
+	/**
+	 * Getter for the {@code Actor}'s name.
+	 * @return the name of the actor
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Setter for the {@code Actor}'s name.
+	 * @param name the new name for the actor
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Getter for the {@code Actor}'s type.
+	 * @return the type of the actor
+	 */
 	public String getType() {
 		return type;
 	}
 
+	/**
+	 * Setter for the {@code Actor}'s  type.
+	 * @param type the new type for the actor
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}

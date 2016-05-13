@@ -12,7 +12,7 @@ import net.daergoth.coreapi.actor.ActorDTO;
 import net.daergoth.coreapi.actor.ActorDaoLocal;
 
 /**
- * @inheritDoc
+ * Implementation of {@link net.daergoth.coreapi.actor.ActorDaoLocal}.
  */
 @Stateless
 @Local
@@ -20,7 +20,10 @@ public class ActorDaoLocalImpl implements ActorDaoLocal {
 	
 	@PersistenceContext
 	private EntityManager em;
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<ActorDTO> getActors() {
 		TypedQuery<Actor> q = em.createNamedQuery("Actor.findAll", Actor.class);
@@ -30,22 +33,34 @@ public class ActorDaoLocalImpl implements ActorDaoLocal {
 		
 		return nlist;
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void addActor(ActorDTO a) {
 		em.merge(ActorConverter.toEntity(a));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void updateActor(ActorDTO a) {
 		em.merge(ActorConverter.toEntity(a));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void deleteActor(long id) {
 		em.remove(em.find(Actor.class, id));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void deleteActors(List<Long> ids) {
 		for (Long id : ids) {

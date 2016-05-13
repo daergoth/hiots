@@ -11,6 +11,9 @@ import javax.persistence.TypedQuery;
 import net.daergoth.coreapi.rule.RuleDTO;
 import net.daergoth.coreapi.rule.RuleDaoLocal;
 
+/**
+ * Implementation of {@link net.daergoth.coreapi.rule.RuleDaoLocal}.
+ */
 @Stateless
 @Local
 public class RuleDaoLocalImpl implements RuleDaoLocal{
@@ -18,22 +21,34 @@ public class RuleDaoLocalImpl implements RuleDaoLocal{
 	@PersistenceContext
 	private EntityManager em;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<RuleDTO> getRules() {
 		TypedQuery<Rule> q = em.createNamedQuery("Rule.findAll", Rule.class);
 		return RuleConverter.toDTOs(q.getResultList()); 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void addRule(RuleDTO r) {
 		em.merge(RuleConverter.toEntity(r));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void updateRule(RuleDTO r) {
 		em.merge(RuleConverter.toEntity(r));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void deleteRule(Long id) {
 		em.remove(em.find(Rule.class, id));
