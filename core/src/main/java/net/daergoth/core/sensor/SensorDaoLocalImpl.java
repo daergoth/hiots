@@ -12,7 +12,9 @@ import net.daergoth.coreapi.sensor.SensorDTO;
 import net.daergoth.coreapi.sensor.SensorDaoLocal;
 
 /**
- * Implementation of {@link net.daergoth.coreapi.sensor.SensorDaoLocal}.
+ * Implementation of {@code net.daergoth.coreapi.sensor.SensorDaoLocal}.
+ * 
+ * @see net.daergoth.coreapi.sensor.SensorDaoLocal
  */
 @Stateless
 @Local

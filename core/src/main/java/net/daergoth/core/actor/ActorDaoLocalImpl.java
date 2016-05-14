@@ -12,7 +12,9 @@ import net.daergoth.coreapi.actor.ActorDTO;
 import net.daergoth.coreapi.actor.ActorDaoLocal;
 
 /**
- * Implementation of {@link net.daergoth.coreapi.actor.ActorDaoLocal}.
+ * Implementation of {@code net.daergoth.coreapi.actor.ActorDaoLocal}.
+ * 
+ * @see net.daergoth.coreapi.actor.ActorDaoLocal
  */
 @Stateless
 @Local

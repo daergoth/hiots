@@ -12,7 +12,9 @@ import net.daergoth.coreapi.rule.RuleDTO;
 import net.daergoth.coreapi.rule.RuleDaoLocal;
 
 /**
- * Implementation of {@link net.daergoth.coreapi.rule.RuleDaoLocal}.
+ * Implementation of {@code net.daergoth.coreapi.rule.RuleDaoLocal}.
+ * 
+ * @see net.daergoth.coreapi.rule.RuleDaoLocal
  */
 @Stateless
 @Local

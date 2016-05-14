@@ -7,41 +7,30 @@
 	xmlns:p="http://primefaces.org/ui" template="/template/base.xhtml">
 	<ui:define name="content">
 	
-		<h:form>		
+		<h:form id="form">		
 			
-	        <p:layout style="height: 500px;">
+	        <p:layout id="dashboard" style="height: 500px;">
 			    <p:layoutUnit position="east" resizable="false" size="20%" >
-			        West
+			        <p:menu style="width: 99%;">
+			        	<p:submenu label="New">			        	
+				        	<p:menuitem id="newTempWidget" value="Temperature widget" onclick="PF('newTempOverlay').show('#{component.clientId}');" icon="fa fa-plus"/>
+				        	
+			        	</p:submenu>
+			        </p:menu>
+			        <p:overlayPanel widgetVar="newTempOverlay" my="right top" at="right bottom">
+		        		<ui:repeat var="sensor" value="#{indexManager.tempSensors}">
+		        			<p:commandButton value="#{sensor.name}" actionListener="#{indexManager.newTemperatureWidget(sensor.id)}" update=":form:dashboard"/>
+		        		</ui:repeat>
+		        	</p:overlayPanel>
 			    </p:layoutUnit>
 			 
 			    <p:layoutUnit position="center" size="80%">
-			         <p:dashboard id="board" model="#{indexManager.model}">
-			            <p:ajax event="reorder" listener="#{indexManager.handleReorder}" />
-			 
-			            <p:panel id="sports" header="Sports">
-			                <h:outputText value="Sports Content" />
-			            </p:panel>
-			 
-			            <p:panel id="finance" header="Finance">
-			                <h:outputText value="Finance Content" />
-			            </p:panel>
-			 
-			            <p:panel id="lifestyle" header="Lifestyle">
-			                <h:outputText value="Lifestyle Content"  />
-			            </p:panel>
-			 
-			            <p:panel id="weather" header="Weather">
-			                <h:outputText value="Weather Content" />
-			            </p:panel>
-			 
-			            <p:panel id="politics" header="Politics">
-			                <h:outputText value="Politics Content" />
-			            </p:panel>
-			        </p:dashboard>
-			 
+			        <p:dashboard id="board" binding="#{indexManager.dashboard}" />
 			        <div style="clear:both" />
 			    </p:layoutUnit>
 			</p:layout>
+			
+			<p:poll interval="5" update="dashboard" listener="#{indexManager.refresh}" />
 		</h:form>
 
 	</ui:define>
