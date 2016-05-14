@@ -1,9 +1,7 @@
 package net.daergoth.web;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -11,15 +9,11 @@ import javax.ejb.EJB;
 import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIPanel;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.component.chart.Chart;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;
-import org.primefaces.event.DashboardReorderEvent;
-import org.primefaces.model.DashboardColumn;
-import org.primefaces.model.DashboardModel;
 import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
 import org.primefaces.model.chart.MeterGaugeChartModel;
@@ -36,9 +30,20 @@ public class IndexManager {
 	
 	private static final int DASHBOARD_COLUMN_NUM = 3;
 	
+	@EJB
+	private SensorContainerLocal sensorContainer;
+	
+	private static Application application;
+	
+	private Dashboard dashboard;
+	
+	private DefaultDashboardModel dashboardModel;
+	
+	private List<SensorVO> tempSensors;
+	
 	private static class TemperatureWidget {
 		
-		static final List<Number> intervals = Arrays.asList(-3, 4, 32, 46, 60);
+		private static final List<Number> intervals = Arrays.asList(-3, 4, 32, 46, 60);
 
 		private SensorVO tempSensor;
 		
@@ -102,18 +107,6 @@ public class IndexManager {
 			return "tempWidget_" + tempSensor.getId();
 		}
 	}
-	
-	
-	@EJB
-	private SensorContainerLocal sensorContainer;
-	
-	private static Application application;
-	
-	private Dashboard dashboard;
-	
-	private DefaultDashboardModel dashboardModel;
-	
-	private List<SensorVO> tempSensors;
     
     @PostConstruct
     public void init() {

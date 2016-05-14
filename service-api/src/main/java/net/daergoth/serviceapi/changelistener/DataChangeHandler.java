@@ -1,4 +1,4 @@
-package net.daergoth.serviceapi;
+package net.daergoth.serviceapi.changelistener;
 
 import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 

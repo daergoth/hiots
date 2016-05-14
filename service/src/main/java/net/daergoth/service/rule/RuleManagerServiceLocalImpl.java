@@ -14,12 +14,12 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
 import net.daergoth.coreapi.rule.RuleDaoLocal;
-import net.daergoth.serviceapi.DataChangeHandler;
-import net.daergoth.serviceapi.DataChangeListenerLocal;
 import net.daergoth.serviceapi.actors.ActorContainerLocal;
 import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
+import net.daergoth.serviceapi.changelistener.DataChangeHandler;
+import net.daergoth.serviceapi.changelistener.DataChangeListenerLocal;
 import net.daergoth.serviceapi.rule.ActionVO;
 import net.daergoth.serviceapi.rule.ConditionVO;
 import net.daergoth.serviceapi.rule.InvalidConditionTypeException;

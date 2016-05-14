@@ -18,8 +18,8 @@ import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerConfig;
 
-import net.daergoth.serviceapi.DataChangeHandler;
-import net.daergoth.serviceapi.DataChangeListenerLocal;
+import net.daergoth.serviceapi.changelistener.DataChangeHandler;
+import net.daergoth.serviceapi.changelistener.DataChangeListenerLocal;
 import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorVO;

@@ -10,8 +10,6 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
 
-import net.daergoth.serviceapi.DataChangeHandler;
-import net.daergoth.serviceapi.DataChangeListenerLocal;
 import net.daergoth.serviceapi.actors.ActorContainerLocal;
 import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.ActorVO;
@@ -19,6 +17,8 @@ import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 import net.daergoth.serviceapi.actors.states.ActorStateVO;
 import net.daergoth.serviceapi.actors.states.LampActorStateVO;
 import net.daergoth.serviceapi.actors.states.ThermostatActorStateVO;
+import net.daergoth.serviceapi.changelistener.DataChangeHandler;
+import net.daergoth.serviceapi.changelistener.DataChangeListenerLocal;
 import net.daergoth.serviceapi.rule.ActionVO;
 import net.daergoth.serviceapi.rule.ConditionTypeService;
 import net.daergoth.serviceapi.rule.ConditionVO;

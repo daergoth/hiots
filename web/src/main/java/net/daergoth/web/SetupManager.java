@@ -14,13 +14,13 @@ import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 
-import net.daergoth.serviceapi.DataChangeHandler;
-import net.daergoth.serviceapi.DataChangeListenerLocal;
 import net.daergoth.serviceapi.actors.ActorContainerLocal;
 import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyLampActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyThermostatActorVO;
+import net.daergoth.serviceapi.changelistener.DataChangeHandler;
+import net.daergoth.serviceapi.changelistener.DataChangeListenerLocal;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorType;
 import net.daergoth.serviceapi.sensors.SensorVO;
