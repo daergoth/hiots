@@ -18,8 +18,8 @@ import javax.persistence.*;
 })
 public class OverviewLayout implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	   
+	private static final long serialVersionUID = 1422090024631077899L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

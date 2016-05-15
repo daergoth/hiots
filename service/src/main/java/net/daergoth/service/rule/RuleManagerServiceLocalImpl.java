@@ -211,9 +211,13 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 		return new DataChangeHandler() {
 			
 			@Override
-			public void onChange(SensorDataVO newData) throws InvalidSensorDataTypeException, InvalidConditionTypeException {
-				if (evaluateCondition(cond, newData)) {
-					checkForRule(ruleId);
+			public void onChange(SensorDataVO newData) {
+				try {
+					if (evaluateCondition(cond, newData)) {
+						checkForRule(ruleId);
+					}
+				} catch (InvalidSensorDataTypeException | InvalidConditionTypeException e) {
+					e.printStackTrace();
 				}
 			}
 		};

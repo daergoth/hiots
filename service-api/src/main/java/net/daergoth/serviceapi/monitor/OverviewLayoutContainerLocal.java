@@ -14,7 +14,7 @@ public interface OverviewLayoutContainerLocal {
 	 * 
 	 * @return a list of layouts
 	 */
-	public List<OverviewLayoutVO> getLayout();
+	public List<OverviewLayoutVO> getLayouts();
 	
 	/**
 	 * Adds an {@code OverviewLayout} to the database.

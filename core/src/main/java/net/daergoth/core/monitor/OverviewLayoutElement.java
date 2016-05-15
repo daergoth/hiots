@@ -24,13 +24,17 @@ public class OverviewLayoutElement implements Serializable {
 	
 	private String type;
 	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "actorId", referencedColumnName="id")
 	private Actor actor;
 	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "sensorId", referencedColumnName="id")
 	private Sensor sensor;
 	
-	private int column;
+	private int columnCode;
 	
-	private int row;
+	private int rowCode;
 	
 	/**
 	 * Getter for the {@code OverviewLayoutElement}'s ID.
@@ -101,7 +105,7 @@ public class OverviewLayoutElement implements Serializable {
 	 * @return the column number of the layout element
 	 */
 	public int getColumn() {
-		return this.column;
+		return this.columnCode;
 	}
 
 	/**
@@ -109,7 +113,7 @@ public class OverviewLayoutElement implements Serializable {
 	 * @param column  the new column number for the layout element
 	 */
 	public void setColumn(int column) {
-		this.column = column;
+		this.columnCode = column;
 	}  
 	
 	/**
@@ -117,7 +121,7 @@ public class OverviewLayoutElement implements Serializable {
 	 * @return the row number of the layout element
 	 */
 	public int getRow() {
-		return this.row;
+		return this.rowCode;
 	}
 
 	/**
@@ -125,7 +129,7 @@ public class OverviewLayoutElement implements Serializable {
 	 * @param row  the new row number for the layout element
 	 */
 	public void setRow(int row) {
-		this.row = row;
+		this.rowCode = row;
 	}
    
 }

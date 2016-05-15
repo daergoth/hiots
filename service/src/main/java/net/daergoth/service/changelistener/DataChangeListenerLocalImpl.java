@@ -25,6 +25,9 @@ import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 
+/**
+ * Default implementation of {@link DataChangeListenerLocal}.
+ */
 @Singleton(name = "DataChangeListener")
 @Startup
 @DependsOn("DummyDataGenerator")
@@ -43,7 +46,7 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	
 	private Timer tm;
 	
-	public void createTimer(long interval) {
+	private void createTimer(long interval) {
 		if (tm == null)
 			tm = context.getTimerService().createIntervalTimer(0, interval, new TimerConfig());
 		else {
@@ -54,7 +57,7 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 
 	
 	@PostConstruct
-	public void init() {
+	private void init() {
 		System.out.println("DataChangeListener @PostConstruct");
 		createTimer(UPDATE_INTERVAL);
 		
@@ -64,7 +67,7 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	}
 	
 	@PreDestroy
-	public void destroy() {
+	private void destroy() {
 		System.out.println("DataChangeListener @PreDestroy");
 		if (tm != null) {
 			tm.cancel();
@@ -72,7 +75,7 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	}
 	
 	@Timeout
-	public void checkForChange(Timer timer) throws Exception {
+	private void checkForChange(Timer timer) throws Exception {
 		
 		//System.out.println("DataChangeListener checkForChange start");
 		
@@ -100,14 +103,16 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 		}
 	}
 
-	@Override
-	public void changed(SensorVO sensor) throws Exception {
+	private void changed(SensorVO sensor) throws Exception {
 		System.out.println("DataChangeListener changed: " + sensor.getName());
 		for (DataChangeHandler handler : subs.get(sensor)) {
 			handler.onChange(sensor.getData());
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void subscribeFor(Long sensorId, DataChangeHandler handler) {
 		SensorVO sensor = sensorContainer.getSensors().stream().filter(s -> s.getId() == sensorId).findFirst().get();
@@ -125,6 +130,9 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 		System.out.println("DataChangeListener subscribeFor pastData: " + pastData.get(sensor.getId()));
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void subscribeFor(Long sensorId, List<DataChangeHandler> handlers) {
 		for (DataChangeHandler handler : handlers) {
@@ -132,6 +140,9 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void unsubscribeFrom(Long sensorId, DataChangeHandler handler) {
 		SensorVO sensor = sensorContainer.getSensors().stream().filter(s -> s.getId() == sensorId).findFirst().get();
@@ -146,8 +157,9 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 		pastData.remove(sensor.getId());
 	}
 	
-	
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void unsubscribeFrom(Long sensorId, List<DataChangeHandler> handlers) {
 		if (handlers != null)
@@ -156,13 +168,18 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 			}
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void unsubscribeAllFrom(Long sensorId) {
 		SensorVO sensor = sensorContainer.getSensors().stream().filter(s -> s.getId() == sensorId).findFirst().get();
 		subs.remove(sensor);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<DataChangeHandler> getHandlersFor(Long sensorId) {
 		SensorVO sensor = sensorContainer.getSensors().stream().filter(s -> s.getId() == sensorId).findFirst().get();

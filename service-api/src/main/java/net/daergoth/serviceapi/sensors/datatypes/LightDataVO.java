@@ -7,7 +7,7 @@ import net.daergoth.serviceapi.sensors.SensorType;
 
 public class LightDataVO extends SensorDataVO {
 	
-	public static String UNIT = "lm";
+	public static String UNIT = "lx";
 	
 	private double lightness = 0;
 
@@ -29,7 +29,7 @@ public class LightDataVO extends SensorDataVO {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(new DecimalFormat("###.##").format(lightness));
-		stringBuilder.append(LightDataVO.UNIT);
+		stringBuilder.append(" " + LightDataVO.UNIT);
 		return stringBuilder.toString();
 	}
 
