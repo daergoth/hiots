@@ -17,7 +17,6 @@ import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 import net.daergoth.serviceapi.actors.states.ActorStateVO;
 import net.daergoth.serviceapi.actors.states.LampActorStateVO;
 import net.daergoth.serviceapi.actors.states.ThermostatActorStateVO;
-import net.daergoth.serviceapi.changelistener.DataChangeHandler;
 import net.daergoth.serviceapi.changelistener.DataChangeListenerLocal;
 import net.daergoth.serviceapi.rule.ActionVO;
 import net.daergoth.serviceapi.rule.ConditionTypeService;
@@ -82,25 +81,6 @@ public class RulesManager {
 		if (!actors.isEmpty()) {
 			newActActor = actors.get(0);
 		}
-	}
-	
-	public void ttt(String str) {
-		System.out.println(sensorContainer.getSensors().get(0));
-
-	}
-	
-	public void tryIt() {
-		int limit = 23;
-		
-		changeListener.subscribeFor(sensors.get(0).getId(), new DataChangeHandler() {
-			
-			@Override
-			public void onChange(SensorDataVO newData) {
-				if (newData.getData() > limit) {
-					ttt(newData.toString());
-				}
-			}
-		});
 	}
 	
 	public void addCondition() {

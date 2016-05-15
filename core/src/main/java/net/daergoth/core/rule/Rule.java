@@ -43,7 +43,7 @@ public class Rule implements Serializable{
 	private boolean enabled = true;
 	
 	@Column
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Condition> conditions;
 	
 	@Column

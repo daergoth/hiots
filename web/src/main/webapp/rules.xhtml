@@ -156,7 +156,6 @@
 		    </p:accordionPanel>
 		    
 			<p:commandButton type="button" onclick="PF('newRuleDlg').show();" value="Add new rule" update=":form:ruleAP"/>
-			<p:commandButton actionListener="#{rulesManager.tryIt}" value="try" />
 		
 			<p:dialog header="New condition" widgetVar="condDlg" modal="true" resizable="false">
 			    <p:outputLabel value="Sensor" for="sensorSL"/><br/>
