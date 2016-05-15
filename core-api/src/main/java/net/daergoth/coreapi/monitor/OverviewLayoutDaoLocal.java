@@ -17,7 +17,7 @@ public interface OverviewLayoutDaoLocal {
 	
 	/**
 	 * Persists an {@code OverviewLayout} by writing it into the database.
-	 * @param rule the rule to persist
+	 * @param layout the layout to persist
 	 */
 	public void addLayout(OverviewLayoutDTO layout);
 	

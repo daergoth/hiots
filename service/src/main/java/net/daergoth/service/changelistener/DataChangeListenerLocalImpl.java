@@ -1,4 +1,4 @@
-package net.daergoth.service;
+package net.daergoth.service.changelistener;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,8 +1,6 @@
 package net.daergoth.core.monitor;
 
 import java.io.Serializable;
-import java.lang.Long;
-import java.lang.String;
 import javax.persistence.*;
 import net.daergoth.core.actor.Actor;
 import net.daergoth.core.sensor.Sensor;
