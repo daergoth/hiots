@@ -98,7 +98,7 @@ public abstract class ActorVO implements Serializable{
 	 * The given {@code ActorState} should have the same {@code ActorType} as the {@code Actor}.
 	 * 
 	 * @param state the new state for the actor
-	 * @throws InvalidActorStateTypeException if {@code ActorState} given has wrong {@code ActorType}
+	 * @throws InvalidActorStateTypeException if the {@code ActorState} given has wrong {@code ActorType}
 	 */
 	public abstract void setState(ActorStateVO state) throws InvalidActorStateTypeException;
 

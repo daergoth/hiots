@@ -56,7 +56,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	private boolean changed = true;
 	
 	@PostConstruct
-	public void init() {
+	private void init() {
 		System.out.println("RuleManagerService @PostConstruct");
 		for (RuleVO rule : getRules()) {
 			if (!handlers.containsKey(rule.getId())) {
@@ -72,7 +72,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	}
 	
 	@PreDestroy
-	public void destroy() {
+	private void destroy() {
 		System.out.println("RuleManagerService @PreDestroy");
 		for (RuleVO rule : getRules()) {
 			for (ConditionVO cond : rule.getConditions()) {
@@ -162,17 +162,19 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 		System.out.println("RuleManagerService checkForRule result: " + result);
 		
 		if (result) {
-			for (ActionVO action : rule.getActions()) {
-				try {
-					ActorVO actor = actorContainer.getActors().stream().filter(a -> a.getId() == action.getActor().getId()).findFirst().get();
-					System.out.println("RuleManagerService checkForRule (actor.state, action.value): " + actor.getState() + ", " + action.getValue());
-					//System.out.println("RuleManagerService checkForRule action.actor.state != action.value: " + (action.getActor().getState() != action.getValue()) );
-					if (actor.getState() != action.getValue()) {
-						System.out.println("RuleManagerService checkForRule action: " + actor + " -> " + action.getValue());
-						actor.setState(action.getValue());
+			if (rule.isEnabled()) {
+				for (ActionVO action : rule.getActions()) {
+					try {
+						ActorVO actor = actorContainer.getActors().stream().filter(a -> a.getId() == action.getActor().getId()).findFirst().get();
+						System.out.println("RuleManagerService checkForRule (actor.state, action.value): " + actor.getState() + ", " + action.getValue());
+						//System.out.println("RuleManagerService checkForRule action.actor.state != action.value: " + (action.getActor().getState() != action.getValue()) );
+						if (actor.getState() != action.getValue()) {
+							System.out.println("RuleManagerService checkForRule action: " + actor + " -> " + action.getValue());
+							actor.setState(action.getValue());
+						}
+					} catch (InvalidActorStateTypeException e) {
+						e.printStackTrace();
 					}
-				} catch (InvalidActorStateTypeException e) {
-					e.printStackTrace();
 				}
 			}
 		}

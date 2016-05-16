@@ -50,7 +50,9 @@ public class IndexManager {
 	
 	private List<SensorVO> tempSensors;
 	
-	private String newLayoutName = "";
+	private String newLayoutName;
+	
+	private String renameLayoutName;
     
     @PostConstruct
     public void init() {
@@ -61,9 +63,9 @@ public class IndexManager {
 			newLayout();
 			newLayoutName = "";
 		}
-		selectedLayout = layoutContainer.getLayouts().get(0);			
 		
 		setLayouts(layoutContainer.getLayouts());
+		selectedLayout = layouts.get(0);			
 		
 		System.out.println(layouts);
 		
@@ -92,14 +94,16 @@ public class IndexManager {
     }
     
     public void renameLayout () {
-    	System.out.println(selectedLayout.getName());
-    	selectedLayout.setName(newLayoutName);
+    	selectedLayout.setName(renameLayoutName);
     	layoutContainer.updateLayout(selectedLayout);
     }
     
     public void removeLayout () {
-    	System.out.println(selectedLayout.getName());
     	layoutContainer.deleteLayout(selectedLayout.getId());
+    }
+    
+    public void layoutChanged() {
+    	System.out.println(selectedLayout.getName());
     }
     
     public void newTemperatureWidget(String id) {
@@ -194,6 +198,14 @@ public class IndexManager {
 
 	public void setLayouts(List<OverviewLayoutVO> layouts) {
 		this.layouts = layouts;
+	}
+
+	public String getRenameLayoutName() {
+		return renameLayoutName;
+	}
+
+	public void setRenameLayoutName(String renameLayoutName) {
+		this.renameLayoutName = renameLayoutName;
 	}
     
     

@@ -4,7 +4,7 @@ import net.daergoth.serviceapi.actors.states.ActorStateVO;
 import net.daergoth.serviceapi.actors.states.LampActorStateVO;
 
 /**
- * {@code Actor} subclass representing a Lamp in real life.
+ * {@code Actor} subclass representing a lamp in real life.
  * {@code ActorState}s belonging to this type of {@code Actor} have
  * two possible states:
  * <ul>

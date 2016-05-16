@@ -5,7 +5,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import net.daergoth.coreapi.rule.RuleDaoLocal;
 import net.daergoth.service.rule.RuleManagerServiceLocalImpl;
 import net.daergoth.serviceapi.rule.ConditionTypeService;
 import net.daergoth.serviceapi.rule.ConditionVO;
@@ -23,7 +22,6 @@ public class RuleManagerServiceTest {
 	private static SensorDataVO data;
 	
 	private static RuleManagerServiceLocalImpl rulesManager;
-	private static RuleDaoLocal ruleDao;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws InvalidSensorDataTypeException {
@@ -37,13 +35,9 @@ public class RuleManagerServiceTest {
 		data = new TemperatureDataVO(33.4);
 		
 		rulesManager = Mockito.spy(new RuleManagerServiceLocalImpl());
-		ruleDao = Mockito.mock(RuleDaoLocal.class);
+		
 	}
 
-	@Test
-	public void testCheckForRule() {
-		Assert.fail("Not yet implemented");
-	}
 	
 	private void assertEvaluateCondition(double d) throws InvalidSensorDataTypeException, InvalidConditionTypeException {
 		double condvalue = cond.getValue().getData();

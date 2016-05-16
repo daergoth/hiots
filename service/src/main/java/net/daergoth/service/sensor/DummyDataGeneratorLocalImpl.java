@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.ejb.DependsOn;
 import javax.ejb.EJB;
 import javax.ejb.Local;
+import javax.ejb.NoSuchObjectLocalException;
 import javax.ejb.SessionContext;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -45,23 +46,49 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	}
 
 	@PostConstruct
-	public void init() {
+	private void init() {
 		System.out.println("DummyDataGenerator @PostConstruct");
 		setDummiesList(sensorContainer.getDummySensors());
 
-		createTimer(MIN_UPDATE_INTERVAL);
+		startGenerating();
 	}
 
 	@PreDestroy
-	public void destroy() {
+	private void destroy() {
 		System.out.println("DummyDataGenerator @PreDestroy");
+		
+		stopGenerating();
+	}
+
+	@Override
+	public void startGenerating() {
+		createTimer(MIN_UPDATE_INTERVAL);
+	}
+
+	@Override
+	public void stopGenerating() {
 		if (tm != null) {
 			tm.cancel();
 		}
 	}
 
+	@Override
+	public boolean isGenerating() {
+		try {
+			if (tm != null) {				
+				tm.getNextTimeout();
+			} else {
+				return false;
+			}
+		} catch (NoSuchObjectLocalException e) {
+			return false;
+		}
+		
+		return true;
+	}
+
 	@Timeout
-	public void generateDummyData(Timer timer) {
+	private void generateDummyData(Timer timer) {
 		setDummiesList(sensorContainer.getDummySensors());
 
 		generateAllDummies();
@@ -73,19 +100,12 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 		}
 	}
 
-	@Override
-	public void setDummiesList(List<DummySensorVO> dl) {
+	private void setDummiesList(List<DummySensorVO> dl) {
 		this.dummiesList = dl;
 	}
-
-	@Override
-	public void addDummy(DummySensorVO d) {
-		dummiesList.add(d);
-	}
-
-	@Override
-	public void deleteDummy(DummySensorVO d) {
-		dummiesList.remove(d);
+	
+	public void setSensorContainer(SensorContainerLocal sensorContainer) {
+		this.sensorContainer = sensorContainer;
 	}
 
 }
