@@ -12,7 +12,7 @@ import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 public interface DataChangeHandler {
 	
 	/**
-	 * Called when the listener detects change in the related {@code Sensor}'s data
+	 * Called when the listener detects change in the related {@code Sensor}'s data.
 	 * 
 	 * @param newData  the new sensor reading 
 	 */

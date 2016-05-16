@@ -1,6 +1,6 @@
-package net.daergoth.web;
+package net.daergoth.web.index;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,17 +11,19 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.component.chart.Chart;
 import org.primefaces.component.dashboard.Dashboard;
-import org.primefaces.component.panel.Panel;
 import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
-import org.primefaces.model.chart.MeterGaugeChartModel;
 
+import net.daergoth.serviceapi.monitor.OverviewLayoutContainerLocal;
+import net.daergoth.serviceapi.monitor.OverviewLayoutElementVO;
+import net.daergoth.serviceapi.monitor.OverviewLayoutVO;
+import net.daergoth.serviceapi.sensors.LightSensorVO;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorType;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.TemperatureSensorVO;
+import net.daergoth.serviceapi.sensors.dummy.DummyLightSensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
 
 @ManagedBean(name = "indexManager")
@@ -33,84 +35,37 @@ public class IndexManager {
 	@EJB
 	private SensorContainerLocal sensorContainer;
 	
+	@EJB
+	private OverviewLayoutContainerLocal layoutContainer;
+	
 	private static Application application;
 	
 	private Dashboard dashboard;
 	
 	private DefaultDashboardModel dashboardModel;
 	
+	private List<OverviewLayoutVO> layouts;
+	
+	private OverviewLayoutVO selectedLayout;
+	
 	private List<SensorVO> tempSensors;
 	
-	private static class TemperatureWidget {
-		
-		private static final List<Number> intervals = Arrays.asList(-3, 4, 32, 46, 60);
-
-		private SensorVO tempSensor;
-		
-		private MeterGaugeChartModel gaugeModel;
-		
-		public TemperatureWidget(TemperatureSensorVO tempSensor) {
-			this.tempSensor = tempSensor;
-			gaugeModel = new MeterGaugeChartModel(null, intervals);
-			gaugeModel.setSeriesColors("4D8FF7,6CCEFF,93b75f,E7E658,cc6666");
-			gaugeModel.setGaugeLabelPosition("bottom");
-			gaugeModel.setShowTickLabels(true);
-			gaugeModel.setLabelHeightAdjust(0);
-			gaugeModel.setMin(-10);
-	    	gaugeModel.setMax(60);
-	    	
-	    	gaugeModel.setTitle(tempSensor.getName());
-	    	gaugeModel.setValue(tempSensor.getData().getData());
-	    	gaugeModel.setGaugeLabel(gaugeModel.getValue() + "°C");
-		}
-		
-		public TemperatureWidget(DummyTemperatureSensorVO tempSensor) {
-			this.tempSensor = tempSensor;
-			gaugeModel = new MeterGaugeChartModel(null, intervals);
-			gaugeModel.setSeriesColors("4D8FF7,6CCEFF,93b75f,E7E658,cc6666");
-			gaugeModel.setGaugeLabelPosition("bottom");
-			gaugeModel.setShowTickLabels(true);
-			gaugeModel.setLabelHeightAdjust(0);
-			gaugeModel.setMin(-10);
-	    	gaugeModel.setMax(60);
-	    	
-	    	gaugeModel.setTitle(tempSensor.getName());
-	    	gaugeModel.setValue(tempSensor.getData().getData());
-	    	gaugeModel.setGaugeLabel(gaugeModel.getValue() + "°C");
-		}
-		
-		public void refresh() {
-			gaugeModel.setValue(tempSensor.getData().getData());
-	    	gaugeModel.setGaugeLabel(gaugeModel.getValue() + "°C");
-		}
-		
-		public Panel getAsPanel() {
-			Panel p = (Panel) application.createComponent(FacesContext.getCurrentInstance(),
-					"org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
-			p.setId("tempWidget_" + tempSensor.getId());
-			p.setHeader("Temperature widget");
-			p.setClosable(true);
-			p.setToggleable(false);
-			
-			Chart g = (Chart) application.createComponent(FacesContext.getCurrentInstance(), 
-					"org.primefaces.component.Chart", "org.primefaces.component.ChartRenderer");
-			g.setType("metergauge");
-			g.setStyle("width:100%;height:200px;");
-			g.setResponsive(true);
-			g.setModel(gaugeModel);
-			p.getChildren().add(g);
-			
-			return p;
-		}
-		
-		public String getId() {
-			return "tempWidget_" + tempSensor.getId();
-		}
-	}
+	private String newLayoutName = "";
     
     @PostConstruct
     public void init() {
 		application = FacesContext.getCurrentInstance().getApplication();
+		
+		if (layoutContainer.getLayouts().size() < 1) {
+			newLayoutName = "Default layout";
+			newLayout();
+			newLayoutName = "";
+		}
+		selectedLayout = layoutContainer.getLayouts().get(0);			
+		
+		setLayouts(layoutContainer.getLayouts());
+		
+		System.out.println(layouts);
 		
 		dashboard = (Dashboard) application.createComponent(FacesContext.getCurrentInstance(),
 				"org.primefaces.component.Dashboard", "org.primefaces.component.DashboardRenderer");
@@ -121,32 +76,75 @@ public class IndexManager {
 			dashboardModel.addColumn(new DefaultDashboardColumn());
 		}
 		dashboard.setModel(dashboardModel);
-        
-        TemperatureWidget tw = new TemperatureWidget((DummyTemperatureSensorVO) sensorContainer.getDummySensors().stream()
-        		.filter(s -> s.getType() == SensorType.Temperature)
-        		.findFirst()
-        		.get());
-        
-        dashboard.getChildren().add(tw.getAsPanel());
-        dashboardModel.getColumn(0).addWidget(tw.getId());
+		
+		
         
         tempSensors = sensorContainer.getSensors().stream().filter(s -> s.getType() == SensorType.Temperature).collect(Collectors.toList());
+    }
+    
+    public void newLayout () {
+    	
+    	OverviewLayoutVO layout = new OverviewLayoutVO();
+    	layout.setId(0l);
+    	layout.setName(newLayoutName);
+    	layout.setElements(new ArrayList<OverviewLayoutElementVO>());
+    	layoutContainer.addLayout(layout);
+    }
+    
+    public void renameLayout () {
+    	System.out.println(selectedLayout.getName());
+    	selectedLayout.setName(newLayoutName);
+    	layoutContainer.updateLayout(selectedLayout);
+    }
+    
+    public void removeLayout () {
+    	System.out.println(selectedLayout.getName());
+    	layoutContainer.deleteLayout(selectedLayout.getId());
     }
     
     public void newTemperatureWidget(String id) {
     	SensorVO sensor = sensorContainer.getSensors().stream().filter(s -> s.getId() == Long.parseLong(id)).findFirst().get();
     	TemperatureWidget tw;
     	if (sensor instanceof TemperatureSensorVO) {
-    		tw = new TemperatureWidget((TemperatureSensorVO) sensor);
+    		tw = new TemperatureWidget((TemperatureSensorVO) sensor, application);
     	} else {
-    		tw = new TemperatureWidget((DummyTemperatureSensorVO) sensor);
+    		tw = new TemperatureWidget((DummyTemperatureSensorVO) sensor, application);
     	}
     	
     	dashboard.getChildren().add(tw.getAsPanel());
-    	dashboardModel.getColumn(1).addWidget(tw.getId());
+    	dashboardModel.getColumn(0).addWidget(tw.getPanelId());
+    }
+    
+    public void newLightWidget(String id) {
+    	SensorVO sensor = sensorContainer.getSensors().stream().filter(s -> s.getId() == Long.parseLong(id)).findFirst().get();
+    	LightWidget tw;
+    	if (sensor instanceof LightSensorVO) {
+    		tw = new LightWidget((LightSensorVO) sensor, application);
+    	} else {
+    		tw = new LightWidget((DummyLightSensorVO) sensor, application);
+    	}
+    	
+    	dashboard.getChildren().add(tw.getAsPanel());
+    	dashboardModel.getColumn(0).addWidget(tw.getPanelId());
+    }
+    
+    public void newLampWidget(String id) {
+    	
+    }
+    
+    public void newThermostatWidget(String id) {
+    	
+    }
+    
+    public List<SensorVO> getSensorByType(String type) {
+    	return sensorContainer.getSensors().stream().filter(s -> s.getType() == SensorType.valueOf(type)).collect(Collectors.toList());
     }
     
     public void refresh () {
+    	
+    }
+    
+    public void handleReorder() {
     	
     }
 
@@ -164,6 +162,38 @@ public class IndexManager {
 
 	public void setTempSensors(List<SensorVO> tempSensors) {
 		this.tempSensors = tempSensors;
+	}
+
+	public OverviewLayoutVO getSelectedLayout() {
+		return selectedLayout;
+	}
+
+	public void setSelectedLayout(OverviewLayoutVO selectedLayout) {
+		this.selectedLayout = selectedLayout;
+	}
+
+	public String getNewLayoutName() {
+		return newLayoutName;
+	}
+
+	public void setNewLayoutName(String newLayoutName) {
+		this.newLayoutName = newLayoutName;
+	}
+
+	public OverviewLayoutContainerLocal getLayoutContainer() {
+		return layoutContainer;
+	}
+
+	public void setLayoutContainer(OverviewLayoutContainerLocal layoutContainer) {
+		this.layoutContainer = layoutContainer;
+	}
+
+	public List<OverviewLayoutVO> getLayouts() {
+		return layouts;
+	}
+
+	public void setLayouts(List<OverviewLayoutVO> layouts) {
+		this.layouts = layouts;
 	}
     
     

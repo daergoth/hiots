@@ -16,3 +16,7 @@ body {
 .ui-dashboard-column {
 	width:33%;
 }
+
+.ui-layout-unit .ui-layout-unit-content {
+	overflow: visible;
+}

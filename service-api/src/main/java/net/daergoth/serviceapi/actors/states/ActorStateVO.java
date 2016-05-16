@@ -17,6 +17,7 @@ public abstract class ActorStateVO {
 	
 	/**
 	 * Gets the data of the {@code ActorState} in human-readable format.
+	 * @return the state in human-readable String format
 	 */
 	public abstract String toString();
 	
