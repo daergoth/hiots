@@ -20,6 +20,9 @@ import net.daergoth.serviceapi.sensors.DummyDataGeneratorLocal;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 
+/**
+ * Default implementation for {@code DummyDataGeneratorLocal}.
+ */
 @Singleton(name = "DummyDataGenerator")
 @Startup
 @DependsOn("SensorContainer")
@@ -60,11 +63,17 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 		stopGenerating();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void startGenerating() {
 		createTimer(MIN_UPDATE_INTERVAL);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void stopGenerating() {
 		if (tm != null) {
@@ -72,6 +81,9 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean isGenerating() {
 		try {
@@ -94,6 +106,9 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 		generateAllDummies();
 	}
 
+	/**
+	 * Generates new {@code SensorData} readings for all simulated {@code Sensor}s.
+	 */
 	public void generateAllDummies() {
 		for (int i = 0; i < dummiesList.size(); ++i) {
 			dummiesList.get(i).generateRandomData();
@@ -104,6 +119,10 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 		this.dummiesList = dl;
 	}
 	
+	/**
+	 * Setter for the {@code SensorContainerLocal} service.
+	 * @param sensorContainer  the service-provider service
+	 */
 	public void setSensorContainer(SensorContainerLocal sensorContainer) {
 		this.sensorContainer = sensorContainer;
 	}

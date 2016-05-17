@@ -11,36 +11,65 @@ import net.daergoth.service.actor.ActorStateConverter;
 import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.rule.ActionVO;
 
+/**
+ * Converter between {@code ActionDTO} and {@code ActionVO}.
+ * Methods of this class should only be used in Service layer.
+ *
+ * @see net.daergoth.coreapi.rule.ActionDTO
+ * @see net.daergoth.serviceapi.rule.ActionVO
+ */
 @Stateless
 public class ActionConverter {
 	
-	public static ActionVO toVO(ActionDTO d) throws ActorConvertException {
+	/**
+	 * Converts an {@code ActionDTO} to VO.
+	 * @param dto  the DTO to convert
+	 * @return {@code ActionVO} equivalent to the DTO
+	 * @throws ActorConvertException if the {@code Actor} related to the {@code Action} has invalid type
+	 */
+	public static ActionVO toVO(ActionDTO dto) throws ActorConvertException {
 		ActionVO vo = new ActionVO();
-		vo.setId(d.getId());
-		vo.setActor(ActorConverter.toVO(d.getActor()));
-		vo.setValue(ActorStateConverter.toVO(d.getValue()));
+		vo.setId(dto.getId());
+		vo.setActor(ActorConverter.toVO(dto.getActor()));
+		vo.setValue(ActorStateConverter.toVO(dto.getValue()));
 		return vo;
 	}
 	
-	public static List<ActionVO> toVOs(List<ActionDTO> ds) throws ActorConvertException {
+	/**
+	 * Converts a list of {@code ActionDTO}s to VOs.
+	 * @param dtoList  the list of DTOs to convert
+	 * @return list of {@code ActionVO}s equivalent to the DTOs
+	 * @throws ActorConvertException if an {@code Actor} related to on of the {@code Action}s has invalid type
+	 */
+	public static List<ActionVO> toVOs(List<ActionDTO> dtoList) throws ActorConvertException {
 		List<ActionVO> vos = new ArrayList<>();
-		for (ActionDTO d : ds) {
+		for (ActionDTO d : dtoList) {
 			vos.add(toVO(d));
 		}
 		return vos;
 	}
 	
-	public static ActionDTO toDTO(ActionVO v) {
+	/**
+	 * Converts an {@code ActionVO} to DTO.
+	 * @param vo  the VO to convert
+	 * @return {@code ActionDTO} equivalent to the VO
+	 */
+	public static ActionDTO toDTO(ActionVO vo) {
 		ActionDTO dto = new ActionDTO();
-		dto.setId(v.getId());
-		dto.setActor(ActorConverter.toDTO(v.getActor()));
-		dto.setValue(ActorStateConverter.toDTO(v.getValue()));
+		dto.setId(vo.getId());
+		dto.setActor(ActorConverter.toDTO(vo.getActor()));
+		dto.setValue(ActorStateConverter.toDTO(vo.getValue()));
 		return dto;
 	}
 	
-	public static List<ActionDTO> toDTOs(List<ActionVO> vs) {
+	/**
+	 * Converts a list of {@code ActionVO}s to DTOs.
+	 * @param voList  the list of VOs to convert
+	 * @return list of {@code ActionDTO}s equivalent to the VOs
+	 */
+	public static List<ActionDTO> toDTOs(List<ActionVO> voList) {
 		List<ActionDTO> dtos = new ArrayList<>();
-		for (ActionVO v : vs) {
+		for (ActionVO v : voList) {
 			dtos.add(toDTO(v));
 		}
 		return dtos;

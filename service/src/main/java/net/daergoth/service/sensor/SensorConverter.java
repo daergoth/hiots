@@ -10,8 +10,21 @@ import net.daergoth.serviceapi.sensors.dummy.DummyLightSensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
 
+/**
+ * Converter between {@code SensorDTO} and {@code SensorVO}.
+ * Methods of this class should only be used in Service layer.
+ * 
+ * @see net.daergoth.coreapi.sensor.SensorDTO
+ * @see net.daergoth.serviceapi.sensors.SensorVO
+ */
 public class SensorConverter {
 	
+	/**
+	 * Converts a {@code SensorDTO} to VO.
+	 * @param dto  the DTO to convert
+	 * @return {@code SensorVO} equivalent to the DTO
+	 * @throws SensorConvertException if the DTO has invalid type
+	 */
 	public static SensorVO toVO(SensorDTO dto) throws SensorConvertException {
 			
 		switch (dto.getType()) {
@@ -51,6 +64,11 @@ public class SensorConverter {
 		
 	}
 	
+	/**
+	 * Converts a {@code SensorVO} to DTO.
+	 * @param vo the VO to convert
+	 * @return {@code SensorDTO} equivalent to the VO
+	 */
 	public static SensorDTO toDTO(SensorVO vo) {
 		if (vo.getClass().getSuperclass().equals(DummySensorVO.class)) {
 			DummySensorVO dvo = (DummySensorVO) vo;

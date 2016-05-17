@@ -14,6 +14,9 @@ import net.daergoth.serviceapi.monitor.OverviewLayoutContainerLocal;
 import net.daergoth.serviceapi.monitor.OverviewLayoutVO;
 import net.daergoth.serviceapi.sensors.SensorConvertException;
 
+/**
+ * Default implementation for {@code OverviewLayoutContainerLocal}.
+ */
 @Stateful
 @Local(OverviewLayoutContainerLocal.class)
 public class OverviewLayoutContainerLocalImpl implements OverviewLayoutContainerLocal {

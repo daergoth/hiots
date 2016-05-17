@@ -14,6 +14,9 @@ import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyActorVO;
 
+/**
+ * Default implementation of {@link ActorContainerLocal}.
+ */
 @Singleton(name = "ActorContainer")
 @Local(ActorContainerLocal.class)
 public class ActorContainerLocalImpl implements ActorContainerLocal{
@@ -25,6 +28,9 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 	
 	private boolean changed = true;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<ActorVO> getActors() {
 		if (changed) {
@@ -48,6 +54,9 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<DummyActorVO> getDummyActors() {
 		List<DummyActorVO> dummyList = new ArrayList<>();
@@ -61,6 +70,9 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 		return dummyList;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void addActor(ActorVO a) {
 		changed = true;
@@ -68,6 +80,9 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 		actorDao.addActor(ActorConverter.toDTO(a));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void updateActor(ActorVO a) {
 		changed = true;
@@ -75,6 +90,9 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 		actorDao.updateActor(ActorConverter.toDTO(a));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void deleteActor(long id) {
 		changed = true;
@@ -82,6 +100,9 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 		actorDao.deleteActor(id);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void deleteActors(List<Long> ids) {
 		changed = true;

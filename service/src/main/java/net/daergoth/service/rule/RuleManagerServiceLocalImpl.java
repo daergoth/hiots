@@ -31,6 +31,9 @@ import net.daergoth.serviceapi.sensors.SensorConvertException;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 
+/**
+ * Default implementation of {@code RuleManagerServiceLocal}.
+ */
 @Singleton
 @Startup
 @DependsOn({"DataChangeListener","ActorContainer"})
@@ -81,6 +84,9 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<RuleVO> getRules() {
 		if (changed) {
@@ -95,6 +101,9 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 		return rules;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void addRule(RuleVO r) {
 		changed = true;
@@ -111,6 +120,9 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 		ruleDao.addRule(RuleConverter.toDTO(r));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void updateRule(RuleVO r) {
 		changed = true;
@@ -130,6 +142,9 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 		ruleDao.updateRule(RuleConverter.toDTO(r));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void deleteRule(Long id) {
 		changed = true;
@@ -143,6 +158,10 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 		ruleDao.deleteRule(id);
 	}
 	
+	/**
+	 * Checks if a {@code Rule}'s conditions are all met.
+	 * @param ruleId  the ID of the rule
+	 */
 	public void checkForRule(Long ruleId) {
 		System.out.println("RuleManagerService checkForRule id: " + ruleId);
 		
@@ -180,6 +199,14 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 		}
 	}
 	
+	/**
+	 * Evaluates a {@code Condition}, checking it against a sensor reading.
+	 * @param cond  the condition to check
+	 * @param data  the sensor reading to check against
+	 * @return true if the condition given is fulfilled
+	 * @throws InvalidSensorDataTypeException if the reading data's type and the condition's sensor's type doesn't match
+	 * @throws InvalidConditionTypeException if the condition's type is invalid
+	 */
 	public boolean evaluateCondition(ConditionVO cond, SensorDataVO data) throws InvalidSensorDataTypeException, InvalidConditionTypeException  {
 		/*
 		System.out.println("RuleManagerService evaluateCondition sensorData: " + data);
@@ -225,14 +252,26 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 		};
 	}
 
+	/**
+	 * Setter for the {@code SensorContainerLocal} service.
+	 * @param sensorContainer  the sensor-provider service
+	 */
 	public void setSensorContainer(SensorContainerLocal sensorContainer) {
 		this.sensorContainer = sensorContainer;
 	}
 
+	/**
+	 * Setter for the {@code ActorContainerLocal} service.
+	 * @param actorContainer  the actor-provider service
+	 */
 	public void setActorContainer(ActorContainerLocal actorContainer) {
 		this.actorContainer = actorContainer;
 	}
 
+	/**
+	 * Setter for the managed list of {@code Rule}s.
+	 * @param rules  the list of managed rules
+	 */
 	public void setRules(List<RuleVO> rules) {
 		this.rules = rules;
 	}

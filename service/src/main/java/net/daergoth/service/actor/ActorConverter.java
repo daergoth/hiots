@@ -10,8 +10,21 @@ import net.daergoth.serviceapi.actors.dummy.DummyActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyLampActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyThermostatActorVO;
 
+/**
+ * Converter between {@code ActorDTO} and {@code ActorVO}.
+ * Methods of this class should only be used in Service layer.
+ *
+ * @see net.daergoth.coreapi.actor.ActorDTO
+ * @see net.daergoth.serviceapi.actors.ActorVO
+ */
 public class ActorConverter {
 	
+	/**
+	 * Converts an {@code ActorDTO} to VO.
+	 * @param dto  the DTO to convert
+	 * @return {@code ActorVO} equivalent to the DTO
+	 * @throws ActorConvertException if the {@code ActorDTO} has invalid type
+	 */
 	public static ActorVO toVO(ActorDTO dto) throws ActorConvertException {
 		switch(dto.getType()) {
 		case "Lamp":
@@ -53,6 +66,11 @@ public class ActorConverter {
 		}
 	}
 	
+	/**
+	 * Converts an {@code ActorVO} to DTO.
+	 * @param vo  the VO to convert
+	 * @return {@code ActorDTO} equivalent to the VO
+	 */
 	public static ActorDTO toDTO(ActorVO vo) {
 		if (vo.getClass().getSuperclass().equals(DummyActorVO.class)) {
 			DummyActorVO dvo = (DummyActorVO) vo;

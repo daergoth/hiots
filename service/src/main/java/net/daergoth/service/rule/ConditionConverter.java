@@ -13,38 +13,67 @@ import net.daergoth.serviceapi.rule.ConditionTypeService;
 import net.daergoth.serviceapi.rule.ConditionVO;
 import net.daergoth.serviceapi.sensors.SensorConvertException;
 
+/**
+ * Converter between {@code ConditionDTO} and {@code ConditionVO}.
+ * Methods of this class should only be used in Service layer.
+ * 
+ * @see net.daergoth.coreapi.rule.ConditionDTO
+ * @see net.daergoth.serviceapi.rule.ConditionVO
+ */
 @Stateless
 public class ConditionConverter {
 	
-	public static ConditionVO toVO(ConditionDTO d) throws SensorConvertException  {
+	/**
+	 * Converts a {@code ConditionDTO} to VO.
+	 * @param dto  the DTO to convert
+	 * @return {@code ConditionVO} equivalent to the DTO
+	 * @throws SensorConvertException if the {@code Sensor} related to the {@code Condition} has invalid type
+	 */
+	public static ConditionVO toVO(ConditionDTO dto) throws SensorConvertException  {
 		ConditionVO vo = new ConditionVO();
-		vo.setId(d.getId());
-		vo.setType(ConditionTypeService.valueOf(d.getConditionType().toString()));
-		vo.setSensor(SensorConverter.toVO(d.getSensor()));
-		vo.setValue(SensorDataConverter.toVO(d.getValue()));
+		vo.setId(dto.getId());
+		vo.setType(ConditionTypeService.valueOf(dto.getConditionType().toString()));
+		vo.setSensor(SensorConverter.toVO(dto.getSensor()));
+		vo.setValue(SensorDataConverter.toVO(dto.getValue()));
 		return vo;
 	}
 	
-	public static List<ConditionVO> toVOs(List<ConditionDTO> ds) throws SensorConvertException {
+	/**
+	 * Converts a list of {@code ConditionDTO}s to VOs.
+	 * @param dtoList  the list of DTOs to convert
+	 * @return list of {@code ConditionVO}s equivalent to the DTOs
+	 * @throws SensorConvertException if a {@code Sensor} related to one of the {@code Condition}s has invalid type
+	 */
+	public static List<ConditionVO> toVOs(List<ConditionDTO> dtoList) throws SensorConvertException {
 		List<ConditionVO> vos = new ArrayList<>();
-		for (ConditionDTO d : ds) {
+		for (ConditionDTO d : dtoList) {
 			vos.add(toVO(d));
 		}
 		return vos;
 	}
 	
-	public static ConditionDTO toDTO(ConditionVO v) {
+	/**
+	 * Converts a {@code ConditionVO} to DTO.
+	 * @param vo  the VO to convert
+	 * @return {@code ConditionDTO} equivalent to the VO
+	 */
+	public static ConditionDTO toDTO(ConditionVO vo) {
 		ConditionDTO dto = new ConditionDTO();
-		dto.setId(v.getId());
-		dto.setConditionType(ConditionTypeCore.valueOf(v.getType().toString()));
-		dto.setSensor(SensorConverter.toDTO(v.getSensor()));
-		dto.setValue(SensorDataConverter.toDTO(v.getValue()));
+		dto.setId(vo.getId());
+		dto.setConditionType(ConditionTypeCore.valueOf(vo.getType().toString()));
+		dto.setSensor(SensorConverter.toDTO(vo.getSensor()));
+		dto.setValue(SensorDataConverter.toDTO(vo.getValue()));
 		return dto;
 	}
 	
-	public static List<ConditionDTO> toDTOs(List<ConditionVO> vs) {
+	/**
+	 * Converts a list of {@code ConditionVO}s to DTOs.
+	 * @param voList  the list of VOs to convert
+	 * @return list of {@code ConditionDTO}s equivalent to the VOs
+	 */
+	public static List<ConditionDTO> toDTOs(List<ConditionVO> voList) {
 		List<ConditionDTO> dtos = new ArrayList<>();
-		for (ConditionVO v : vs) {
+		for (ConditionVO v : voList) {
 			dtos.add(toDTO(v));
 		}
 		return dtos;

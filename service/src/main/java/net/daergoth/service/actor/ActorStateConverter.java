@@ -10,18 +10,30 @@ import net.daergoth.serviceapi.actors.states.ActorStateVO;
 import net.daergoth.serviceapi.actors.states.LampActorStateVO;
 import net.daergoth.serviceapi.actors.states.ThermostatActorStateVO;
 
+/**
+ * Converter between {@code ActorStateDTO} and {@code ActorStateVO}.
+ * Methods of this class should only be used in Service layer.
+ *
+ * @see net.daergoth.coreapi.actor.ActorStateDTO
+ * @see net.daergoth.serviceapi.actors.states.ActorStateVO
+ */
 public class ActorStateConverter {
 	
-	public static ActorStateDTO toDTO(ActorStateVO v) { 
+	/**
+	 * Converts an {@code ActorStateVO} to DTO.
+	 * @param vo  the VO to convert
+	 * @return {@code ActorStateDTO} equivalent to the VO
+	 */
+	public static ActorStateDTO toDTO(ActorStateVO vo) { 
 		ActorStateDTO dto = new ActorStateDTO();
-		switch (v.getType()) {
+		switch (vo.getType()) {
 		case Lamp:
 			dto.setType(ActorStateType.LAMP);
-			dto.setValue(v.getData());
+			dto.setValue(vo.getData());
 			break;
 		case Thermostat:
 			dto.setType(ActorStateType.THERMOSTAT);
-			dto.setValue(v.getData());
+			dto.setValue(vo.getData());
 			break;
 		default:
 			return null;
@@ -29,25 +41,35 @@ public class ActorStateConverter {
 		return dto;
 	}
 	
-	public static List<ActorStateDTO> toDTOs(List<ActorStateVO> vs) {
+	/**
+	 * Converts a list of {@code ActorStateVO}s to a list if DTOs.
+	 * @param voList  the list of VOs to convert
+	 * @return list of {@code ActorStateDTO}s equivalent to the VOs
+	 */
+	public static List<ActorStateDTO> toDTOs(List<ActorStateVO> voList) {
 		List<ActorStateDTO> dtos = new ArrayList<>();
-		for (ActorStateVO v : vs) {
+		for (ActorStateVO v : voList) {
 			dtos.add(ActorStateConverter.toDTO(v));
 		}
 		return dtos;
 	}
 	
-	public static ActorStateVO toVO(ActorStateDTO d) {
-		switch (d.getType()) {
+	/**
+	 * Converts an {@code ActorStateDTO} to VO.
+	 * @param dto  the DTO to convert
+	 * @return {@code ActorStateVO} equivalent to the DTO
+	 */
+	public static ActorStateVO toVO(ActorStateDTO dto) {
+		switch (dto.getType()) {
 		case LAMP:
 			LampActorStateVO lampState = new LampActorStateVO();
-			lampState.setStatus(d.getValue()==1);
+			lampState.setStatus(dto.getValue()==1);
 			lampState.setType(ActorType.Lamp);
 			return lampState;
 			//break;
 		case THERMOSTAT:
 			ThermostatActorStateVO thermoState = new ThermostatActorStateVO();
-			thermoState.setTargetTemperature(d.getValue());
+			thermoState.setTargetTemperature(dto.getValue());
 			thermoState.setType(ActorType.Thermostat);
 			return thermoState;
 			//break;
@@ -56,9 +78,14 @@ public class ActorStateConverter {
 		}
 	}
 	
-	public static List<ActorStateVO> toVOs (List<ActorStateDTO> ds) {
+	/**
+	 * Converts a list of {@code ActorStateDTO}s to a list of VOs.
+	 * @param dtoList  the list of DTOs to convert
+	 * @return list of {@code ActorStateVO}s equivalent to the DTOs
+	 */
+	public static List<ActorStateVO> toVOs (List<ActorStateDTO> dtoList) {
 		List<ActorStateVO> vos = new ArrayList<>();
-		for (ActorStateDTO d : ds) {
+		for (ActorStateDTO d : dtoList) {
 			vos.add(ActorStateConverter.toVO(d));
 		}
 		return vos;

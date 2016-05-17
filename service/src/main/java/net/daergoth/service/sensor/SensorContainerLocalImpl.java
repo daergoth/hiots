@@ -15,6 +15,9 @@ import net.daergoth.serviceapi.sensors.SensorConvertException;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 
+/**
+ * Default implementation for {@code SensorContainerLocal}.
+ */
 @Singleton(name = "SensorContainer")
 @Startup
 @Local(SensorContainerLocal.class)
@@ -27,6 +30,9 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 	
 	private boolean changed = true;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<SensorVO> getSensors() {
 		if (changed) {
@@ -49,6 +55,9 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 		return sensors;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<DummySensorVO> getDummySensors() {
 		List<DummySensorVO> dummyList = new ArrayList<>();
@@ -62,8 +71,9 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 		return dummyList;
 	}
 
-
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void addSensor(SensorVO s) {
 		changed = true;
@@ -71,6 +81,9 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 		sensorDao.addSensor(SensorConverter.toDTO(s));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void updateSensor(SensorVO s) {
 		changed = true;
@@ -78,6 +91,9 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 		sensorDao.updateSensor(SensorConverter.toDTO(s));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void deleteSensor(long id) {
 		changed = true;
@@ -85,6 +101,9 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 		sensorDao.deleteSensor(id);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void deleteSensors(List<Long> ids) {
 		changed = true;
