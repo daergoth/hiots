@@ -48,8 +48,6 @@ public class IndexManager {
 	
 	private OverviewLayoutVO selectedLayout;
 	
-	private List<SensorVO> tempSensors;
-	
 	private String newLayoutName;
 	
 	private String renameLayoutName;
@@ -78,22 +76,28 @@ public class IndexManager {
 			dashboardModel.addColumn(new DefaultDashboardColumn());
 		}
 		dashboard.setModel(dashboardModel);
-		
-		
         
-        tempSensors = sensorContainer.getSensors().stream().filter(s -> s.getType() == SensorType.Temperature).collect(Collectors.toList());
     }
     
-    public void newLayout () {
+    public void loadLayout() {
     	
+    	for (OverviewLayoutElementVO e : selectedLayout.getElements()) {
+    		e.getActor();
+    	}
+    }
+    
+    public void newLayout() {
+    	System.out.println("newLayout name: " + newLayoutName);
     	OverviewLayoutVO layout = new OverviewLayoutVO();
     	layout.setId(0l);
     	layout.setName(newLayoutName);
     	layout.setElements(new ArrayList<OverviewLayoutElementVO>());
     	layoutContainer.addLayout(layout);
+    	setLayouts(layoutContainer.getLayouts());
     }
     
     public void renameLayout () {
+    	System.out.println(selectedLayout);
     	selectedLayout.setName(renameLayoutName);
     	layoutContainer.updateLayout(selectedLayout);
     }
@@ -158,14 +162,6 @@ public class IndexManager {
 
 	public void setDashboard(Dashboard dashboard) {
 		this.dashboard = dashboard;
-	}
-
-	public List<SensorVO> getTempSensors() {
-		return tempSensors;
-	}
-
-	public void setTempSensors(List<SensorVO> tempSensors) {
-		this.tempSensors = tempSensors;
 	}
 
 	public OverviewLayoutVO getSelectedLayout() {

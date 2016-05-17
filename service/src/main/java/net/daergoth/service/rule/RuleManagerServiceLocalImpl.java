@@ -146,7 +146,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	public void checkForRule(Long ruleId) {
 		System.out.println("RuleManagerService checkForRule id: " + ruleId);
 		
-		RuleVO rule = rules.stream().filter(r -> r.getId() == ruleId).findFirst().get();
+		RuleVO rule = rules.stream().filter(r -> r.getId() == ruleId).findFirst().get(); 
 		
 		boolean result = true;
 		for (ConditionVO cond : rule.getConditions()) {
@@ -224,5 +224,19 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 			}
 		};
 	}
+
+	public void setSensorContainer(SensorContainerLocal sensorContainer) {
+		this.sensorContainer = sensorContainer;
+	}
+
+	public void setActorContainer(ActorContainerLocal actorContainer) {
+		this.actorContainer = actorContainer;
+	}
+
+	public void setRules(List<RuleVO> rules) {
+		this.rules = rules;
+	}
+	
+	
 
 }
