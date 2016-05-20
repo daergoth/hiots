@@ -7,6 +7,9 @@
   </parent>
   <artifactId>service-api</artifactId>
   
+  <name>HIoTS Service API</name>
+  <description>API informations for system services.</description>
+  
   <dependencies>
   	<dependency>
 		<groupId>javax</groupId>

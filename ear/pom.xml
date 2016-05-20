@@ -8,6 +8,9 @@
   <artifactId>ear</artifactId>
   <packaging>ear</packaging>
   
+  <name>HIoTS EAR package</name>
+  <description>Used for packaging to web-deployable format.</description>
+  
   <dependencies>
 		<dependency>
 			<groupId>net.daergoth</groupId>

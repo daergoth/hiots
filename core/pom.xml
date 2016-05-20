@@ -8,6 +8,9 @@
   <artifactId>core</artifactId>
   <packaging>ejb</packaging>
   
+  <name>HIoTS Core layer</name>
+  <description>Implementation of the Core API.</description>
+  
   <dependencies>
 		<dependency>
 		  	<groupId>junit</groupId>

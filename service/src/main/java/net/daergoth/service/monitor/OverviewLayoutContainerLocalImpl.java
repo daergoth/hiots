@@ -9,6 +9,7 @@ import javax.ejb.Local;
 import javax.ejb.Stateful;
 
 import net.daergoth.coreapi.monitor.OverviewLayoutDaoLocal;
+import net.daergoth.service.cobertura.CoverageIgnore;
 import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.monitor.OverviewLayoutContainerLocal;
 import net.daergoth.serviceapi.monitor.OverviewLayoutVO;
@@ -36,6 +37,7 @@ public class OverviewLayoutContainerLocalImpl implements OverviewLayoutContainer
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public List<OverviewLayoutVO> getLayouts() {
 		if (changed) {
@@ -54,6 +56,7 @@ public class OverviewLayoutContainerLocalImpl implements OverviewLayoutContainer
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void addLayout(OverviewLayoutVO layout) {
 		changed = true;
@@ -63,6 +66,7 @@ public class OverviewLayoutContainerLocalImpl implements OverviewLayoutContainer
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void updateLayout(OverviewLayoutVO layout) {
 		changed = true;
@@ -72,6 +76,7 @@ public class OverviewLayoutContainerLocalImpl implements OverviewLayoutContainer
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void deleteLayout(long id) {
 		changed = true;

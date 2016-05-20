@@ -6,4 +6,7 @@
     <version>1.0</version>
   </parent>
   <artifactId>core-api</artifactId>
+  
+  <name>HIoTS Core API</name>
+  <description>API information for data accessing services.</description>
 </project>

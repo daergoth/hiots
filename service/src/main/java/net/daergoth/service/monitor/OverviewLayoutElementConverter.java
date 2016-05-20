@@ -32,8 +32,13 @@ public class OverviewLayoutElementConverter {
 		
 		vo.setId(dto.getId());
 		vo.setType(OverviewLayoutElementType.valueOf(dto.getType()));
-		vo.setActor(ActorConverter.toVO(dto.getActor()));
-		vo.setSensor(SensorConverter.toVO(dto.getSensor()));
+		
+		if (dto.getType().equals("Sensor")) {
+			vo.setSensor(SensorConverter.toVO(dto.getSensor()));
+		} else if (dto.getType().equals("Actor")) {
+			vo.setActor(ActorConverter.toVO(dto.getActor()));
+		}
+		
 		vo.setColumn(dto.getColumn());
 		vo.setRow(dto.getRow());
 		
@@ -67,8 +72,13 @@ public class OverviewLayoutElementConverter {
 		
 		dto.setId(vo.getId());
 		dto.setType(vo.getType().name());
-		dto.setActor(ActorConverter.toDTO(vo.getActor()));
-		dto.setSensor(SensorConverter.toDTO(vo.getSensor()));
+		
+		if (vo.getType() == OverviewLayoutElementType.Sensor) {
+			dto.setSensor(SensorConverter.toDTO(vo.getSensor()));
+		} else if (vo.getType() == OverviewLayoutElementType.Actor) {
+			dto.setActor(ActorConverter.toDTO(vo.getActor()));
+		}
+		
 		dto.setColumn(vo.getColumn());
 		dto.setRow(vo.getRow());
 		

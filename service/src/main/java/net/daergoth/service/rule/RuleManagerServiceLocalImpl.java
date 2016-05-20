@@ -14,6 +14,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
 import net.daergoth.coreapi.rule.RuleDaoLocal;
+import net.daergoth.service.cobertura.CoverageIgnore;
 import net.daergoth.serviceapi.actors.ActorContainerLocal;
 import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.actors.ActorVO;
@@ -87,6 +88,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public List<RuleVO> getRules() {
 		if (changed) {
@@ -104,6 +106,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void addRule(RuleVO r) {
 		changed = true;
@@ -123,6 +126,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void updateRule(RuleVO r) {
 		changed = true;
@@ -145,6 +149,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void deleteRule(Long id) {
 		changed = true;
@@ -274,6 +279,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	 */
 	public void setRules(List<RuleVO> rules) {
 		this.rules = rules;
+		changed = false;
 	}
 	
 	

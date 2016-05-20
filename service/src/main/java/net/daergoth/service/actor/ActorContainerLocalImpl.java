@@ -9,6 +9,7 @@ import javax.ejb.Singleton;
 
 import net.daergoth.coreapi.actor.ActorDTO;
 import net.daergoth.coreapi.actor.ActorDaoLocal;
+import net.daergoth.service.cobertura.CoverageIgnore;
 import net.daergoth.serviceapi.actors.ActorContainerLocal;
 import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.actors.ActorVO;
@@ -31,6 +32,7 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public List<ActorVO> getActors() {
 		if (changed) {
@@ -57,6 +59,7 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public List<DummyActorVO> getDummyActors() {
 		List<DummyActorVO> dummyList = new ArrayList<>();
@@ -73,6 +76,7 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void addActor(ActorVO a) {
 		changed = true;
@@ -83,6 +87,7 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void updateActor(ActorVO a) {
 		changed = true;
@@ -93,6 +98,7 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void deleteActor(long id) {
 		changed = true;
@@ -103,6 +109,7 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void deleteActors(List<Long> ids) {
 		changed = true;

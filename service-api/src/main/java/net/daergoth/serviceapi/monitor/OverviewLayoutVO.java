@@ -87,22 +87,8 @@ public class OverviewLayoutVO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		OverviewLayoutVO other = (OverviewLayoutVO) obj;
-		if (elements == null) {
-			if (other.elements != null)
-				return false;
-		} else if (!elements.equals(other.elements))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
+
+		return id.longValue() == other.getId().longValue();
 	}
 
 	

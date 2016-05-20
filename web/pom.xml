@@ -10,8 +10,10 @@
 	</parent>
 	<artifactId>web</artifactId>
 	<packaging>war</packaging>
-	<name>HIoTS Web App</name>
-	<url>http://hiots.daergoth.net</url>
+	
+	<name>HIoTS Web UI</name>
+	<description>Web interface for system controlling and monitoring.</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>javax</groupId>

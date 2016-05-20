@@ -51,7 +51,7 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	@PostConstruct
 	private void init() {
 		System.out.println("DummyDataGenerator @PostConstruct");
-		setDummiesList(sensorContainer.getDummySensors());
+		dummiesList = sensorContainer.getDummySensors();
 
 		startGenerating();
 	}
@@ -101,8 +101,6 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 
 	@Timeout
 	private void generateDummyData(Timer timer) {
-		setDummiesList(sensorContainer.getDummySensors());
-
 		generateAllDummies();
 	}
 
@@ -110,14 +108,13 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	 * Generates new {@code SensorData} readings for all simulated {@code Sensor}s.
 	 */
 	public void generateAllDummies() {
+		dummiesList = sensorContainer.getDummySensors();
+		
 		for (int i = 0; i < dummiesList.size(); ++i) {
 			dummiesList.get(i).generateRandomData();
 		}
 	}
 
-	private void setDummiesList(List<DummySensorVO> dl) {
-		this.dummiesList = dl;
-	}
 	
 	/**
 	 * Setter for the {@code SensorContainerLocal} service.

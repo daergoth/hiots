@@ -1,6 +1,5 @@
 package service.rule;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,20 +56,20 @@ public class RuleManagerServiceTest {
 		sensorContainerLocalImpl = Mockito.mock(SensorContainerLocalImpl.class);
 		actorContainerLocalImpl = Mockito.mock(ActorContainerLocalImpl.class);
 		
-		sensors = new ArrayList<>();
 		TemperatureSensorVO temperature = new TemperatureSensorVO(1, "TestTemp");
 		temperature.setData(new TemperatureDataVO(23.4));
 		
-		LightSensorVO light = new LightSensorVO(1, "TestLight");
+		LightSensorVO light = new LightSensorVO(2, "TestLight");
 		light.setData(new LightDataVO(100));
-		sensors.add(temperature);
-		sensors.add(light);
 		
-		actors = new ArrayList<>();
+		sensors = Arrays.asList(temperature, light);
+		
 		LampActorVO lamp = new LampActorVO(3, "TestLamp");
 		LampActorStateVO ldata = new LampActorStateVO();
 		ldata.setStatus(true);
 		lamp.setState(ldata);
+		
+		actors = Arrays.asList(lamp);
 		
 		ConditionVO ruleCond1 = new ConditionVO();
 		ruleCond1.setId(1l);
@@ -102,6 +101,10 @@ public class RuleManagerServiceTest {
 		rule.setEnabled(true);
 		
 		rulesManager.setRules(Arrays.asList(rule));
+		
+		rulesManager.setSensorContainer(sensorContainerLocalImpl);
+		
+		rulesManager.setActorContainer(actorContainerLocalImpl);
 		
 		Mockito.when(sensorContainerLocalImpl.getSensors())
 			.thenReturn(sensors);
@@ -144,9 +147,23 @@ public class RuleManagerServiceTest {
 	@Test
 	public void testCheckForRule() throws InvalidSensorDataTypeException, InvalidConditionTypeException {
 		
+		rulesManager.checkForRule(1l);
+		Assert.assertEquals(0.0, actors.get(0).getState().getData(), 0.0);
 		
+		rulesManager.checkForRule(1l);
+		Assert.assertEquals(0.0, actors.get(0).getState().getData(), 0.0);
 		
+		LampActorStateVO onState = new LampActorStateVO();
+		onState.setStatus(true);
+		rulesManager.getRules().get(0).getActions().get(0).setValue(onState);
+		rulesManager.getRules().get(0).setEnabled(false);
+		rulesManager.checkForRule(1l);
+		Assert.assertEquals(0.0, actors.get(0).getState().getData(), 0.0);
 		
+		rulesManager.getRules().get(0).getConditions().get(0).setType(ConditionTypeService.GT);
+		rulesManager.getRules().get(0).setEnabled(true);
+		rulesManager.checkForRule(1l);
+		Assert.assertEquals(0.0, actors.get(0).getState().getData(), 0.0);
 	}
 	
 	

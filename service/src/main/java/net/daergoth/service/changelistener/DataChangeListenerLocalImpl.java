@@ -75,8 +75,15 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 	}
 	
 	@Timeout
-	private void checkForChange(Timer timer) throws Exception {
-		
+	private void timeoutCheck(Timer timer) throws Exception {
+		checkForChange();
+	}
+	
+	/**
+	 * Checks for reading changes in the list of subscribed {@code Sensor}s.
+	 * @throws Exception if in a {@code DataChangeHandler} throws exception
+	 */
+	public void checkForChange() throws Exception {
 		//System.out.println("DataChangeListener checkForChange start");
 		
 		for (Map.Entry<SensorVO, ArrayList<DataChangeHandler>> entry : subs.entrySet()) {
@@ -185,5 +192,16 @@ public class DataChangeListenerLocalImpl implements DataChangeListenerLocal {
 		SensorVO sensor = sensorContainer.getSensors().stream().filter(s -> s.getId() == sensorId).findFirst().get();
 		return subs.get(sensor);
 	}
+
+
+	/**
+	 * Setter for {@code Sensor} provider service.
+	 * @param sensorContainer  the sensor provider service
+	 */
+	public void setSensorContainer(SensorContainerLocal sensorContainer) {
+		this.sensorContainer = sensorContainer;
+	}
+	
+	
 
 }

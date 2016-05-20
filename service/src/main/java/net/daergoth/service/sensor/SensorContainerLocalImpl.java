@@ -10,6 +10,7 @@ import javax.ejb.Startup;
 
 import net.daergoth.coreapi.sensor.SensorDTO;
 import net.daergoth.coreapi.sensor.SensorDaoLocal;
+import net.daergoth.service.cobertura.CoverageIgnore;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorConvertException;
 import net.daergoth.serviceapi.sensors.SensorVO;
@@ -33,6 +34,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public List<SensorVO> getSensors() {
 		if (changed) {
@@ -58,6 +60,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public List<DummySensorVO> getDummySensors() {
 		List<DummySensorVO> dummyList = new ArrayList<>();
@@ -74,6 +77,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void addSensor(SensorVO s) {
 		changed = true;
@@ -84,6 +88,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void updateSensor(SensorVO s) {
 		changed = true;
@@ -94,6 +99,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void deleteSensor(long id) {
 		changed = true;
@@ -104,6 +110,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 	/**
 	 * {@inheritDoc}
 	 */
+	@CoverageIgnore
 	@Override
 	public void deleteSensors(List<Long> ids) {
 		changed = true;

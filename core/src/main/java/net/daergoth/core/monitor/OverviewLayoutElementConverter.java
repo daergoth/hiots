@@ -26,8 +26,13 @@ public class OverviewLayoutElementConverter {
 		
 		dto.setId(entity.getId());
 		dto.setType(entity.getType());
-		dto.setActor(ActorConverter.toDTO(entity.getActor()));
-		dto.setSensor(SensorConverter.toDTO(entity.getSensor()));
+		
+		if (entity.getType().equals("Sensor")) {
+			dto.setSensor(SensorConverter.toDTO(entity.getSensor()));
+		} else if (entity.getType().equals("Actor")) {
+			dto.setActor(ActorConverter.toDTO(entity.getActor()));
+		}
+		
 		dto.setColumn(entity.getColumn());
 		dto.setRow(entity.getRow());
 		
@@ -59,8 +64,13 @@ public class OverviewLayoutElementConverter {
 		
 		entity.setId(dto.getId());
 		entity.setType(dto.getType());
-		entity.setActor(ActorConverter.toEntity(dto.getActor()));
-		entity.setSensor(SensorConverter.toEntity(dto.getSensor()));
+		
+		if (dto.getType().equals("Sensor")) {
+			entity.setSensor(SensorConverter.toEntity(dto.getSensor()));
+		} else if (dto.getType().equals("Actor")) {
+			entity.setActor(ActorConverter.toEntity(dto.getActor()));
+		}
+		
 		entity.setColumn(dto.getColumn());
 		entity.setRow(dto.getRow());
 		
