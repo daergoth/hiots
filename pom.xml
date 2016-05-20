@@ -5,12 +5,12 @@
 	<artifactId>hiots</artifactId>
 	<version>1.0</version>
 	<name>HIoTS - Home IoT System</name>
-	<description>ProgTech/ProgEnv project</description>
-	
+	<description>This project is developed for ProgTech and ProgEnv courses.</description>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<developers>
 		<developer>
 			<id>Author</id>
@@ -21,9 +21,22 @@
 			</roles>
 		</developer>
 	</developers>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
 	
+	<inceptionYear>2016</inceptionYear>
+	
+	<organization>
+		<name>István Lakatos</name>
+	</organization>
+
 	<packaging>pom</packaging>
-	
+
 	<modules>
 		<module>web</module>
 		<module>service-api</module>
@@ -42,10 +55,28 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-			    <groupId>org.mockito</groupId>
-			    <artifactId>mockito-all</artifactId>
-			    <version>2.0.2-beta</version>
-			    <scope>test</scope>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>2.0.2-beta</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.5</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>1.1.7</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.1.7</version>
+				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax</groupId>
@@ -69,19 +100,16 @@
 				<artifactId>primefaces</artifactId>
 				<version>5.3</version>
 			</dependency>
-
 			<dependency>
 				<groupId>org.primefaces.extensions</groupId>
 				<artifactId>all-themes</artifactId>
 				<version>1.0.8</version>
 			</dependency>
-
 			<dependency>
 				<groupId>org.primefaces.extensions</groupId>
 				<artifactId>primefaces-extensions</artifactId>
 				<version>4.0.0</version>
 			</dependency>
-
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
@@ -97,11 +125,9 @@
 				<artifactId>hibernate-entitymanager</artifactId>
 				<version>5.1.0.Final</version>
 			</dependency>
-			
-			
-
 		</dependencies>
 	</dependencyManagement>
+	
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -167,10 +193,11 @@
 						</execution>
 					</executions>
 				</plugin>
-				
+
 			</plugins>
 		</pluginManagement>
 	</build>
+	
 	<reporting>
 		<plugins>
 			<plugin>
@@ -203,16 +230,17 @@
 				<version>2.17</version>
 				<configuration>
 					<excludes>net/daergoth/web/**</excludes>
-					
 					<configLocation>src/main/resources/checkstyle.xml</configLocation>
 				</configuration>
 			</plugin>
 		</plugins>
 	</reporting>
+	
 	<distributionManagement>
 		<site>
 			<id>ProjectSite</id>
 			<url>file://projectsite</url>
 		</site>
 	</distributionManagement>
+	
 </project>
