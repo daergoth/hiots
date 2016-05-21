@@ -7,6 +7,9 @@ import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.daergoth.coreapi.actor.ActorDTO;
 import net.daergoth.coreapi.actor.ActorDaoLocal;
 import net.daergoth.service.cobertura.CoverageIgnore;
@@ -21,6 +24,8 @@ import net.daergoth.serviceapi.actors.dummy.DummyActorVO;
 @Singleton(name = "ActorContainer")
 @Local(ActorContainerLocal.class)
 public class ActorContainerLocalImpl implements ActorContainerLocal{
+	
+	private static final Logger logger = LoggerFactory.getLogger(ActorContainerLocal.class);
 	
 	@EJB
 	private ActorDaoLocal actorDao;
@@ -43,7 +48,7 @@ public class ActorContainerLocalImpl implements ActorContainerLocal{
 				try {
 					voList.add(ActorConverter.toVO(dto));
 				} catch (ActorConvertException e) {
-					e.printStackTrace();
+					logger.error("Error during Actor converting.", e);
 				}
 			}
 			

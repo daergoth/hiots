@@ -30,7 +30,7 @@
 							noSelectionOption="true" />
 						<f:selectItems id="selectItems" value="#{indexManager.layouts}"
 							var="layout" itemLabel="#{layout.name}" itemValue="#{layout}" />
-							
+
 						<f:converter binding="#{overviewLayoutConverter}" />
 
 						<p:ajax event="change" listener="#{indexManager.layoutChanged}" />
@@ -52,8 +52,16 @@
 							<p:menuitem id="newTempWidget" value="Temperature"
 								onclick="PF('newTempOverlay').show('#{component.clientId}');"
 								icon="fa fa-plus" />
-							<p:menuitem id="newLightWidget" value="Light "
+							<p:menuitem id="newLightWidget" value="Light"
 								onclick="PF('newLightOverlay').show('#{component.clientId}');"
+								icon="fa fa-plus" />
+						</p:submenu>
+						<p:submenu label="New actor widget">
+							<p:menuitem id="newLampWidget" value="Lamp"
+								onclick="PF('newLampOverlay').show('#{component.clientId}');"
+								icon="fa fa-plus" />
+							<p:menuitem id="newThermoWidget" value="Thermostat"
+								onclick="PF('newThermoOverlay').show('#{component.clientId}');"
 								icon="fa fa-plus" />
 						</p:submenu>
 					</p:menu>
@@ -64,24 +72,48 @@
 			</p:layout>
 
 
-			<p:dialog widgetVar="newTempOverlay" resizable="false">
+			<p:dialog header="New temperature widget" widgetVar="newTempOverlay" resizable="false">
 				<ui:repeat var="sensor"
 					value="#{indexManager.getSensorByType('Temperature')}">
 					<p:commandButton value="#{sensor.name}"
-						actionListener="#{indexManager.newTemperatureWidget(sensor.id)}" update="form:board"/>
+						actionListener="#{indexManager.newSensorWidget(sensor.id)}"
+						update="form:board" 
+						onclick="PF('newTempOverlay').hide();"/><br/>
 				</ui:repeat>
 			</p:dialog>
 
-			<p:dialog widgetVar="newLightOverlay" resizable="false">
+			<p:dialog header="New light widget" widgetVar="newLightOverlay" resizable="false">
 				<ui:repeat var="sensor"
 					value="#{indexManager.getSensorByType('Light')}">
 					<p:commandButton value="#{sensor.name}"
-						actionListener="#{indexManager.newLightWidget(sensor.id)}" />
+						actionListener="#{indexManager.newSensorWidget(sensor.id)}" 
+						update="form:board"
+						onclick="PF('newLightOverlay').hide();" /><br/>
 				</ui:repeat>
 			</p:dialog>
 			
-			<p:poll interval="2" listener="#{indexManager.refresh}" update="form:board"/>
+			<p:dialog header="New lamp widget" widgetVar="newLampOverlay" resizable="false">
+				<ui:repeat var="actor"
+					value="#{indexManager.getActorByType('Lamp')}">
+					<p:commandButton value="#{actor.name}"
+						actionListener="#{indexManager.newActorWidget(actor.id)}" 
+						update="form:board"
+						onclick="PF('newLampOverlay').hide();" /><br/>
+				</ui:repeat>
+			</p:dialog>
 			
+			<p:dialog header="New thermostat widget" widgetVar="newThermoOverlay" resizable="false">
+				<ui:repeat var="actor"
+					value="#{indexManager.getActorByType('Thermostat')}">
+					<p:commandButton value="#{actor.name}"
+						actionListener="#{indexManager.newActorWidget(actor.id)}" 
+						update="form:board"
+						onclick="PF('newThermoOverlay').hide();" /><br/>
+				</ui:repeat>
+			</p:dialog>
+		
+			<p:poll interval="3" listener="#{indexManager.refresh}" update="form:board"/>
+
 		</h:form>
 		<h:form id="layoutForm">
 			<p:dialog id="newLayoutOverlay" widgetVar="newLayoutOverlay"
@@ -89,7 +121,8 @@
 				<p:outputLabel value="Name:" />
 				<p:inputText value="#{indexManager.newLayoutName}" />
 				<p:commandButton value="Create" action="#{indexManager.newLayout}"
-					update="form:currentLayout" />
+					update="form:currentLayout"
+					onclick="PF('newLayoutOverlay').hide();" />
 			</p:dialog>
 		</h:form>
 		<h:form>
@@ -98,7 +131,8 @@
 				<p:outputLabel value="New Name:" />
 				<p:inputText value="#{indexManager.renameLayoutName}" />
 				<p:commandButton value="Rename"
-					action="#{indexManager.renameLayout}" update="form:currentLayout" />
+					action="#{indexManager.renameLayout}" update="form:dashboard"
+					onclick="PF('renameLayoutOverlay').hide();" />
 			</p:dialog>
 		</h:form>
 		<h:form>
@@ -106,7 +140,8 @@
 				resizable="false">
 				<p:commandButton value="Yes"
 					actionListener="#{indexManager.removeLayout}"
-					onclick="PF('removeLayoutOverlay').hide();" update="form:dashboard" />
+					onclick="PF('removeLayoutOverlay').hide();" 
+					update="form:currentLayout form:dashboard" />
 				<p:commandButton value="No"
 					onclick="PF('removeLayoutOverlay').hide();" />
 			</p:dialog>

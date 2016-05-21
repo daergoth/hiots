@@ -8,6 +8,9 @@ import javax.ejb.Local;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.daergoth.coreapi.sensor.SensorDTO;
 import net.daergoth.coreapi.sensor.SensorDaoLocal;
 import net.daergoth.service.cobertura.CoverageIgnore;
@@ -23,6 +26,8 @@ import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 @Startup
 @Local(SensorContainerLocal.class)
 public class SensorContainerLocalImpl implements SensorContainerLocal {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SensorContainerLocal.class);
 	 
 	@EJB
 	private SensorDaoLocal sensorDao;
@@ -45,7 +50,7 @@ public class SensorContainerLocalImpl implements SensorContainerLocal {
 				try {
 					voList.add(SensorConverter.toVO(sensorDTO));
 				} catch (SensorConvertException e) {
-					e.printStackTrace();
+					logger.error("Error during Sensor converting.", e);
 				}
 			}
 			

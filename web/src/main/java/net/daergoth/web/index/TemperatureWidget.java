@@ -5,11 +5,16 @@ import java.util.List;
 
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.AjaxBehaviorListener;
 
+import org.primefaces.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.chart.Chart;
 import org.primefaces.component.panel.Panel;
 import org.primefaces.model.chart.MeterGaugeChartModel;
 
+import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.TemperatureSensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
@@ -19,6 +24,8 @@ public class TemperatureWidget implements IndexWidget {
 	private static final List<Number> intervals = Arrays.asList(-3, 4, 32, 46, 60);
 	
 	private Long id;
+
+	private String type;
 	
 	private Application application;
 
@@ -26,9 +33,14 @@ public class TemperatureWidget implements IndexWidget {
 	
 	private MeterGaugeChartModel gaugeModel;
 	
-	public TemperatureWidget(TemperatureSensorVO tempSensor, Application application) {
+	private IndexManager manager;
+	
+	public TemperatureWidget(Long id, TemperatureSensorVO tempSensor, Application application, IndexManager manager) {
+		this.id = id;
+		this.type = "Sensor";
 		this.tempSensor = tempSensor;
 		this.application = application;
+		this.manager = manager;
 		
 		gaugeModel = new MeterGaugeChartModel(null, intervals);
 		gaugeModel.setSeriesColors("4D8FF7,6CCEFF,93b75f,E7E658,cc6666");
@@ -43,9 +55,12 @@ public class TemperatureWidget implements IndexWidget {
     	gaugeModel.setGaugeLabel(tempSensor.getData().toString());
 	}
 	
-	public TemperatureWidget(DummyTemperatureSensorVO tempSensor, Application application) {
+	public TemperatureWidget(Long id, DummyTemperatureSensorVO tempSensor, Application application, IndexManager manager) {
+		this.id  = id;
+		this.type = "Sensor";
 		this.tempSensor = tempSensor;
 		this.application = application;
+		this.manager = manager;
 		
 		gaugeModel = new MeterGaugeChartModel(null, intervals);
 		gaugeModel.setSeriesColors("4D8FF7,6CCEFF,93b75f,E7E658,cc6666");
@@ -60,18 +75,32 @@ public class TemperatureWidget implements IndexWidget {
     	gaugeModel.setGaugeLabel(tempSensor.getData().toString());
 	}
 	
+	@Override
 	public void refresh() {
 		gaugeModel.setValue(tempSensor.getData().getData());
     	gaugeModel.setGaugeLabel(tempSensor.getData().toString());
 	}
 	
+	@Override
 	public Panel getAsPanel() {
 		Panel p = (Panel) application.createComponent(FacesContext.getCurrentInstance(),
 				"org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
-		p.setId("tempWidget_" + id);
+		p.setId(getPanelId());
 		p.setHeader("Temperature widget");
 		p.setClosable(true);
 		p.setToggleable(false);
+		p.setTransient(true);
+		
+		AjaxBehavior ajaxBehavior = new AjaxBehavior();
+		ajaxBehavior.addAjaxBehaviorListener(new AjaxBehaviorListener() {
+			
+			@Override
+			public void processAjaxBehavior(AjaxBehaviorEvent event) throws AbortProcessingException {
+				manager.closedWidget(event.getComponent().getId());
+			}
+		});
+		ajaxBehavior.setTransient(true);
+		p.addClientBehavior("close", ajaxBehavior);
 		
 		Chart g = (Chart) application.createComponent(FacesContext.getCurrentInstance(), 
 				"org.primefaces.component.Chart", "org.primefaces.component.ChartRenderer");
@@ -87,15 +116,25 @@ public class TemperatureWidget implements IndexWidget {
 	public String getPanelId() {
 		return "tempWidget_" + id;
 	}
-
+	
+	@Override
 	public Long getId() {
 		return id;
 	}
-
-	public void setId(Long id) {
-		this.id = id;
+	
+	@Override
+	public String getType() {
+		return type;
 	}
 	
-	
+	@Override
+	public SensorVO getSensor() {
+		return tempSensor;
+	}
+
+	@Override
+	public ActorVO getActor() {
+		return null;
+	}
 
 }

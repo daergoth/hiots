@@ -5,11 +5,16 @@ import java.util.List;
 
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.AjaxBehaviorListener;
 
+import org.primefaces.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.chart.Chart;
 import org.primefaces.component.panel.Panel;
 import org.primefaces.model.chart.MeterGaugeChartModel;
 
+import net.daergoth.serviceapi.actors.ActorVO;
 import net.daergoth.serviceapi.sensors.LightSensorVO;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummyLightSensorVO;
@@ -20,15 +25,22 @@ private static final List<Number> intervals = Arrays.asList( 200, 800, 1000);
 	
 	private Long id;
 	
+	private String type;
+	
 	private Application application;
 
 	private SensorVO lightSensor;
 	
 	private MeterGaugeChartModel gaugeModel;
+	
+	private IndexManager manager;
 
-	public LightWidget(LightSensorVO sensor, Application application) {
+	public LightWidget(Long id, LightSensorVO sensor, Application application, IndexManager manager) {
+		this.id = id;
+		this.type = "Sensor";
 		this.lightSensor = sensor;
 		this.application = application;
+		this.manager = manager;
 		
 		gaugeModel = new MeterGaugeChartModel(null, intervals);
 		gaugeModel.setSeriesColors("00396B,A1FF66,FFFB00");
@@ -43,9 +55,12 @@ private static final List<Number> intervals = Arrays.asList( 200, 800, 1000);
     	gaugeModel.setGaugeLabel(lightSensor.getData().toString());
 	}
 	
-	public LightWidget(DummyLightSensorVO sensor, Application application) {
+	public LightWidget(Long id, DummyLightSensorVO sensor, Application application, IndexManager manager) {
+		this.id = id;
+		this.type = "Sensor";
 		this.lightSensor = sensor;
 		this.application = application;
+		this.manager = manager;
 		
 		gaugeModel = new MeterGaugeChartModel(null, intervals);
 		gaugeModel.setSeriesColors("00396B,A1FF66,FFFB00");
@@ -70,10 +85,21 @@ private static final List<Number> intervals = Arrays.asList( 200, 800, 1000);
 	public Panel getAsPanel() {
 		Panel p = (Panel) application.createComponent(FacesContext.getCurrentInstance(),
 				"org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
-		p.setId("tempWidget_" + id);
+		p.setId(getPanelId());
 		p.setHeader("Light widget");
 		p.setClosable(true);
 		p.setToggleable(false);
+		p.setTransient(true);
+		AjaxBehavior ajaxBehavior = new AjaxBehavior();
+		ajaxBehavior.addAjaxBehaviorListener(new AjaxBehaviorListener() {
+			
+			@Override
+			public void processAjaxBehavior(AjaxBehaviorEvent event) throws AbortProcessingException {
+				manager.closedWidget(event.getComponent().getId());
+			}
+		});
+		ajaxBehavior.setTransient(true);
+		p.addClientBehavior("close", ajaxBehavior);
 		
 		Chart g = (Chart) application.createComponent(FacesContext.getCurrentInstance(), 
 				"org.primefaces.component.Chart", "org.primefaces.component.ChartRenderer");
@@ -88,16 +114,31 @@ private static final List<Number> intervals = Arrays.asList( 200, 800, 1000);
 
 	@Override
 	public String getPanelId() {
-		return "tempWidget_" + id;
+		return "lightWidget_" + id;
 	}
 
+	@Override
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	@Override
+	public String getType() {
+		return type;
 	}
+
+	@Override
+	public SensorVO getSensor() {
+		return lightSensor;
+	}
+
+	@Override
+	public ActorVO getActor() {
+		return null;
+	}
+
+	
+	
 	
 
 }

@@ -8,6 +8,9 @@ import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateful;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.daergoth.coreapi.monitor.OverviewLayoutDaoLocal;
 import net.daergoth.service.cobertura.CoverageIgnore;
 import net.daergoth.serviceapi.actors.ActorConvertException;
@@ -21,6 +24,8 @@ import net.daergoth.serviceapi.sensors.SensorConvertException;
 @Stateful
 @Local(OverviewLayoutContainerLocal.class)
 public class OverviewLayoutContainerLocalImpl implements OverviewLayoutContainerLocal {
+
+	private static final Logger logger = LoggerFactory.getLogger(OverviewLayoutContainerLocal.class);
 	
 	@EJB
 	private OverviewLayoutDaoLocal layoutDao;
@@ -44,8 +49,7 @@ public class OverviewLayoutContainerLocalImpl implements OverviewLayoutContainer
 			try {
 				layouts = OverviewLayoutConverter.toVOs(layoutDao.getLayouts());
 			} catch (ActorConvertException | SensorConvertException e) {
-				e.printStackTrace();
-				System.out.println("BAJ VAN AZ OVERVIEW CONTAINERBEN");
+				logger.error("Error during OverviewLayoutElement's Action/Sensor converting.", e);
 			}
 		}
 		

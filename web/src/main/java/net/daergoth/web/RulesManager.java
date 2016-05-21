@@ -151,13 +151,11 @@ public class RulesManager {
 	}
 	
 	public void deleteRule() {
-		System.out.println("ActiveRuleIndex:_" + activeRuleIndex);
 		ruleContainer.deleteRule(rules.get(activeRuleIndex).getId());
 		setRules(ruleContainer.getRules());
 	}
 	
 	public void renameRule()  {
-		System.out.println("ActiveRuleIndex:_" + activeRuleIndex);
 		rules.get(activeRuleIndex).setName(newName);
 		newName = "";
 		ruleContainer.updateRule(rules.get(activeRuleIndex));

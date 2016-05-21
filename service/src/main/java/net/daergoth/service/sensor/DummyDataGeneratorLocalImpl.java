@@ -16,6 +16,9 @@ import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerConfig;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.daergoth.serviceapi.sensors.DummyDataGeneratorLocal;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
@@ -28,7 +31,9 @@ import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 @DependsOn("SensorContainer")
 @Local(DummyDataGeneratorLocal.class)
 public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(DummyDataGeneratorLocal.class);
+	
 	@EJB
 	private SensorContainerLocal sensorContainer;
 
@@ -46,21 +51,20 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 			tm.cancel();
 			tm = context.getTimerService().createIntervalTimer(0, interval, new TimerConfig());
 		}
+		logger.debug("Timer started, remaining time: {}", tm.getTimeRemaining());
 	}
 
 	@PostConstruct
 	private void init() {
-		System.out.println("DummyDataGenerator @PostConstruct");
 		dummiesList = sensorContainer.getDummySensors();
-
 		startGenerating();
+		logger.info("Service initialized!");
 	}
 
 	@PreDestroy
 	private void destroy() {
-		System.out.println("DummyDataGenerator @PreDestroy");
-		
 		stopGenerating();
+		logger.info("Service destroyed!");
 	}
 
 	/**
@@ -69,6 +73,7 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	@Override
 	public void startGenerating() {
 		createTimer(MIN_UPDATE_INTERVAL);
+		logger.debug("Starting data generation...");
 	}
 
 	/**
@@ -79,6 +84,7 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 		if (tm != null) {
 			tm.cancel();
 		}
+		logger.debug("Stopping data generation...");
 	}
 
 	/**
@@ -108,13 +114,13 @@ public class DummyDataGeneratorLocalImpl implements DummyDataGeneratorLocal {
 	 * Generates new {@code SensorData} readings for all simulated {@code Sensor}s.
 	 */
 	public void generateAllDummies() {
+		logger.debug("Generating new data for all DummySensors...");
 		dummiesList = sensorContainer.getDummySensors();
 		
 		for (int i = 0; i < dummiesList.size(); ++i) {
 			dummiesList.get(i).generateRandomData();
 		}
 	}
-
 	
 	/**
 	 * Setter for the {@code SensorContainerLocal} service.

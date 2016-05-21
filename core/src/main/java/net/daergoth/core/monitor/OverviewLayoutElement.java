@@ -24,12 +24,12 @@ public class OverviewLayoutElement implements Serializable {
 	
 	private String type;
 	
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "actorId", referencedColumnName="id")
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "actorId", referencedColumnName="id", nullable = true)
 	private Actor actor;
 	
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "sensorId", referencedColumnName="id")
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "sensorId", referencedColumnName="id", nullable = true)
 	private Sensor sensor;
 	
 	private int columnCode;

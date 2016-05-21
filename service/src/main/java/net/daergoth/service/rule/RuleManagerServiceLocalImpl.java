@@ -13,6 +13,9 @@ import javax.ejb.Local;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.daergoth.coreapi.rule.RuleDaoLocal;
 import net.daergoth.service.cobertura.CoverageIgnore;
 import net.daergoth.serviceapi.actors.ActorContainerLocal;
@@ -41,6 +44,8 @@ import net.daergoth.serviceapi.sensors.datatypes.SensorDataVO;
 @Local(RuleManagerServiceLocal.class)
 public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	
+	private static final Logger logger = LoggerFactory.getLogger(RuleManagerServiceLocal.class);
+	
 	@EJB
 	private RuleDaoLocal ruleDao;
 	
@@ -61,7 +66,6 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	
 	@PostConstruct
 	private void init() {
-		System.out.println("RuleManagerService @PostConstruct");
 		for (RuleVO rule : getRules()) {
 			if (!handlers.containsKey(rule.getId())) {
 				handlers.put(rule.getId(), new ArrayList<>());
@@ -73,16 +77,17 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 				changeListener.subscribeFor(cond.getSensor().getId(), h);
 			}
 		} 
+		logger.info("Service initialized!");
 	}
 	
 	@PreDestroy
 	private void destroy() {
-		System.out.println("RuleManagerService @PreDestroy");
 		for (RuleVO rule : getRules()) {
 			for (ConditionVO cond : rule.getConditions()) {
 				changeListener.unsubscribeFrom(cond.getSensor().getId(), handlers.get(rule.getId()));
 			}
 		}
+		logger.info("Service destroyed!");
 	}
 
 	/**
@@ -95,7 +100,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 			try {
 				rules = RuleConverter.toVOs(ruleDao.getRules());
 			} catch (SensorConvertException | ActorConvertException e) {
-				e.printStackTrace();
+				logger.error("Error during Actor/Sensor converting related to a Rule.", e);
 			}
 			changed = false;
 		}
@@ -168,7 +173,7 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	 * @param ruleId  the ID of the rule
 	 */
 	public void checkForRule(Long ruleId) {
-		System.out.println("RuleManagerService checkForRule id: " + ruleId);
+		logger.info("Checking for changes in Rule(id:{})...", ruleId);
 		
 		RuleVO rule = rules.stream().filter(r -> r.getId() == ruleId).findFirst().get(); 
 		
@@ -183,22 +188,19 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 			}
 		}
 		
-		System.out.println("RuleManagerService checkForRule result: " + result);
+		logger.debug("Rule(id:{}) conditions result: {}", ruleId, result);
 		
-		if (result) {
-			if (rule.isEnabled()) {
-				for (ActionVO action : rule.getActions()) {
-					try {
-						ActorVO actor = actorContainer.getActors().stream().filter(a -> a.getId() == action.getActor().getId()).findFirst().get();
-						System.out.println("RuleManagerService checkForRule (actor.state, action.value): " + actor.getState() + ", " + action.getValue());
-						//System.out.println("RuleManagerService checkForRule action.actor.state != action.value: " + (action.getActor().getState() != action.getValue()) );
-						if (actor.getState() != action.getValue()) {
-							System.out.println("RuleManagerService checkForRule action: " + actor + " -> " + action.getValue());
-							actor.setState(action.getValue());
-						}
-					} catch (InvalidActorStateTypeException e) {
-						e.printStackTrace();
+		if (result && rule.isEnabled()) {
+			for (ActionVO action : rule.getActions()) {
+				try {
+					ActorVO actor = actorContainer.getActors().stream().filter(a -> a.getId() == action.getActor().getId()).findFirst().get();
+					
+					if (actor.getState() != action.getValue()) {
+						logger.debug("Rule(id:"+ruleId+") action: {} -> {}", actor, action.getValue() );
+						actor.setState(action.getValue());
 					}
+				} catch (InvalidActorStateTypeException e) {
+					logger.error("Rule(id:" + ruleId + ") action has wrong value!", e);
 				}
 			}
 		}
@@ -213,11 +215,11 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 	 * @throws InvalidConditionTypeException if the condition's type is invalid
 	 */
 	public boolean evaluateCondition(ConditionVO cond, SensorDataVO data) throws InvalidSensorDataTypeException, InvalidConditionTypeException  {
-		/*
-		System.out.println("RuleManagerService evaluateCondition sensorData: " + data);
-		System.out.println("RuleManagerService evaluateCondition condType: " + cond.getType());
-		System.out.println("RuleManagerService evaluateCondition condValue: " + cond.getValue());
-		*/
+		logger.info("Evaluating condition...");
+		logger.debug("SensorData: {}", data);
+		logger.debug("Condition type: {}", cond.getType());
+		logger.debug("Condition value: {}", cond.getValue());
+		
 		switch (cond.getType()) {
 		case EQ:
 			return data.compareTo(cond.getValue()) == 0;
@@ -246,12 +248,13 @@ public class RuleManagerServiceLocalImpl implements RuleManagerServiceLocal{
 			
 			@Override
 			public void onChange(SensorDataVO newData) {
+				logger.debug("DataChangeHandler for Rule(id:{}) executed.", ruleId);
 				try {
 					if (evaluateCondition(cond, newData)) {
 						checkForRule(ruleId);
 					}
 				} catch (InvalidSensorDataTypeException | InvalidConditionTypeException e) {
-					e.printStackTrace();
+					logger.error("Condition(id:" +  cond.getId() + ", ruleId:" + ruleId + ")'s value and sensor type doesn't match!", e);
 				}
 			}
 		};
