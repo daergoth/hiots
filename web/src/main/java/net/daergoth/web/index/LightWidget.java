@@ -43,7 +43,7 @@ private static final List<Number> intervals = Arrays.asList( 200, 800, 1000);
 		this.manager = manager;
 		
 		gaugeModel = new MeterGaugeChartModel(null, intervals);
-		gaugeModel.setSeriesColors("00396B,A1FF66,FFFB00");
+		gaugeModel.setSeriesColors("00396B,81e741,f2ee00");
 		gaugeModel.setGaugeLabelPosition("bottom");
 		gaugeModel.setShowTickLabels(true);
 		gaugeModel.setLabelHeightAdjust(0);
@@ -63,7 +63,7 @@ private static final List<Number> intervals = Arrays.asList( 200, 800, 1000);
 		this.manager = manager;
 		
 		gaugeModel = new MeterGaugeChartModel(null, intervals);
-		gaugeModel.setSeriesColors("00396B,A1FF66,FFFB00");
+		gaugeModel.setSeriesColors("00396B,81e741,f2ee00");
 		gaugeModel.setGaugeLabelPosition("bottom");
 		gaugeModel.setShowTickLabels(true);
 		gaugeModel.setLabelHeightAdjust(0);

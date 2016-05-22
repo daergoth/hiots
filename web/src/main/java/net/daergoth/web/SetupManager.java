@@ -17,13 +17,19 @@ import org.primefaces.model.menu.DefaultSubMenu;
 import net.daergoth.serviceapi.actors.ActorContainerLocal;
 import net.daergoth.serviceapi.actors.ActorType;
 import net.daergoth.serviceapi.actors.ActorVO;
+import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 import net.daergoth.serviceapi.actors.dummy.DummyLampActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyThermostatActorVO;
+import net.daergoth.serviceapi.actors.states.LampActorStateVO;
+import net.daergoth.serviceapi.actors.states.ThermostatActorStateVO;
 import net.daergoth.serviceapi.changelistener.DataChangeHandler;
 import net.daergoth.serviceapi.changelistener.DataChangeListenerLocal;
+import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 import net.daergoth.serviceapi.sensors.SensorContainerLocal;
 import net.daergoth.serviceapi.sensors.SensorType;
 import net.daergoth.serviceapi.sensors.SensorVO;
+import net.daergoth.serviceapi.sensors.datatypes.LightDataVO;
+import net.daergoth.serviceapi.sensors.datatypes.TemperatureDataVO;
 import net.daergoth.serviceapi.sensors.dummy.DummyLightSensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
 
@@ -43,6 +49,8 @@ public class SetupManager {
 	private DefaultMenuModel menuBar;
 	
 	private String sensorDlgHeader = "Header";
+	
+	private String sensorDlgUnit;
 	
 	private String actorDlgHeader = "Header";
 	
@@ -115,51 +123,60 @@ public class SetupManager {
 		actorContainer.updateActor((ActorVO) event.getObject());
     }
     
-    public void createSensor() {
+    public void createSensor() throws InvalidSensorDataTypeException {
 		switch (selectedSensorType) {
 		case Light:
-			sensorContainer.addSensor(
-					new DummyLightSensorVO(
-							0,
-							sensorName, 
-							Double.parseDouble(sensorMinValue), 
-							Double.parseDouble(sensorMaxValue),
-							1000)
-			);
+			DummyLightSensorVO lightSens = new DummyLightSensorVO(
+					0,
+					sensorName, 
+					Double.parseDouble(sensorMinValue), 
+					Double.parseDouble(sensorMaxValue),
+					1000);
+			lightSens.setData(new LightDataVO(0.0));
+			sensorContainer.addSensor(lightSens);
 			break;
 		case Temperature:
-			sensorContainer.addSensor(
-					new DummyTemperatureSensorVO(
-							0, 
-							sensorName, 
-							Double.parseDouble(sensorMinValue), 
-							Double.parseDouble(sensorMaxValue),
-							1000)
-			);
+			DummyTemperatureSensorVO tempSens = new DummyTemperatureSensorVO(
+					0, 
+					sensorName, 
+					Double.parseDouble(sensorMinValue), 
+					Double.parseDouble(sensorMaxValue),
+					1000);
+			tempSens.setData(new TemperatureDataVO(0.0));
+			sensorContainer.addSensor(tempSens);
 			break;
 		default:
-			
 			break;
 		}
 		
 		setSensors(sensorContainer.getSensors());
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('dlgSensor').hide();");
+		sensorName = "";
+		sensorMinValue = "";
+		sensorMaxValue = "";
+		context.update("form:dlgSensor");
     }
     
-    public void createActor() {
+    public void createActor() throws InvalidActorStateTypeException {
     	switch (selectedActorType) {
 		case Lamp:
-			actorContainer.addActor(new DummyLampActorVO(
+			DummyLampActorVO lampActor = new DummyLampActorVO(
 					0,
-					actorName)
-			);
+					actorName);
+			LampActorStateVO lampState = new LampActorStateVO();
+			lampState.setStatus(false);
+			lampActor.setState(lampState);
+			actorContainer.addActor(lampActor);
 			break;
 		case Thermostat:
-			actorContainer.addActor(new DummyThermostatActorVO(
+			DummyThermostatActorVO thermoActor = new DummyThermostatActorVO(
 					0,
-					actorName)
-			);
+					actorName);
+			ThermostatActorStateVO thermoState = new ThermostatActorStateVO();
+			thermoState.setTargetTemperature(0.0);
+			thermoActor.setState(thermoState);
+			actorContainer.addActor(thermoActor);
 			break;
 		default:
 			
@@ -168,12 +185,25 @@ public class SetupManager {
     	setActors(actorContainer.getActors());
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('dlgActor').hide();");
+		actorName = "";
+		context.update("form:dlgActor");
     }
     
     public void setSensorCreateType(String t) {
     	selectedSensorType = SensorType.valueOf(t);
     	sensorDlgHeader = "New " + selectedSensorType.toString() + " sensor";
+    	switch(selectedSensorType) {
+		case Light:
+			sensorDlgUnit = LightDataVO.UNIT;
+			break;
+		case Temperature:
+			sensorDlgUnit = TemperatureDataVO.UNIT;
+			break;
+		default:
+			break;
+    	}
     	RequestContext context = RequestContext.getCurrentInstance();
+    	context.update("form:dlgSensor");
 		context.execute("PF('dlgSensor').show();");
     }
     
@@ -182,6 +212,7 @@ public class SetupManager {
     	actorDlgHeader = "New " + selectedActorType.toString() + " actor";
     	RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('dlgActor').show();");
+		context.update("form:dlgActor");
     }
     
 	public void delete() {
@@ -327,6 +358,14 @@ public class SetupManager {
 
 	public void setSelectedActors(List<ActorVO> selectedActors) {
 		this.selectedActors = selectedActors;
+	}
+
+	public String getSensorDlgUnit() {
+		return sensorDlgUnit;
+	}
+
+	public void setSensorDlgUnit(String sensorDlgUnit) {
+		this.sensorDlgUnit = sensorDlgUnit;
 	}
 	
 }

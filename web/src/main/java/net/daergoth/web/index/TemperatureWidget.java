@@ -43,7 +43,7 @@ public class TemperatureWidget implements IndexWidget {
 		this.manager = manager;
 		
 		gaugeModel = new MeterGaugeChartModel(null, intervals);
-		gaugeModel.setSeriesColors("4D8FF7,6CCEFF,93b75f,E7E658,cc6666");
+		gaugeModel.setSeriesColors("2c7bf6,97dafb,88c82a,edec5b,c43030");
 		gaugeModel.setGaugeLabelPosition("bottom");
 		gaugeModel.setShowTickLabels(true);
 		gaugeModel.setLabelHeightAdjust(0);
@@ -63,7 +63,7 @@ public class TemperatureWidget implements IndexWidget {
 		this.manager = manager;
 		
 		gaugeModel = new MeterGaugeChartModel(null, intervals);
-		gaugeModel.setSeriesColors("4D8FF7,6CCEFF,93b75f,E7E658,cc6666");
+		gaugeModel.setSeriesColors("2c7bf6,97dafb,88c82a,f2ee00,c43030");
 		gaugeModel.setGaugeLabelPosition("bottom");
 		gaugeModel.setShowTickLabels(true);
 		gaugeModel.setLabelHeightAdjust(0);

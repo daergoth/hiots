@@ -6,33 +6,68 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui" template="/template/base.xhtml">
 	<ui:define name="content">
-		<h:form>
-			<p:commandButton value="Refresh" id="ref" actionListener="#{liveManager.forceRefresh}" update="sensor_table" icon="fa fa-refresh"/>
-			<p:dataTable var="sensor" value="#{liveManager.sensors}" id="sensor_table">
-				<p:column headerText="Name">
-					<h:outputText value="#{sensor.name}" />
-				</p:column>
-				<p:column headerText="Type">
-					<h:outputText value="#{sensor.type}" />
-				</p:column>
-				<p:column headerText="Data">
-					<h:outputText value="#{sensor.data}" />
-				</p:column>
-			</p:dataTable>
-			
-			<p:dataTable var="actor" value="#{liveManager.actors}" id="actor_table">
-				<p:column headerText="Name">
-					<h:outputText value="#{actor.name}" />
-				</p:column>
-				<p:column headerText="Type">
-					<h:outputText value="#{actor.type}" />
-				</p:column>
-				<p:column headerText="Data">
-					<h:outputText value="#{actor.state}" />
-				</p:column>
-			</p:dataTable>
-			
-			<p:poll interval="2" update="sensor_table actor_table" />
+		<h:form id="form">
+
+			<p:panelGrid>
+				<p:row>
+					<p:column colspan="2">
+						<p:chart type="line" 
+						id="chart" 
+						model="#{liveManager.liveChartModel}" 
+						rendered="#{liveManager.selectedSensors.size() gt 0}"
+						style="height:300px;"/>
+					
+						<p:commandButton value="Refresh" id="ref"
+							actionListener="#{liveManager.forceRefresh}"
+							style="margin: 10px;"
+							update="sensor_table actor_table" icon="fa fa-refresh" />
+						
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<p:dataTable var="sensor" value="#{liveManager.sensors}"
+							id="sensor_table" rowKey="#{sensor.id}"
+							selection="#{liveManager.selectedSensors}">
+							<f:facet name="header">
+					            Sensors
+					        </f:facet>
+       		 				<p:ajax event="rowUnselectCheckbox" listener="#{liveManager.onRowUnselect}" update="sensor_table"/>
+					        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+							<p:column headerText="Name">
+								<h:outputText value="#{sensor.name}" />
+							</p:column>
+							<p:column headerText="Type">
+								<h:outputText value="#{sensor.type}" />
+							</p:column>
+							<p:column headerText="Data">
+								<h:outputText value="#{sensor.data}" />
+							</p:column>
+						</p:dataTable>
+					</p:column>
+					<p:column>
+						<p:dataTable var="actor" value="#{liveManager.actors}"
+							id="actor_table">
+							<f:facet name="header">
+					            Actors
+					        </f:facet>
+							<p:column headerText="Name">
+								<h:outputText value="#{actor.name}" />
+							</p:column>
+							<p:column headerText="Type">
+								<h:outputText value="#{actor.type}" />
+							</p:column>
+							<p:column headerText="Data">
+								<h:outputText value="#{actor.state}" />
+							</p:column>
+						</p:dataTable>
+					</p:column>
+				</p:row>
+
+			</p:panelGrid>
+
+			<p:poll interval="2" listener="#{liveManager.refresh}" update="sensor_table actor_table chart" />
 		</h:form>
 	</ui:define>
 </ui:composition>

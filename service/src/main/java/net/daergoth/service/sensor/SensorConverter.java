@@ -2,10 +2,13 @@ package net.daergoth.service.sensor;
 
 import net.daergoth.coreapi.sensor.DummySensorDTO;
 import net.daergoth.coreapi.sensor.SensorDTO;
+import net.daergoth.serviceapi.sensors.InvalidSensorDataTypeException;
 import net.daergoth.serviceapi.sensors.LightSensorVO;
 import net.daergoth.serviceapi.sensors.SensorConvertException;
 import net.daergoth.serviceapi.sensors.SensorVO;
 import net.daergoth.serviceapi.sensors.TemperatureSensorVO;
+import net.daergoth.serviceapi.sensors.datatypes.LightDataVO;
+import net.daergoth.serviceapi.sensors.datatypes.TemperatureDataVO;
 import net.daergoth.serviceapi.sensors.dummy.DummyLightSensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummySensorVO;
 import net.daergoth.serviceapi.sensors.dummy.DummyTemperatureSensorVO;
@@ -36,9 +39,15 @@ public class SensorConverter {
 							dummyDTO.getMin(), 
 							dummyDTO.getMax(), 
 							dummyDTO.getInterval());
+					try {
+						dummyVo.setData(new TemperatureDataVO(0.0));
+					} catch (InvalidSensorDataTypeException e) {}
 					return dummyVo;
 				} else {
 					TemperatureSensorVO sensorVO = new TemperatureSensorVO(dto.getId(), dto.getName());
+					try {
+						sensorVO.setData(new TemperatureDataVO(0.0));
+					} catch (InvalidSensorDataTypeException e) {}
 					return sensorVO;
 				}
 			
@@ -51,9 +60,15 @@ public class SensorConverter {
 							dummyDTO.getMin(), 
 							dummyDTO.getMax(), 
 							dummyDTO.getInterval());
+					try {
+						dummyVo.setData(new LightDataVO(0.0));
+					} catch (InvalidSensorDataTypeException e) {}
 					return dummyVo;
 				} else {
 					LightSensorVO sensorVO = new LightSensorVO(dto.getId(), dto.getName());
+					try {
+						sensorVO.setData(new LightDataVO(0.0));
+					} catch (InvalidSensorDataTypeException e) {}
 					return sensorVO;
 				}
 				

@@ -6,7 +6,7 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui" template="/template/base.xhtml">
 	<ui:define name="content">
-		<h:form>
+		<h:form id="form">
 		
 			<p:menubar model="#{setupManager.menuBar}" />
 			
@@ -74,31 +74,34 @@
 			    </p:column>
 		    </p:dataTable>
 			
-			<p:dialog header="#{setupManager.sensorDlgHeader}" widgetVar="dlgSensor" modal="true"
-				height="300" width="220" resizable="false">
-				<h:outputText value="Name: " />
-				<p:inputText value="#{setupManager.sensorName}"/>
+			<p:dialog header="#{setupManager.sensorDlgHeader}"
+			 	id="dlgSensor"
+			 	widgetVar="dlgSensor"
+				resizable="false">
+				
+				<h:outputText value="Name: " style="width: 60px;display: inline-block;"/>
+				<p:inputText value="#{setupManager.sensorName}" />
 				<br/>
 				
-				<h:outputText value="Min: " />
-				<p:inputText value="#{setupManager.sensorMinValue}"/>
-				<br/>
-	
-				<h:outputText value="Max: " />
-				<p:inputText value="#{setupManager.sensorMaxValue}"/>
-				<br/>
-				
-				
-				
+				<h:outputText value="Min: " style="width: 60px; display: inline-block;"/>
+				<p:inputText value="#{setupManager.sensorMinValue}" style="width:145px;"/>
+				<h:outputText value="#{setupManager.sensorDlgUnit}" style="width: 30px; display: inline-block; text-align: right;"/>
 				<br/>
 	
+				<h:outputText value="Max: " style="width: 60px;display: inline-block;"/>
+				<p:inputText value="#{setupManager.sensorMaxValue}" style="width:145px;"/>
+				<h:outputText value="#{setupManager.sensorDlgUnit}" style="width: 30px; display: inline-block; text-align: right;"/>
+				<br/>
+
 				<p:commandButton value="Create"
 					actionListener="#{setupManager.createSensor}" update="sensorDT"/>
 			</p:dialog>
 			
-			<p:dialog header="#{setupManager.actorDlgHeader}" widgetVar="dlgActor" modal="true"
-				height="300" width="220" resizable="false">
-				<h:outputText value="Name: " />
+			<p:dialog header="#{setupManager.actorDlgHeader}" 
+				id="dlgActor"
+				widgetVar="dlgActor"
+				resizable="false">
+				<h:outputText value="Name: " style="width: 60px;display: inline-block;"/>
 				<p:inputText value="#{setupManager.actorName}"/>
 				<br/>
 	

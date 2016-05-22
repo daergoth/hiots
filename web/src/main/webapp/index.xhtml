@@ -8,69 +8,65 @@
 	<ui:define name="content">
 
 		<h:form id="form">
+		
+			<div class="ui-grid ui-grid-responsive" id="dashboard">
+			    <div class="ui-grid-row">
+			        <div class="ui-grid-col-10" style="background-color: #fff; border: 1px solid #ddd; padding: 5px;">
+						<p:dashboard id="board" binding="#{indexManager.dashboard}">
+							<p:ajax event="reorder" listener="#{indexManager.handleReorder}" />
+						</p:dashboard>
+						<div style="clear: both" />
+					</div>
+					
+			        <div class="ui-grid-col-2" style="background-color: #fff; border: 1px solid #ddd; padding: 5px;">
+			        	<p:outputLabel value="Current layout:" />
 
-			<p:layout id="dashboard" style="min-height: 500px;">
-
-				<p:layoutUnit id="centerUnit" position="center" size="80%">
-					<p:dashboard id="board" binding="#{indexManager.dashboard}">
-						<p:ajax event="reorder" listener="#{indexManager.handleReorder}" />
-					</p:dashboard>
-					<div style="clear: both" />
-				</p:layoutUnit>
-
-				<p:layoutUnit id="eastUnit" position="east" resizable="false"
-					size="20%" style="text-align: center;">
-					<p:outputLabel value="Current layout:" />
-
-					<p:selectOneMenu id="currentLayout"
-						value="#{indexManager.selectedLayout}"
-						style="width: 80%; margin-bottom: 10px;">
-
-						<f:selectItem itemLabel="Select One" itemValue=""
-							noSelectionOption="true" />
-						<f:selectItems id="selectItems" value="#{indexManager.layouts}"
-							var="layout" itemLabel="#{layout.name}" itemValue="#{layout}" />
-
-						<f:converter binding="#{overviewLayoutConverter}" />
-
-						<p:ajax event="change" listener="#{indexManager.layoutChanged}" />
-
-					</p:selectOneMenu>
-
-					<p:menu style="width: 99%;">
-						<p:submenu label="Layout">
-							<p:menuitem id="newLayout" value="New"
-								onclick="PF('newLayoutOverlay').show();" icon="fa fa-plus" />
-							<p:menuitem id="renameLayout" value="Rename"
-								onclick="PF('renameLayoutOverlay').show('#{component.clientId}');"
-								icon="fa fa-edit" />
-							<p:menuitem id="removeLayout" value="Remove"
-								onclick="PF('removeLayoutOverlay').show('#{component.clientId}');"
-								icon="fa fa-remove" />
-						</p:submenu>
-						<p:submenu label="New sensor widget">
-							<p:menuitem id="newTempWidget" value="Temperature"
-								onclick="PF('newTempOverlay').show('#{component.clientId}');"
-								icon="fa fa-plus" />
-							<p:menuitem id="newLightWidget" value="Light"
-								onclick="PF('newLightOverlay').show('#{component.clientId}');"
-								icon="fa fa-plus" />
-						</p:submenu>
-						<p:submenu label="New actor widget">
-							<p:menuitem id="newLampWidget" value="Lamp"
-								onclick="PF('newLampOverlay').show('#{component.clientId}');"
-								icon="fa fa-plus" />
-							<p:menuitem id="newThermoWidget" value="Thermostat"
-								onclick="PF('newThermoOverlay').show('#{component.clientId}');"
-								icon="fa fa-plus" />
-						</p:submenu>
-					</p:menu>
-
-				</p:layoutUnit>
-
-
-			</p:layout>
-
+						<p:selectOneMenu id="currentLayout"
+							value="#{indexManager.selectedLayout}"
+							style="width: 80%; margin-bottom: 10px;">
+	
+							<f:selectItem itemLabel="Select One" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems id="selectItems" value="#{indexManager.layouts}"
+								var="layout" itemLabel="#{layout.name}" itemValue="#{layout}" />
+	
+							<f:converter binding="#{overviewLayoutConverter}" />
+	
+							<p:ajax event="change" listener="#{indexManager.layoutChanged}" />
+	
+						</p:selectOneMenu>
+	
+						<p:menu style="width: 99%;">
+							<p:submenu label="Layout">
+								<p:menuitem id="newLayout" value="New"
+									onclick="PF('newLayoutOverlay').show();" icon="fa fa-plus" />
+								<p:menuitem id="renameLayout" value="Rename"
+									onclick="PF('renameLayoutOverlay').show('#{component.clientId}');"
+									icon="fa fa-edit" />
+								<p:menuitem id="removeLayout" value="Remove"
+									onclick="PF('removeLayoutOverlay').show('#{component.clientId}');"
+									icon="fa fa-remove" />
+							</p:submenu>
+							<p:submenu label="New sensor widget">
+								<p:menuitem id="newTempWidget" value="Temperature"
+									onclick="PF('newTempOverlay').show('#{component.clientId}');"
+									icon="fa fa-plus" />
+								<p:menuitem id="newLightWidget" value="Light"
+									onclick="PF('newLightOverlay').show('#{component.clientId}');"
+									icon="fa fa-plus" />
+							</p:submenu>
+							<p:submenu label="New actor widget">
+								<p:menuitem id="newLampWidget" value="Lamp"
+									onclick="PF('newLampOverlay').show('#{component.clientId}');"
+									icon="fa fa-plus" />
+								<p:menuitem id="newThermoWidget" value="Thermostat"
+									onclick="PF('newThermoOverlay').show('#{component.clientId}');"
+									icon="fa fa-plus" />
+							</p:submenu>
+						</p:menu>
+			        </div>
+			    </div>
+			</div>
 
 			<p:dialog header="New temperature widget" widgetVar="newTempOverlay" resizable="false">
 				<ui:repeat var="sensor"

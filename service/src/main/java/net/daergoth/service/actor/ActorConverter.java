@@ -4,11 +4,14 @@ import net.daergoth.coreapi.actor.ActorDTO;
 import net.daergoth.coreapi.actor.DummyActorDTO;
 import net.daergoth.serviceapi.actors.ActorConvertException;
 import net.daergoth.serviceapi.actors.ActorVO;
+import net.daergoth.serviceapi.actors.InvalidActorStateTypeException;
 import net.daergoth.serviceapi.actors.LampActorVO;
 import net.daergoth.serviceapi.actors.ThermostatActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyLampActorVO;
 import net.daergoth.serviceapi.actors.dummy.DummyThermostatActorVO;
+import net.daergoth.serviceapi.actors.states.LampActorStateVO;
+import net.daergoth.serviceapi.actors.states.ThermostatActorStateVO;
 
 /**
  * Converter between {@code ActorDTO} and {@code ActorVO}.
@@ -34,12 +37,22 @@ public class ActorConverter {
 						dummyDTO.getId(),
 						dummyDTO.getName()
 				);
+				LampActorStateVO lampState = new LampActorStateVO();
+				lampState.setStatus(false);
+				try {
+					dummyVO.setState(lampState);
+				} catch (InvalidActorStateTypeException e) {}
 				return dummyVO;
 			} else {
 				LampActorVO actorVO = new LampActorVO(
 						dto.getId(),
 						dto.getName()
 				);
+				LampActorStateVO lampState = new LampActorStateVO();
+				lampState.setStatus(false);
+				try {
+					actorVO.setState(lampState);
+				} catch (InvalidActorStateTypeException e) {}
 				return actorVO;
 			}
 			
@@ -51,12 +64,22 @@ public class ActorConverter {
 						dummyDTO.getId(),
 						dummyDTO.getName()
 				);
+				ThermostatActorStateVO thermoState = new ThermostatActorStateVO();
+				thermoState.setTargetTemperature(0.0);
+				try {
+					dummyVO.setState(thermoState);
+				} catch (InvalidActorStateTypeException e) {}
 				return dummyVO;
 			} else {
 				ThermostatActorVO actorVO = new ThermostatActorVO(
 						dto.getId(),
 						dto.getName()
 				);
+				ThermostatActorStateVO thermoState = new ThermostatActorStateVO();
+				thermoState.setTargetTemperature(0.0);
+				try {
+					actorVO.setState(thermoState);
+				} catch (InvalidActorStateTypeException e) {}
 				return actorVO;
 			}
 			

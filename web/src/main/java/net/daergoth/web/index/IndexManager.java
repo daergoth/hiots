@@ -3,7 +3,6 @@ package net.daergoth.web.index;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -100,8 +99,10 @@ public class IndexManager {
     
     public void loadLayout() {
     	HashMap<IndexWidget, Integer> toRender = new HashMap<>();
-	
+    	System.out.println("LoadLayout list");
+    	
 		for (OverviewLayoutElementVO e : selectedLayout.getElements()) {
+			
     		switch (e.getType()) {
 			case Actor:
 				switch(e.getActor().getType()) {
@@ -114,6 +115,8 @@ public class IndexManager {
 			    	} else {
 			    		lw = new LampWidget(e.getId(), (DummyLampActorVO) la, application, this);
 			    	}
+			    	
+			    	System.out.println(lw.getPanelId());
 			    	
 			    	if (!widgets.containsKey(lw.getPanelId())) {
 			    		toRender.put(lw,e.getColumn());		    		
@@ -130,10 +133,12 @@ public class IndexManager {
 			    	} else {
 			    		tw = new ThermostatWidget(e.getId(), (DummyThermostatActorVO) ta, application, this);
 			    	}
+			    	System.out.println(tw.getPanelId());
 
 			    	if (!widgets.containsKey(tw.getPanelId())) {
 			    		toRender.put(tw,e.getColumn());		    		
 			    	}
+			    	
 					break;
 				default:
 					break;
@@ -150,9 +155,13 @@ public class IndexManager {
 			    	} else {
 			    		lw = new LightWidget(e.getId(), (DummyLightSensorVO) ls, application, this);
 			    	}
+			    	
+			    	System.out.println(lw.getPanelId());
+			    	
 			    	if (!widgets.containsKey(lw.getPanelId())) {
 			    		toRender.put(lw, e.getColumn());		    		
 			    	}
+			    	
 					break;
 				case Temperature:
 					SensorVO ts = sensorContainer.getSensors().stream().filter(sen -> sen.getId() == e.getSensor().getId()).findFirst().get();
@@ -163,9 +172,13 @@ public class IndexManager {
 			    	} else {
 			    		tw = new TemperatureWidget(e.getId(), (DummyTemperatureSensorVO) ts, application, this);
 			    	}
+			    	
+			    	System.out.println(tw.getPanelId());
+			    	
 			    	if (!widgets.containsKey(tw.getPanelId())) {
 			    		toRender.put(tw, e.getColumn());		    		
 			    	}
+			    	
 					break;
 				default:
 					break;
@@ -184,22 +197,26 @@ public class IndexManager {
 			widgets.clear();
 		}
 		
-		for (Entry<IndexWidget, Integer> entry : toRender.entrySet()) {
-			widgets.put(entry.getKey().getPanelId(), entry.getKey());
-			dashboard.getChildren().add(entry.getKey().getAsPanel());
-    		dashboardModel.getColumn(entry.getValue()).addWidget(entry.getKey().getPanelId());
-			
+		System.out.println("LoadLayout render");
+		for (IndexWidget w : toRender.keySet()) {
+			System.out.println(w.getPanelId() + ": " + toRender.get(w) + ", " + dashboardModel.getColumn(toRender.get(w)).getWidgetCount());
+			widgets.put(w.getPanelId(), w);
+			dashboard.getChildren().add(w.getAsPanel());
+    		dashboardModel.getColumn(toRender.get(w)).addWidget(w.getPanelId());
 		}
-    		    	
+		
     }
     
     
     public void saveLayout() {
+    	System.out.println("SaveLayout");
     	List<OverviewLayoutElementVO> elements = new ArrayList<>();
     	for (int colNum = 0; colNum < dashboardModel.getColumnCount(); ++colNum) {
     		DashboardColumn col = dashboardModel.getColumn(colNum);
     		for (int rowNum = 0; rowNum < col.getWidgetCount(); ++rowNum) {
     			IndexWidget widget = widgets.get(col.getWidget(rowNum)); 
+    			
+    			System.out.println(widget.getPanelId() + " (col,row): " + colNum + ", " + rowNum);
     			
     			OverviewLayoutElementVO newElement = new OverviewLayoutElementVO();
     			newElement.setId(widget.getId());
@@ -248,6 +265,9 @@ public class IndexManager {
     }
     
     public void layoutChanged() {
+    	dashboard.getChildren().removeIf(c -> c.getClass().equals(Panel.class));
+    	dashboardModel.getColumns().forEach(c -> c.getWidgets().clear());
+		widgets.clear();
     	loadLayout();
     }
     

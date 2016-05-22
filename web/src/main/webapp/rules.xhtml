@@ -6,232 +6,302 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui" template="/template/base.xhtml">
 	<ui:define name="content">
-	
+
 		<h:form id="form">
-		
+
 			<h3>Rules</h3>
-		    <p:accordionPanel value="#{rulesManager.rules}" var="rule" id="ruleAP" activeIndex="#{rulesManager.activeRuleIndex}">
-		    
-		    	<p:ajax event="tabChange" />
-		    	
-		        <p:tab title="Rule #{rule.id} - #{rule.name}">           
-		                <div class="ui-grid ui-grid-responsive">	
-		                	<div class="ui-grid-row">
-		                		<div class="ui-grid-col-5" style="text-align: center;">
-								    
-								    <p:dataTable value="#{rule.conditions}" var="cond" editable="true" editMode="cell" id="condDT">
-									    <f:facet name="header">
+			<p:accordionPanel value="#{rulesManager.rules}" var="rule"
+				id="ruleAP" activeIndex="#{rulesManager.activeRuleIndex}">
+
+				<p:ajax event="tabChange" />
+
+				<p:tab title="Rule #{rule.id} - #{rule.name}">
+					<div class="ui-grid ui-grid-responsive">
+						<div class="ui-grid-row">
+							<div class="ui-grid-col-5" style="text-align: center;">
+
+								<p:dataTable value="#{rule.conditions}" var="cond"
+									editable="true" editMode="cell" id="condDT">
+									<f:facet name="header">
 								            Conditions
 								        </f:facet>
-								        
-								        <p:ajax event="cellEdit" listener="#{rulesManager.onCellEditCondition}" update="condDT" />
-								        
-								        <p:column headerText="Name">
-								        	<p:cellEditor>
-								        		<f:facet name="output"><h:outputText value="#{cond.sensor.name}"/></f:facet>
-								        		<f:facet name="input">
-								        			<p:selectOneMenu value="#{cond.sensor}" var="s" style="width:70%">
-								        				<f:selectItems value="#{rulesManager.sensors}"  var="sens" itemLabel="#{sens.name}" itemValue="#{sens}"/>
-								        				<f:converter binding="#{sensorConverter}" />
-								        				
-								        				<p:column>
-										 	                <h:outputText value="#{s.name}" />
-										 	            </p:column>
-										 	            
-										 	            <p:column>
-										 	                <h:outputText value="#{s.type}" />
-										 	            </p:column>
-								        				
-								        			</p:selectOneMenu> 
-								        		</f:facet>
-								        	</p:cellEditor>
-								        </p:column>
-								        
-								        <p:column headerText="Type" style="width: 48px; text-align: center;">
-								        	<p:cellEditor>
-								        		<f:facet name="output"><h:outputText value="#{cond.type}" converter="#{condTypeConverter}"/></f:facet>
-								        		<f:facet name="input">
-								        			<p:selectOneMenu value="#{cond.type}" var="t" style="width:32px;" converter="#{condTypeConverter}">
-								        				<f:selectItems value="#{rulesManager.condTypes}"  var="type" itemLabel="#{type}" itemValue="#{type}"/>
-								        				<f:converter binding="#{condTypeConverter}" />
-								        				
-								        				<p:column>
-										 	                <h:outputText value="#{t}" converter="#{condTypeConverter}"/>
-										 	            </p:column>
-								        				
-								        			</p:selectOneMenu> 
-								        		</f:facet>
-								        	</p:cellEditor>
-								        </p:column>
-								        
-								        <p:column headerText="Value">
-								        	<p:cellEditor>
-								        		<f:facet name="output">
-								        			<h:outputText value="#{cond.value}"/>
-								        		</f:facet>
-								        		<f:facet name="input">        			
-								        			<h:inputText value="#{cond.value.data}" style="width:100%"/>
-								        		</f:facet>
-								        	</p:cellEditor>
-								        </p:column>
-								        
-								        <p:column style="width: 32px;">
-								        	<p:commandButton update=":form:ruleAP" icon="fa fa-remove" actionListener="#{rulesManager.removeCondition(cond.id)}" />
-								        </p:column>
-								        
-								    </p:dataTable>
-								    
-								    <p:commandButton value="Add condition" type="button" onclick="PF('condDlg').show();" icon="fa fa-plus"/>
-								    
-		                		</div>
-		                		
-		                		<div class="ui-grid-col-5" style="text-align: center;">
-		                											    
-								    <p:dataTable value="#{rule.actions}" var="action" editable="true" editMode="cell" id="actionDT">
-								    	<f:facet name="header">
+
+									<p:ajax event="cellEdit"
+										listener="#{rulesManager.onCellEditCondition}" update="condDT" />
+
+									<p:column headerText="Name">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{cond.sensor.name}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:selectOneMenu value="#{cond.sensor}" var="s"
+													style="width:70%">
+													<f:selectItems value="#{rulesManager.sensors}" var="sens"
+														itemLabel="#{sens.name}" itemValue="#{sens}" />
+													<f:converter binding="#{sensorConverter}" />
+
+													<p:column>
+														<h:outputText value="#{s.name}" />
+													</p:column>
+
+													<p:column>
+														<h:outputText value="#{s.type}" />
+													</p:column>
+
+												</p:selectOneMenu>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Type"
+										style="width: 48px; text-align: center;">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{cond.type}"
+													converter="#{condTypeConverter}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:selectOneMenu value="#{cond.type}" var="t"
+													style="width:32px;" converter="#{condTypeConverter}">
+													<f:selectItems value="#{rulesManager.condTypes}" var="type"
+														itemLabel="#{type}" itemValue="#{type}" />
+													<f:converter binding="#{condTypeConverter}" />
+
+													<p:column>
+														<h:outputText value="#{t}"
+															converter="#{condTypeConverter}" />
+													</p:column>
+
+												</p:selectOneMenu>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Value">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{cond.value}" />
+											</f:facet>
+											<f:facet name="input">
+												<h:inputText value="#{cond.value.data}" style="width:100%" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column style="width: 32px;">
+										<p:commandButton update=":form:ruleAP" icon="fa fa-remove"
+											actionListener="#{rulesManager.removeCondition(cond.id)}" />
+									</p:column>
+
+								</p:dataTable>
+
+								<p:commandButton value="Add condition" type="button"
+									onclick="PF('condDlg').show();" icon="fa fa-plus" />
+
+							</div>
+
+							<div class="ui-grid-col-5" style="text-align: center;">
+
+								<p:dataTable value="#{rule.actions}" var="action"
+									editable="true" editMode="cell" id="actionDT">
+									<f:facet name="header">
 								            Actions
 								        </f:facet>
-								        
-								        <p:ajax event="cellEdit" listener="#{rulesManager.onCellEditAction}" update="actionDT" />
-								        
-								        <p:column headerText="Name">
-								        	<p:cellEditor>
-								        		<f:facet name="output"><h:outputText value="#{action.actor.name}"/></f:facet>
-								        		<f:facet name="input">
-								        			<p:selectOneMenu value="#{action.actor}" var="a" style="width:70%">
-								        				<f:selectItems value="#{rulesManager.actors}"  var="act" itemLabel="#{act.name}" itemValue="#{act}"/>
-								        				<f:converter binding="#{actorConverter}" />
-								        				
-								        				<p:column>
-										 	                <h:outputText value="#{a.name}" />
-										 	            </p:column>
-										 	            
-										 	            <p:column>
-										 	                <h:outputText value="#{a.type}" />
-										 	            </p:column>
-								        				
-								        			</p:selectOneMenu> 
-								        		</f:facet>
-								        	</p:cellEditor>
-								        </p:column>
-								        
-								        <p:column headerText="Type" style="width: 48px; text-align: center;">
+
+									<p:ajax event="cellEdit"
+										listener="#{rulesManager.onCellEditAction}" update="actionDT" />
+
+									<p:column headerText="Name">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{action.actor.name}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:selectOneMenu value="#{action.actor}" var="a"
+													style="width:70%">
+													<f:selectItems value="#{rulesManager.actors}" var="act"
+														itemLabel="#{act.name}" itemValue="#{act}" />
+													<f:converter binding="#{actorConverter}" />
+
+													<p:column>
+														<h:outputText value="#{a.name}" />
+													</p:column>
+
+													<p:column>
+														<h:outputText value="#{a.type}" />
+													</p:column>
+
+												</p:selectOneMenu>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Type"
+										style="width: 48px; text-align: center;">
 								        	=
 								        </p:column>
-								        
-								        <p:column headerText="Value">
-								        	<p:cellEditor>
-								        		<f:facet name="output">
-								        			<h:outputText value="#{action.value}"/>
-								        		</f:facet>
-								        		<f:facet name="input">
-								        			<h:inputText value="#{action.value.data}" style="width:100%"/>
-								        		</f:facet>
-								        	</p:cellEditor>
-								        </p:column>
-								        
-								        <p:column style="width: 32px;">
-								        	<p:commandButton update=":form:ruleAP" icon="fa fa-remove" actionListener="#{rulesManager.removeAction(action.id)}" />
-								        </p:column>
-								    
-								    </p:dataTable>
-								    
-								    <p:commandButton value="Add action" onclick="PF('actDlg').show();" icon="fa fa-plus"/>
-								    
-		                		</div>
-		                		
-		                		
-		                		
-		                		<div class="ui-grid-col-2" style="text-align: center; display:table-cell; vertical-align: middle;">
-		                			<p:selectBooleanButton value="#{rule.enabled}"  style="width: 110px;" onLabel="Enabled" offLabel="Disabled"  onIcon="ui-icon-check" offIcon="ui-icon-close"> 
-		                				<p:ajax listener="#{rulesManager.setRuleEnable}"/>
-		                			</p:selectBooleanButton><br/>
-		                			<p:commandButton value="Rename" icon="fa fa-edit" type="button" onclick="PF('renameDlg').show();" update=":form:ruleAP" style="width: 110px;"/><br/>
-		                			<p:commandButton value="Delete" icon="fa fa-trash" actionListener="#{rulesManager.deleteRule}" update=":form:ruleAP" style="width: 110px;"/>
-		                			
-		                		</div>
+
+									<p:column headerText="Value">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{action.value}" />
+											</f:facet>
+											<f:facet name="input">
+												<h:inputText value="#{action.value.data}" style="width:100%" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column style="width: 32px;">
+										<p:commandButton update=":form:ruleAP" icon="fa fa-remove"
+											actionListener="#{rulesManager.removeAction(action.id)}" />
+									</p:column>
+
+								</p:dataTable>
+
+								<p:commandButton value="Add action"
+									onclick="PF('actDlg').show();" icon="fa fa-plus" />
+
 							</div>
-					    </div>
-		        </p:tab>
-		    </p:accordionPanel>
-		    
-			<p:commandButton type="button" onclick="PF('newRuleDlg').show();" value="Add new rule" update=":form:ruleAP"/>
-		
-			<p:dialog header="New condition" widgetVar="condDlg" modal="true" resizable="false">
-			    <p:outputLabel value="Sensor" for="sensorSL"/><br/>
-			    <p:selectOneMenu value="#{rulesManager.newCondSensor}" var="s" id="sensorSL">
-					<f:selectItems value="#{rulesManager.sensors}"  var="sens" itemLabel="#{sens.name}" itemValue="#{sens}"/>
+
+
+
+							<div class="ui-grid-col-2"
+								style="text-align: center; display: table-cell; vertical-align: middle;">
+								<p:selectBooleanButton value="#{rule.enabled}"
+									style="width: 110px;" onLabel="Enabled" offLabel="Disabled"
+									onIcon="ui-icon-check" offIcon="ui-icon-close">
+									<p:ajax listener="#{rulesManager.setRuleEnable}" />
+								</p:selectBooleanButton>
+								<br />
+								<p:commandButton value="Rename" icon="fa fa-edit"
+									actionListener="#{rulesManager.showRenameRule}"
+									update=":form:ruleAP" style="width: 110px;" />
+								<br />
+								<p:commandButton value="Delete" icon="fa fa-trash"
+									actionListener="#{rulesManager.deleteRule}"
+									update=":form:ruleAP" style="width: 110px;" />
+
+							</div>
+						</div>
+					</div>
+				</p:tab>
+			</p:accordionPanel>
+
+			<p:commandButton type="button" onclick="PF('newRuleDlg').show();"
+				value="Add new rule" update=":form:ruleAP" style="margin: 15px 0 0 0;"/>
+
+			<p:dialog header="New condition" id="condDlg" widgetVar="condDlg"
+				resizable="false">
+				<p:outputLabel value="Sensor" for="sensorSL" />
+				<br />
+				<p:selectOneMenu value="#{rulesManager.newCondSensor}" var="s"
+					id="sensorSL">
+					<f:selectItems value="#{rulesManager.sensors}" var="sens"
+						itemLabel="#{sens.name}" itemValue="#{sens}" />
 					<f:converter binding="#{sensorConverter}" />
-					<p:ajax update="newCondValueGroup"/>
-					
+					<p:ajax update="newCondValueGroup" />
+
 					<p:column>
-		            	<h:outputText value="#{s.name}" />
-		            </p:column>
-		            
-		            <p:column>
-		                <h:outputText value="#{s.type}" />
-		            </p:column>	
-	   			</p:selectOneMenu><br/>
-	   			
-	   			<p:outputLabel value="Type" for="typeSL"/><br/>
-	   			<p:selectOneMenu value="#{rulesManager.newCondType}" var="t" id="typeSL">
-	   				<f:selectItems value="#{rulesManager.condTypes}"  var="type" itemLabel="#{type}" itemValue="#{type}"/>
-	   				<f:converter binding="#{condTypeConverter}" />
-	   				
-	   				<p:column>
-	                	<h:outputText value="#{t}" converter="#{condTypeConverter}"/>
-	            	</p:column>
-	   			</p:selectOneMenu><br/>
-	   			
-	   			<p:outputLabel value="Value"/><br/>
-	   			<h:panelGroup id="newCondValueGroup">
-		   			<p:inputText value="#{rulesManager.newCondValue}"/>
-	   			</h:panelGroup><br/>	
-	   			
-	   			<p:commandButton value="Add" actionListener="#{rulesManager.addCondition}" update=":form:ruleAP"/>
-			</p:dialog> 
-			
-			<p:dialog header="New action" widgetVar="actDlg" modal="true" resizable="false">
-			    <p:outputLabel value="Action" for="actorSL"/><br/>
-			    <p:selectOneMenu value="#{rulesManager.newActActor}" var="a" id="actorSL">
-					<f:selectItems value="#{rulesManager.actors}"  var="act" itemLabel="#{act.name}" itemValue="#{sens}"/>
-					<f:converter binding="#{actorConverter}" />
-					<p:ajax update="newActValueGroup"/>
-					
+						<h:outputText value="#{s.name}" />
+					</p:column>
+
 					<p:column>
-		            	<h:outputText value="#{a.name}" />
-		            </p:column>
-		            
-		            <p:column>
-		                <h:outputText value="#{a.type}" />
-		            </p:column>	
-	   			</p:selectOneMenu><br/>
-	   			
-	   			<p:outputLabel value="Value"/><br/>
-	   			<h:panelGroup id="newActValueGroup">
-	   				<p:selectOneMenu value="#{rulesManager.newActValue}" rendered="#{rulesManager.newActActor.type == 'Lamp'}"> 
-		   				<f:selectItem itemValue="1" itemLabel="On"/>
-		   				<f:selectItem itemValue="0" itemLabel="Off"/>
-		   			</p:selectOneMenu>
-		   			<p:inputText value="#{rulesManager.newActValue}" rendered="#{rulesManager.newActActor.type == 'Thermostat'}" />
-	   			</h:panelGroup><br/>		
-	   			
-	   			<p:commandButton value="Add" actionListener="#{rulesManager.addAction}"  update=":form:ruleAP"/>
-			</p:dialog> 
-			
-			<p:dialog header="Rename" widgetVar="renameDlg" modal="true" resizable="false" >
-			    <p:outputLabel value="New name:" for="nameIT"/>
-			    <p:inputText id="nameIT" value="#{rulesManager.newName}"/><br/>
-			    <p:commandButton value="Rename" actionListener="#{rulesManager.renameRule}" update="ruleAP"/>
-			</p:dialog> 
-			
-			<p:dialog header="New rule" widgetVar="newRuleDlg" modal="true" resizable="false" >
-				<p:outputLabel value="Rule name:" for="newRuleNameIT"/><br/>
-				<p:inputText id="newRuleNameIT" value="#{rulesManager.newRuleName}" /><br/>
-				<p:commandButton value="Add rule" actionListener="#{rulesManager.addRule}" update=":form:ruleAP"/>
-			
+						<h:outputText value="#{s.type}" />
+					</p:column>
+				</p:selectOneMenu>
+				<br />
+
+				<p:outputLabel value="Type" for="typeSL" />
+				<br />
+				<p:selectOneMenu value="#{rulesManager.newCondType}" var="t"
+					id="typeSL">
+					<f:selectItems value="#{rulesManager.condTypes}" var="type"
+						itemLabel="#{type}" itemValue="#{type}" />
+					<f:converter binding="#{condTypeConverter}" />
+
+					<p:column>
+						<h:outputText value="#{t}" converter="#{condTypeConverter}" />
+					</p:column>
+				</p:selectOneMenu>
+				<br />
+
+				<p:outputLabel value="Value" />
+				<br />
+				<h:panelGroup id="newCondValueGroup">
+					<p:inputText value="#{rulesManager.newCondValue}" />
+					<h:outputText value=" °C"
+						rendered="#{rulesManager.newCondSensor.type == 'Temperature'}" />
+					<h:outputText value=" lx"
+						rendered="#{rulesManager.newCondSensor.type == 'Light'}" />
+				</h:panelGroup>
+				<br />
+
+				<p:commandButton value="Add"
+					actionListener="#{rulesManager.addCondition}" update=":form:ruleAP" />
 			</p:dialog>
-	
+
+			<p:dialog header="New action" id="actDlg" widgetVar="actDlg"
+				resizable="false">
+				<p:outputLabel value="Action" for="actorSL" />
+				<br />
+				<p:selectOneMenu value="#{rulesManager.newActActor}" var="a"
+					id="actorSL">
+					<f:selectItems value="#{rulesManager.actors}" var="act"
+						itemLabel="#{act.name}" itemValue="#{sens}" />
+					<f:converter binding="#{actorConverter}" />
+					<p:ajax update="newActValueGroup" />
+
+					<p:column>
+						<h:outputText value="#{a.name}" />
+					</p:column>
+
+					<p:column>
+						<h:outputText value="#{a.type}" />
+					</p:column>
+				</p:selectOneMenu>
+				<br />
+
+				<p:outputLabel value="Value" />
+				<br />
+				<h:panelGroup id="newActValueGroup">
+					<p:selectOneMenu value="#{rulesManager.newActValue}"
+						rendered="#{rulesManager.newActActor.type == 'Lamp'}">
+						<f:selectItem itemValue="1" itemLabel="On" />
+						<f:selectItem itemValue="0" itemLabel="Off" />
+					</p:selectOneMenu>
+					<p:inputText value="#{rulesManager.newActValue}"
+						rendered="#{rulesManager.newActActor.type == 'Thermostat'}" />
+					<h:outputText value=" °C"
+						rendered="#{rulesManager.newActActor.type == 'Thermostat'}" />
+				</h:panelGroup>
+				<br />
+
+				<p:commandButton value="Add"
+					actionListener="#{rulesManager.addAction}" update=":form:ruleAP" />
+			</p:dialog>
+
+			<p:dialog header="Rename" id="renameDlg" widgetVar="renameDlg"
+				resizable="false">
+				<p:outputLabel value="New name:" for="nameIT" />
+				<p:inputText id="nameIT" value="#{rulesManager.newName}" />
+				<br />
+				<p:commandButton value="Rename"
+					actionListener="#{rulesManager.renameRule}" update="ruleAP" />
+			</p:dialog>
+
+			<p:dialog header="New rule" id="newRuleDlg" widgetVar="newRuleDlg"
+				resizable="false">
+				<p:outputLabel value="Rule name:" for="newRuleNameIT" />
+				<br />
+				<p:inputText id="newRuleNameIT" value="#{rulesManager.newRuleName}" />
+				<br />
+				<p:commandButton value="Add rule"
+					actionListener="#{rulesManager.addRule}" update=":form:ruleAP" />
+
+			</p:dialog>
+
 		</h:form>
 	</ui:define>
 </ui:composition>

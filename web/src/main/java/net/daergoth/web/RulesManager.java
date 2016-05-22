@@ -105,8 +105,12 @@ public class RulesManager {
 		
 		rules.get(activeRuleIndex).addCondition(cond);
 		ruleContainer.updateRule(rules.get(activeRuleIndex));
+		
+		newCondValue = "";
+		
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('condDlg').hide();");
+		context.update("form:condDlg");
 	}
 	
 	public void removeCondition(String id) {
@@ -140,8 +144,11 @@ public class RulesManager {
 		rules.get(activeRuleIndex).addAction(action);
 		ruleContainer.updateRule(rules.get(activeRuleIndex));
 		
+		newActValue = "";
+		
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('actDlg').hide();");
+		context.update("form:actDlg");
 	}
 	
 	public void removeAction(String id) {
@@ -155,9 +162,15 @@ public class RulesManager {
 		setRules(ruleContainer.getRules());
 	}
 	
+	public void showRenameRule() {
+		newName = rules.get(activeRuleIndex).getName();
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update("form:renameDlg");
+		context.execute("PF('renameDlg').show();");
+	}
+	
 	public void renameRule()  {
 		rules.get(activeRuleIndex).setName(newName);
-		newName = "";
 		ruleContainer.updateRule(rules.get(activeRuleIndex));
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('renameDlg').hide();");
@@ -176,8 +189,11 @@ public class RulesManager {
 		ruleContainer.addRule(rule);
 		setRules(ruleContainer.getRules());
 		
+		newRuleName = "";
+		
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('newRuleDlg').hide();");
+		context.update("form:newRuleDlg");
 	}
 	
 	public void onCellEditCondition(CellEditEvent event) throws InvalidSensorDataTypeException {
