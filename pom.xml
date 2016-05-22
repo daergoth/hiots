@@ -34,6 +34,11 @@
 	<organization>
 		<name>István Lakatos</name>
 	</organization>
+	
+	<scm>
+		<url>https://github.com/daergoth/hiots</url>
+		<developerConnection>scm:git:https://github.com/daergoth/hiots</developerConnection>
+	</scm>
 
 	<packaging>pom</packaging>
 
@@ -48,7 +53,7 @@
 	
 	<repositories>
 		<repository>
-		    <id>primüe-repo</id>
+		    <id>prime-repo</id>
 		    <name>PrimeFaces Maven Repository</name>
 		    <url>http://repository.primefaces.org</url>
 		    <layout>default</layout>

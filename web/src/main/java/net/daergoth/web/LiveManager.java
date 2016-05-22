@@ -78,7 +78,6 @@ public class LiveManager {
 				liveChartModel.addSeries(series);
 			}
 			
-			System.out.println("------" + LocalTime.now().toString() + " -> " + sensor.getData().getData());
 			graphs.get(sensor).set(LocalTime.now().toString(), sensor.getData().getData());
 			
 			LocalTime min = graphs.get(sensor).getData().keySet().stream().map(o -> LocalTime.parse( (String)o )).min((t1, t2) -> t1.compareTo(t2)).get();
