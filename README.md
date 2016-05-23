@@ -20,6 +20,7 @@ All the sensors around the house collect incredible amount of data and actors (d
 - [x] Rule system - creating rules with IF/THEN format
 
 ### Future goals
+- Statistics with recorded sensor readings
 - Make more types of sensors and actors
 - Compatibility with real life devices
 - and more...

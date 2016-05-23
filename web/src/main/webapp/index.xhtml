@@ -127,7 +127,7 @@
 				<p:outputLabel value="New Name:" />
 				<p:inputText value="#{indexManager.renameLayoutName}" />
 				<p:commandButton value="Rename"
-					action="#{indexManager.renameLayout}" update="form:dashboard"
+					action="#{indexManager.renameLayout}" update="form:board form:currentLayout"
 					onclick="PF('renameLayoutOverlay').hide();" />
 			</p:dialog>
 		</h:form>
@@ -137,7 +137,7 @@
 				<p:commandButton value="Yes"
 					actionListener="#{indexManager.removeLayout}"
 					onclick="PF('removeLayoutOverlay').hide();" 
-					update="form:currentLayout form:dashboard" />
+					update="form:currentLayout form:board" />
 				<p:commandButton value="No"
 					onclick="PF('removeLayoutOverlay').hide();" />
 			</p:dialog>

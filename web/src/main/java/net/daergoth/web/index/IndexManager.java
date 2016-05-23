@@ -99,7 +99,6 @@ public class IndexManager {
     
     public void loadLayout() {
     	HashMap<IndexWidget, Integer> toRender = new HashMap<>();
-    	System.out.println("LoadLayout list");
     	
 		for (OverviewLayoutElementVO e : selectedLayout.getElements()) {
 			
@@ -116,7 +115,6 @@ public class IndexManager {
 			    		lw = new LampWidget(e.getId(), (DummyLampActorVO) la, application, this);
 			    	}
 			    	
-			    	System.out.println(lw.getPanelId());
 			    	
 			    	if (!widgets.containsKey(lw.getPanelId())) {
 			    		toRender.put(lw,e.getColumn());		    		
@@ -133,7 +131,6 @@ public class IndexManager {
 			    	} else {
 			    		tw = new ThermostatWidget(e.getId(), (DummyThermostatActorVO) ta, application, this);
 			    	}
-			    	System.out.println(tw.getPanelId());
 
 			    	if (!widgets.containsKey(tw.getPanelId())) {
 			    		toRender.put(tw,e.getColumn());		    		
@@ -156,7 +153,6 @@ public class IndexManager {
 			    		lw = new LightWidget(e.getId(), (DummyLightSensorVO) ls, application, this);
 			    	}
 			    	
-			    	System.out.println(lw.getPanelId());
 			    	
 			    	if (!widgets.containsKey(lw.getPanelId())) {
 			    		toRender.put(lw, e.getColumn());		    		
@@ -173,7 +169,6 @@ public class IndexManager {
 			    		tw = new TemperatureWidget(e.getId(), (DummyTemperatureSensorVO) ts, application, this);
 			    	}
 			    	
-			    	System.out.println(tw.getPanelId());
 			    	
 			    	if (!widgets.containsKey(tw.getPanelId())) {
 			    		toRender.put(tw, e.getColumn());		    		
@@ -197,9 +192,8 @@ public class IndexManager {
 			widgets.clear();
 		}
 		
-		System.out.println("LoadLayout render");
+
 		for (IndexWidget w : toRender.keySet()) {
-			System.out.println(w.getPanelId() + ": " + toRender.get(w) + ", " + dashboardModel.getColumn(toRender.get(w)).getWidgetCount());
 			widgets.put(w.getPanelId(), w);
 			dashboard.getChildren().add(w.getAsPanel());
     		dashboardModel.getColumn(toRender.get(w)).addWidget(w.getPanelId());
@@ -209,14 +203,11 @@ public class IndexManager {
     
     
     public void saveLayout() {
-    	System.out.println("SaveLayout");
     	List<OverviewLayoutElementVO> elements = new ArrayList<>();
     	for (int colNum = 0; colNum < dashboardModel.getColumnCount(); ++colNum) {
     		DashboardColumn col = dashboardModel.getColumn(colNum);
     		for (int rowNum = 0; rowNum < col.getWidgetCount(); ++rowNum) {
     			IndexWidget widget = widgets.get(col.getWidget(rowNum)); 
-    			
-    			System.out.println(widget.getPanelId() + " (col,row): " + colNum + ", " + rowNum);
     			
     			OverviewLayoutElementVO newElement = new OverviewLayoutElementVO();
     			newElement.setId(widget.getId());
